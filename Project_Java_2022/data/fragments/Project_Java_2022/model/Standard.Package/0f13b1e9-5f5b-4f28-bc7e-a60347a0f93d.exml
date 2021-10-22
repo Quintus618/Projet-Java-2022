@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Système de communication" version="4">
+  <OBJECT>
+    <ID name="Système de communication" mc="Standard.Package" uid="0f13b1e9-5f5b-4f28-bc7e-a60347a0f93d"/>
+    <PID name="project_java_2022" mc="Standard.Package" uid="6b1e1dcf-f84e-4588-97a7-b023ae015e05"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Système de communication]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Personne" mc="Standard.Actor" uid="fb4aef1f-06be-4618-aa71-b786822c472d"/>
+        <COMPID name="Admins" mc="Standard.Actor" uid="56bcd9aa-76e0-42a4-abe3-ef7052d818b5"/>
+        <COMPID name="Users" mc="Standard.Actor" uid="f188a3c3-1a5f-4c4d-ab65-1f9e6ed4dff9"/>
+        <COMPID name="Base de données" mc="Standard.Actor" uid="bc213c08-c7ee-40fa-9f4e-466ed03b3a08"/>
+        <COMPID name="Inscription" mc="Standard.UseCase" uid="d75431c9-0e43-4b4f-bd12-7f4ef9a30615"/>
+        <COMPID name="Connexion" mc="Standard.UseCase" uid="ddf5f032-365a-42a2-b014-186f6d82d1f5"/>
+        <COMPID name="Création mot de passe" mc="Standard.UseCase" uid="441cfd32-2cb1-4b7b-b7d6-41a25286b2fe"/>
+        <COMPID name="Création d'un pseudo" mc="Standard.UseCase" uid="87a51676-8a42-40c3-99cf-15e9fa9f3b9c"/>
+        <COMPID name="Réception de données" mc="Standard.UseCase" uid="366e1e3a-657a-45d3-82cf-2b7018155618"/>
+        <COMPID name="Création conversation" mc="Standard.UseCase" uid="b84bb79c-7da1-4749-9d49-6a47b87c43c6"/>
+        <COMPID name="Envoi de données" mc="Standard.UseCase" uid="dd05c55b-124e-41d2-855b-c21af5d4e805"/>
+        <COMPID name="Liste des personnes connectées et non connectées" mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
+        <COMPID name="Envoie de l'historique à la BDD" mc="Standard.UseCase" uid="169a6552-e587-40ab-b5e0-b4bd05a9a111"/>
+        <COMPID name="Récupération des infos de la BDD (inactivité)" mc="Standard.UseCase" uid="401d26ed-c295-44b3-a0f4-90f9b0795da0"/>
+        <COMPID name="réception fichiers" mc="Standard.UseCase" uid="ebad81b7-168a-4919-a86e-19dec25609d0"/>
+        <COMPID name="Changement de pseudo" mc="Standard.UseCase" uid="85a7a676-435f-4313-90c8-a4fa3217ec7a"/>
+        <COMPID name="Vérification de l'unicité" mc="Standard.UseCase" uid="00f0d831-1ff3-43a4-9f6a-cd2180b3f1f9"/>
+        <COMPID name="Creation ID" mc="Standard.UseCase" uid="f1b27d69-1589-4104-a429-2a06988cc590"/>
+        <COMPID name="déconnexion" mc="Standard.UseCase" uid="5578eda2-74b8-48c0-9b64-0029c6330ce3"/>
+        <COMPID name="Envoi de fichiers" mc="Standard.UseCase" uid="6dfc61c0-16ec-43e6-9681-d30f17599b0e"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Système de communication Use Case diagram" mc="Standard.UseCaseDiagram" uid="c913a49a-e1c5-4fe3-a13a-5ca565d2ada3"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

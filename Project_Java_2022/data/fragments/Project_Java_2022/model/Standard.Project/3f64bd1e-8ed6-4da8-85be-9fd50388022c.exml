@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Project_Java_2022" version="4">
+  <OBJECT>
+    <ID name="Project_Java_2022" mc="Standard.Project" uid="3f64bd1e-8ed6-4da8-85be-9fd50388022c"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[Project_Java_2022]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="project_java_2022" mc="Standard.Package" uid="6b1e1dcf-f84e-4588-97a7-b023ae015e05"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="Project_Java_2022" mc="Infrastructure.DiagramSet" uid="c4569c08-4933-4b91-9683-b0b9cd479c91"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
