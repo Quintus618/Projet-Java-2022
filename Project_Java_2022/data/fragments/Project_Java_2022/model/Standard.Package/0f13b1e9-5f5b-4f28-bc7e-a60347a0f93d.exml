@@ -34,7 +34,8 @@
         <COMPID name="Creation ID" mc="Standard.UseCase" uid="f1b27d69-1589-4104-a429-2a06988cc590"/>
         <COMPID name="déconnexion" mc="Standard.UseCase" uid="5578eda2-74b8-48c0-9b64-0029c6330ce3"/>
         <COMPID name="Envoi de fichiers" mc="Standard.UseCase" uid="6dfc61c0-16ec-43e6-9681-d30f17599b0e"/>
-        <COMPID name="Réseau" mc="Standard.Actor" uid="c561da55-145a-4c5a-bf72-96721e9acedf"/>
+        <COMPID name="Support Réseau" mc="Standard.Actor" uid="c561da55-145a-4c5a-bf72-96721e9acedf"/>
+        <COMPID name="horodatage" mc="Standard.UseCase" uid="0569ef8e-d5c4-4be5-a3b0-3e681cd639f7"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Système de communication Use Case diagram" mc="Standard.UseCaseDiagram" uid="c913a49a-e1c5-4fe3-a13a-5ca565d2ada3"/>
