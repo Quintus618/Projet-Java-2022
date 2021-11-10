@@ -18,6 +18,19 @@
       </COMP>
       <COMP relation="OwnedElement">
         <COMPID name="Système de communication" mc="Standard.Package" uid="0f13b1e9-5f5b-4f28-bc7e-a60347a0f93d"/>
+        <COMPID name="Personne" mc="Standard.Class" uid="631f375b-bd80-4e28-b4f6-aef77667bf54"/>
+        <COMPID name="Users" mc="Standard.Class" uid="364a24ae-91c3-4102-8099-30284ce66e91"/>
+        <COMPID name="Admins" mc="Standard.Class" uid="93f48b66-653d-4cd1-ad3b-4bba3cc1d7e9"/>
+        <COMPID name="BDD" mc="Standard.Class" uid="e0e98303-c0d6-4dd6-ab3d-a62e29320da9"/>
+        <COMPID name="service de messagerie" mc="Standard.Class" uid="7c883f2e-068c-46a8-80ba-cd9eb60dd96f"/>
+        <COMPID name="Support Réseau" mc="Standard.Class" uid="054fdb82-5b88-417d-a353-41958361d035"/>
+        <COMPID name="CacheConversations" mc="Standard.DataType" uid="49a6a84e-711d-442a-acf9-20a409ef8b46"/>
+        <COMPID name="GroupeMulticast" mc="Standard.DataType" uid="2441a70d-4aec-415f-83c1-58b78fcfb589"/>
+        <COMPID name="fichier" mc="Standard.DataType" uid="3e169387-5123-4b48-993d-19154756bfde"/>
+        <COMPID name="InfosPersonnes" mc="Standard.DataType" uid="5f6df103-fad8-4098-968f-dcd7e90f68fa"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Diagramme de classe project_java_2022" mc="Standard.ClassDiagram" uid="48abcdb0-d9da-40f3-bbf1-9a40eb5ded75"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

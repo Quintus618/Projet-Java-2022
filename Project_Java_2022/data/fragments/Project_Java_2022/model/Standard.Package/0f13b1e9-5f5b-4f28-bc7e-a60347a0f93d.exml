@@ -15,8 +15,6 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="Personne" mc="Standard.Actor" uid="fb4aef1f-06be-4618-aa71-b786822c472d"/>
-        <COMPID name="Admins" mc="Standard.Actor" uid="56bcd9aa-76e0-42a4-abe3-ef7052d818b5"/>
-        <COMPID name="Users" mc="Standard.Actor" uid="f188a3c3-1a5f-4c4d-ab65-1f9e6ed4dff9"/>
         <COMPID name="Base de données" mc="Standard.Actor" uid="bc213c08-c7ee-40fa-9f4e-466ed03b3a08"/>
         <COMPID name="Inscription" mc="Standard.UseCase" uid="d75431c9-0e43-4b4f-bd12-7f4ef9a30615"/>
         <COMPID name="Connexion" mc="Standard.UseCase" uid="ddf5f032-365a-42a2-b014-186f6d82d1f5"/>
@@ -25,7 +23,7 @@
         <COMPID name="Réception de données" mc="Standard.UseCase" uid="366e1e3a-657a-45d3-82cf-2b7018155618"/>
         <COMPID name="Création conversation" mc="Standard.UseCase" uid="b84bb79c-7da1-4749-9d49-6a47b87c43c6"/>
         <COMPID name="Envoi de données" mc="Standard.UseCase" uid="dd05c55b-124e-41d2-855b-c21af5d4e805"/>
-        <COMPID name="Liste des personnes connectées et non connectées" mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
+        <COMPID name="Liste des personnes connectées " mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
         <COMPID name="Envoi de l'historique à la BDD" mc="Standard.UseCase" uid="169a6552-e587-40ab-b5e0-b4bd05a9a111"/>
         <COMPID name="Récupération des infos de la BDD (inactivité)" mc="Standard.UseCase" uid="401d26ed-c295-44b3-a0f4-90f9b0795da0"/>
         <COMPID name="réception fichiers" mc="Standard.UseCase" uid="ebad81b7-168a-4919-a86e-19dec25609d0"/>
