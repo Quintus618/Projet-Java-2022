@@ -1,1 +1,4 @@
-#Fri Nov 12 09:16:14 CET 2021
+#Mon Nov 15 15:23:08 CET 2021
+org.modelio.app.diagram.editor.OpenedDiagrams2='Diagramme de classe project_java_2022' {48abcdb0-d9da-40f3-bbf1-9a40eb5ded75} Standard.ClassDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams1='Diagramme de s\u00E9quence Interaction' {742559f0-f15b-41dc-9833-903b1606e72d} Standard.SequenceDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams0='Syst\u00E8me de communication Use Case diagram' {c913a49a-e1c5-4fe3-a13a-5ca565d2ada3} Standard.UseCaseDiagram

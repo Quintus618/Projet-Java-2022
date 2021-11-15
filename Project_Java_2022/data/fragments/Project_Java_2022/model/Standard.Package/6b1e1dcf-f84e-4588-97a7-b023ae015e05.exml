@@ -19,15 +19,24 @@
       <COMP relation="OwnedElement">
         <COMPID name="Système de communication" mc="Standard.Package" uid="0f13b1e9-5f5b-4f28-bc7e-a60347a0f93d"/>
         <COMPID name="Personne" mc="Standard.Class" uid="631f375b-bd80-4e28-b4f6-aef77667bf54"/>
-        <COMPID name="Users" mc="Standard.Class" uid="364a24ae-91c3-4102-8099-30284ce66e91"/>
-        <COMPID name="Admins" mc="Standard.Class" uid="93f48b66-653d-4cd1-ad3b-4bba3cc1d7e9"/>
         <COMPID name="BDD" mc="Standard.Class" uid="e0e98303-c0d6-4dd6-ab3d-a62e29320da9"/>
-        <COMPID name="service de messagerie" mc="Standard.Class" uid="7c883f2e-068c-46a8-80ba-cd9eb60dd96f"/>
+        <COMPID name="Service de messagerie" mc="Standard.Class" uid="7c883f2e-068c-46a8-80ba-cd9eb60dd96f"/>
         <COMPID name="Support Réseau" mc="Standard.Class" uid="054fdb82-5b88-417d-a353-41958361d035"/>
         <COMPID name="CacheConversations" mc="Standard.DataType" uid="49a6a84e-711d-442a-acf9-20a409ef8b46"/>
         <COMPID name="GroupeMulticast" mc="Standard.DataType" uid="2441a70d-4aec-415f-83c1-58b78fcfb589"/>
         <COMPID name="fichier" mc="Standard.DataType" uid="3e169387-5123-4b48-993d-19154756bfde"/>
         <COMPID name="InfosPersonnes" mc="Standard.DataType" uid="5f6df103-fad8-4098-968f-dcd7e90f68fa"/>
+        <COMPID name="secureTab" mc="Standard.DataType" uid="4b99ef27-2efb-45f2-838f-e2fd0129822f"/>
+        <COMPID name="Interface graphique utilisateur" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
+        <COMPID name="UDP" mc="Standard.Class" uid="5a073dd0-2f1d-4d33-8f65-536e48c1f04d"/>
+        <COMPID name="TCP" mc="Standard.Class" uid="7f3c2373-f68e-4b90-b9bd-8b2e9d0a410a"/>
+        <COMPID name="interface réseau messagerie" mc="Standard.Class" uid="f19edf6b-87e8-4c04-bd74-94012a39d109"/>
+        <COMPID name="Controleur Messagerie" mc="Standard.Class" uid="dc5a9edb-bb25-4abc-9ca0-51d7e612ed0d"/>
+        <COMPID name="Codec" mc="Standard.Class" uid="0cfb77f4-3d8a-4765-ab25-3873b3c4166c"/>
+        <COMPID name="Média" mc="Standard.Class" uid="f3b54e02-e3bc-423a-99c5-0c46ed0a7f60"/>
+        <COMPID name="Conversation" mc="Standard.Class" uid="b3b7ca96-c346-4438-b9c2-d014031938ff"/>
+        <COMPID name="Fichier" mc="Standard.Class" uid="90c79c4f-569a-4005-a7b3-ce7db657fcc9"/>
+        <COMPID name="Message" mc="Standard.Class" uid="2192db75-817f-4fa3-88c5-f3f24eb97ffd"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Diagramme de classe project_java_2022" mc="Standard.ClassDiagram" uid="48abcdb0-d9da-40f3-bbf1-9a40eb5ded75"/>

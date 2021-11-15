@@ -4129,13 +4129,13 @@ A son expiration, l'utilisateur est considéré comme déconnecté]]></ATT>
           <DEPENDENCIES>
             <COMP relation="SentMessage">
               <OBJECT>
-                <ID name="création converstaion" mc="Standard.Message" uid="e0d267cf-08c2-4ab0-8b5b-cddd1d336024"/>
+                <ID name="création conversation" mc="Standard.Message" uid="e0d267cf-08c2-4ab0-8b5b-cddd1d336024"/>
                 <ATTRIBUTES>
                   <ATT name="Argument"></ATT>
                   <ATT name="KindOfMessage">CompleteKind</ATT>
                   <ATT name="SortOfMessage">ASyncCall</ATT>
                   <ATT name="Sequence"><![CDATA[29]]></ATT>
-                  <ATT name="Name"><![CDATA[création converstaion]]></ATT>
+                  <ATT name="Name"><![CDATA[création conversation]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
