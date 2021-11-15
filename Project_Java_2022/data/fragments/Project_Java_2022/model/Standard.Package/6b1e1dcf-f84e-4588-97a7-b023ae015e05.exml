@@ -33,10 +33,11 @@
         <COMPID name="interface réseau messagerie" mc="Standard.Class" uid="f19edf6b-87e8-4c04-bd74-94012a39d109"/>
         <COMPID name="Controleur Messagerie" mc="Standard.Class" uid="dc5a9edb-bb25-4abc-9ca0-51d7e612ed0d"/>
         <COMPID name="Codec" mc="Standard.Class" uid="0cfb77f4-3d8a-4765-ab25-3873b3c4166c"/>
-        <COMPID name="Média" mc="Standard.Class" uid="f3b54e02-e3bc-423a-99c5-0c46ed0a7f60"/>
+        <COMPID name="Media" mc="Standard.Class" uid="f3b54e02-e3bc-423a-99c5-0c46ed0a7f60"/>
         <COMPID name="Conversation" mc="Standard.Class" uid="b3b7ca96-c346-4438-b9c2-d014031938ff"/>
-        <COMPID name="Fichier" mc="Standard.Class" uid="90c79c4f-569a-4005-a7b3-ce7db657fcc9"/>
+        <COMPID name="LienFichier" mc="Standard.Class" uid="90c79c4f-569a-4005-a7b3-ce7db657fcc9"/>
         <COMPID name="Message" mc="Standard.Class" uid="2192db75-817f-4fa3-88c5-f3f24eb97ffd"/>
+        <COMPID name="Fichier" mc="Standard.Class" uid="32df7f0a-4451-4872-8424-9a991c0207fb"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Diagramme de classe project_java_2022" mc="Standard.ClassDiagram" uid="48abcdb0-d9da-40f3-bbf1-9a40eb5ded75"/>
