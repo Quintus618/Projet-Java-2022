@@ -15,6 +15,7 @@
     <DEPENDENCIES>
       <COMP relation="OwnedBehavior">
         <COMPID name="Interaction" mc="Standard.Interaction" uid="91c70eab-9446-4bc4-8260-a98fc1d03361"/>
+        <COMPID name="Interaction1" mc="Standard.Interaction" uid="006d3214-89d6-4382-a5b3-4616c2bee08e"/>
       </COMP>
       <COMP relation="OwnedElement">
         <COMPID name="Système de communication" mc="Standard.Package" uid="0f13b1e9-5f5b-4f28-bc7e-a60347a0f93d"/>
