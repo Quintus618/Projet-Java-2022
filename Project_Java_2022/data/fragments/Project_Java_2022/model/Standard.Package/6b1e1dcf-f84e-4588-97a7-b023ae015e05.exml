@@ -39,6 +39,74 @@
         <COMPID name="LienFichier" mc="Standard.Class" uid="90c79c4f-569a-4005-a7b3-ce7db657fcc9"/>
         <COMPID name="Message" mc="Standard.Class" uid="2192db75-817f-4fa3-88c5-f3f24eb97ffd"/>
         <COMPID name="Fichier" mc="Standard.Class" uid="32df7f0a-4451-4872-8424-9a991c0207fb"/>
+        <COMPID name="Adresse IP" mc="Standard.DataType" uid="c65a584f-974a-45e7-ae7e-34df0c0b6593"/>
+        <OBJECT>
+          <ID name="Collaboration" mc="Standard.Collaboration" uid="7ea53222-917b-402a-a6bb-e7c76819063f"/>
+          <ATTRIBUTES>
+            <ATT name="IsConcurrent">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Collaboration]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Declared">
+              <OBJECT>
+                <ID name="r1" mc="Standard.BindableInstance" uid="36adddf5-6848-4043-9f4c-d07e0cf554f7"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[r1]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="interface réseau messagerie" mc="Standard.Class" uid="f19edf6b-87e8-4c04-bd74-94012a39d109"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="r2" mc="Standard.BindableInstance" uid="754bbb55-acc3-4af9-bdaf-ff5b79bc8921"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[r2]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="Controleur Messagerie" mc="Standard.Class" uid="dc5a9edb-bb25-4abc-9ca0-51d7e612ed0d"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="r3" mc="Standard.BindableInstance" uid="51f105bd-9476-4e9a-a0bb-e2b6d59ec61f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[r3]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="Interface graphique utilisateur" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Product">
+              <COMPID name="Diagramme de structure composite Collaboration" mc="Standard.CompositeStructureDiagram" uid="56c38e52-fdb9-4a0a-88d7-d5b0a6ea1c00"/>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Diagramme de classe project_java_2022" mc="Standard.ClassDiagram" uid="48abcdb0-d9da-40f3-bbf1-9a40eb5ded75"/>

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Adresse IP" version="4">
+  <OBJECT>
+    <ID name="Adresse IP" mc="Standard.DataType" uid="c65a584f-974a-45e7-ae7e-34df0c0b6593"/>
+    <PID name="project_java_2022" mc="Standard.Package" uid="6b1e1dcf-f84e-4588-97a7-b023ae015e05"/>
+    <ATTRIBUTES>
+      <ATT name="IsElementary">true</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Adresse IP]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>
