@@ -1,6 +1,2 @@
-#Wed Nov 24 09:16:39 CET 2021
-org.modelio.app.diagram.editor.OpenedDiagrams4='Diagramme de structure composite Collaboration' {56c38e52-fdb9-4a0a-88d7-d5b0a6ea1c00} Standard.CompositeStructureDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams3='Diagramme de s\u00E9quence_boite_blanche' {2d769e25-25d4-4df9-abc7-edf199b1a7cf} Standard.SequenceDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams2='Diagramme de classe project_java_2022' {48abcdb0-d9da-40f3-bbf1-9a40eb5ded75} Standard.ClassDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams1='Diagramme de s\u00E9quence Interaction' {742559f0-f15b-41dc-9833-903b1606e72d} Standard.SequenceDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams0='Syst\u00E8me de communication Use Case diagram' {c913a49a-e1c5-4fe3-a13a-5ca565d2ada3} Standard.UseCaseDiagram
+#Mon Nov 29 15:30:15 CET 2021
+org.modelio.app.diagram.editor.OpenedDiagrams0='Diagramme d'\u00E9tat State Machine' {41bb37ed-95fd-4cba-9566-7088903c5433} Standard.StateMachineDiagram
