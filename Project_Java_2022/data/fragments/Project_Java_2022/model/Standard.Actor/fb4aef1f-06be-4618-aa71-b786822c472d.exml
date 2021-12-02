@@ -155,7 +155,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Target">
-              <ID name="Liste des personnes connectées et non connectées" mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
+              <ID name="Liste des personnes connectées  (notification et màj)" mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
             </LINK>
             <COMP relation="Opposite">
               <OBJECT>

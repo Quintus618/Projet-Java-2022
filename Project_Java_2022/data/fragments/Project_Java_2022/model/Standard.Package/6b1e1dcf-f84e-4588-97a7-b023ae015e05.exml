@@ -29,7 +29,7 @@
         <COMPID name="fichier" mc="Standard.DataType" uid="3e169387-5123-4b48-993d-19154756bfde"/>
         <COMPID name="InfosPersonnes" mc="Standard.DataType" uid="5f6df103-fad8-4098-968f-dcd7e90f68fa"/>
         <COMPID name="secureTab" mc="Standard.DataType" uid="4b99ef27-2efb-45f2-838f-e2fd0129822f"/>
-        <COMPID name="Interface graphique utilisateur" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
+        <COMPID name="Interface graphique connecte" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
         <COMPID name="UDP" mc="Standard.Class" uid="5a073dd0-2f1d-4d33-8f65-536e48c1f04d"/>
         <COMPID name="TCP" mc="Standard.Class" uid="7f3c2373-f68e-4b90-b9bd-8b2e9d0a410a"/>
         <COMPID name="interface réseau messagerie" mc="Standard.Class" uid="f19edf6b-87e8-4c04-bd74-94012a39d109"/>
@@ -364,7 +364,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Base">
-                    <ID name="Interface graphique utilisateur" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
+                    <ID name="Interface graphique connecte" mc="Standard.Class" uid="b9222d40-3774-4935-8020-78fd766bf464"/>
                   </LINK>
                   <COMP relation="Part">
                     <OBJECT>
@@ -412,6 +412,9 @@
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
+        <COMPID name="interface accueil" mc="Standard.Class" uid="0609aa56-8103-4bc1-91d0-0b99666840b4"/>
+        <COMPID name="Interface pseudo" mc="Standard.Class" uid="82667b9b-adda-45cd-a8e1-ed4196a78389"/>
+        <COMPID name="interface id/mdp" mc="Standard.Class" uid="32cbdc76-e968-45cb-aef3-dc8662133485"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Diagramme de classe project_java_2022" mc="Standard.ClassDiagram" uid="48abcdb0-d9da-40f3-bbf1-9a40eb5ded75"/>

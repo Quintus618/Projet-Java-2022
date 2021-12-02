@@ -3315,6 +3315,22 @@ A son expiration, l'utilisateur est considéré comme déconnecté]]></ATT>
                 <ID name="r" mc="Standard.Lifeline" uid="f4a347bf-e00c-4ef7-a399-99a440c3e49c"/>
               </REFOBJ>
             </LINK>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="Note" mc="Infrastructure.Note" uid="6709743d-63bf-46b9-92f0-db37904cd718"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[CE DIAGRAMME EST OBSOLETE, SEULE LA BOITE BLANCHE EST A JOUR]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"><![CDATA[Note]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>

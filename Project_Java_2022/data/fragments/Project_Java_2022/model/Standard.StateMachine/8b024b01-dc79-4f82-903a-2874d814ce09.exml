@@ -227,9 +227,9 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="choix initial" mc="Standard.ChoicePseudoState" uid="d3e97ded-ec01-44de-8cb9-8dd55f3c3f2b"/>
+                <ID name="RSETQTRE" mc="Standard.ChoicePseudoState" uid="d3e97ded-ec01-44de-8cb9-8dd55f3c3f2b"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[choix initial]]></ATT>
+                  <ATT name="Name"><![CDATA[RSETQTRE]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -269,6 +269,22 @@
                           <REFOBJ>
                             <ID name="En Attente de saisie des IDs/mdp" mc="Standard.State" uid="c73add4b-0c0b-4225-8dc5-be7fb463daec"/>
                           </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Descriptor">
+                    <OBJECT>
+                      <ID name="" mc="Infrastructure.Note" uid="0198b552-7815-4c69-b3a1-a1faf1107779"/>
+                      <ATTRIBUTES>
+                        <ATT name="Content"><![CDATA[REGTSETRSE]]></ATT>
+                        <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Model">
+                          <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
                         </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
@@ -327,7 +343,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="choix initial" mc="Standard.ChoicePseudoState" uid="d3e97ded-ec01-44de-8cb9-8dd55f3c3f2b"/>
+                            <ID name="RSETQTRE" mc="Standard.ChoicePseudoState" uid="d3e97ded-ec01-44de-8cb9-8dd55f3c3f2b"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>

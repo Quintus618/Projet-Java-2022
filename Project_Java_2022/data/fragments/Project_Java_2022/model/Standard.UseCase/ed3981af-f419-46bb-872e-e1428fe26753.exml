@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Liste des personnes connectées " version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Liste des personnes connectées  (notification et màj)" version="4">
   <OBJECT>
-    <ID name="Liste des personnes connectées " mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
+    <ID name="Liste des personnes connectées  (notification et màj)" mc="Standard.UseCase" uid="ed3981af-f419-46bb-872e-e1428fe26753"/>
     <PID name="Système de communication" mc="Standard.Package" uid="0f13b1e9-5f5b-4f28-bc7e-a60347a0f93d"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,7 +9,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Liste des personnes connectées ]]></ATT>
+      <ATT name="Name"><![CDATA[Liste des personnes connectées  (notification et màj)]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
