@@ -1,7 +1,6 @@
 package GUI;
 import java.awt.*;
-
-//Importation Libraries
+import java.awt.event.*;
 import javax.swing.*;
 
 public class welcomGUI extends JFrame{
@@ -25,8 +24,14 @@ public class welcomGUI extends JFrame{
 
         inscriptionButton = new JButton("Inscription");
         inscriptionButton.setPreferredSize(new Dimension(100, 100));
+        inscriptionButton.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){ new inscriptionPopUp(150,600);}});
+
         connexionButton = new JButton("Connexion");
         connexionButton.setPreferredSize(new Dimension(100, 100));
+        //connexionButton..addActionListener(new ActionListener(){  
+            //public void actionPerformed(ActionEvent e){ new connexionPopUp(150,600);}});
+
         logo = new JLabel(tools.resizeIcon(new ImageIcon("./GUI/Pictures/chat.png"),180, 180));
 
         texte= new JLabel("Bienvenue!");
@@ -56,7 +61,7 @@ public class welcomGUI extends JFrame{
         panel.add(texte);
         panel.add(Box.createVerticalGlue());
         panel.add(buttonsPanel);
-        buttonsPanel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
 
         add(panel, BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.PAGE_END);
