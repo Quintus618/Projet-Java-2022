@@ -33,7 +33,7 @@ public class messagingGUI extends JFrame{
     }
 
     //Redimensionner une icone
-    private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
+    public static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image img = icon.getImage();  
         Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
         return new ImageIcon(resizedImage);
