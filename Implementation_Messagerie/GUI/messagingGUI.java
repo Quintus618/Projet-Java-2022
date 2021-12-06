@@ -6,6 +6,9 @@ import java.lang.*;
 
 public class messagingGUI extends JFrame{
 
+    //CONSTANTE
+    private int MAX_MESS = 10;
+
     //Buttons of the instant messaging
     private JButton deconnexionButton;
     private JButton mediaButton;
@@ -17,6 +20,12 @@ public class messagingGUI extends JFrame{
     private JPanel infoProfilPanel;
     private JPanel connectedPanel;
     private JPanel messagePanel;
+
+    private GridBagConstraints c = new GridBagConstraints();
+
+    private String pseudo;
+    private int numberLine = 0;
+    private int numberMessage = 0;
 
     //Constructor
     public messagingGUI(int height, int width){
@@ -74,6 +83,9 @@ public class messagingGUI extends JFrame{
         textSenderZone.setLineWrap (true);
         textSenderZone.setWrapStyleWord (false);
 
+        //Display Pseudo
+        JLabel lPseudo = new JLabel("Pseudo Utilisateur");
+
         chatPanel = new JPanel();
         chatPanel.setBackground(Color.gray);
         chatPanel.add(mediaButton);
@@ -81,6 +93,7 @@ public class messagingGUI extends JFrame{
         chatPanel.add(textSenderZone);
         chatPanel.add(sendMessageButton);
         chatPanel.add(deconnexionButton);
+        chatPanel.add(lPseudo);
         add(chatPanel, BorderLayout.SOUTH);
 
         connectedPanel = new JPanel();
@@ -93,7 +106,73 @@ public class messagingGUI extends JFrame{
         JButton b = new JButton("Pseudodel'user");
         connectedPanel.add(b);
         add(connectedPanel, BorderLayout.EAST);
+
+        //Messages zone
+        messagePanel = new JPanel();
+        messagePanel.setLayout(new GridLayout(numberLine,2));
+
+        //FAIRE UN SCROLL PLUTOT
+        receiveMessage();
+        receiveMessage();
+        receiveMessage();
+        receiveMessage();
+        receiveMessage();
+        receiveMessage();
+        receiveMessage();receiveMessage();
+        receiveMessage();
+        writeMessage();
+        receiveMessage();
+        writeMessage();
+        receiveMessage();
+        writeMessage();
+        writeMessage();
+        receiveMessage();
+        receiveMessage();
+        writeMessage();
+        receiveMessage();
+
+       /* SpringUtilities.makeCompactGrid(messagePanel,
+        10, 2, //rows, cols
+        6, 6,        //initX, initY
+        6, 6);       //xPad, yPad */
+
+        add(messagePanel, BorderLayout.CENTER);
+
         setVisible(true);
+    }
+
+    private void writeMessage(){
+        numberMessage++;
+        numberLine = numberMessage % MAX_MESS;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        JPanel MEnv = new JPanel();
+        JLabel message1 = new JLabel("Message envoyé");
+        MEnv.setBackground(Color.decode("#7F7FBF"));
+        MEnv.add(message1);
+        JPanel MBlanc = new JPanel();
+        c.gridx = numberLine;
+        c.gridy = 0;
+        messagePanel.add(MEnv,c);
+        c.gridx = numberLine;
+        c.gridy = 1;
+        messagePanel.add(MBlanc,c);
+    }
+
+    private void receiveMessage(){
+        numberMessage++;
+        numberLine = numberMessage % MAX_MESS;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        JPanel MRec = new JPanel();  
+        JLabel message2 = new JLabel("Message reçu");
+        MRec.setBackground(Color.decode("#7FBF7F"));
+        MRec.add(message2);
+        JPanel MBlanc = new JPanel();
+        c.gridx = numberLine;
+        c.gridy = 0;
+        messagePanel.add(MBlanc,c);
+        c.gridx = numberLine;
+        c.gridy = 1;
+        messagePanel.add(MRec,c);
     }
     public static void main(String[] Args){
         messagingGUI mGUI = new messagingGUI(3000,2000);
