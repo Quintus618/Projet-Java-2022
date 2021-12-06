@@ -1,7 +1,6 @@
 package GUI;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.Component;
-import java.awt.Font;
 
 //Importation Libraries
 import javax.swing.*;
@@ -53,9 +52,9 @@ public class welcomGUI extends JFrame{
         panel.add(texte);
         panel.add(buttonsPanel);
 //et je ne sais pas si ça marche car montp n'a pas le bon JDK, bien sûr
-        contentPane = getContentPane();
-        contentPane.add(panel, BorderLayout.CENTER);
-        contentPane.add(buttonsPanel, BorderLayout.PAGE_END);
+        ContentPane = getContentPane();
+        ContentPane.add(panel, BorderLayout.CENTER);
+        ContentPane.add(buttonsPanel, BorderLayout.PAGE_END);
     }
 
 
