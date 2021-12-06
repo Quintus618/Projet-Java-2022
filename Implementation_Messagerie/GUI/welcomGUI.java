@@ -4,8 +4,6 @@ import java.awt.Component;
 
 //Importation Libraries
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class welcomGUI extends JFrame{
 
@@ -15,7 +13,6 @@ public class welcomGUI extends JFrame{
     private JLabel texte;
     private JPanel panel;
     private JPanel buttonsPanel;
-    private Container ContentPane;
     
     //Constructor
     public welcomGUI(int height, int width){
@@ -25,36 +22,35 @@ public class welcomGUI extends JFrame{
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         inscriptionButton = new JButton("Inscription");
         connexionButton = new JButton("Connexion");
         //très sale
-        logo = new JLabel(new ImageIcon(new ImageIcon("./GUI/Pictures/chat.png").getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH)));//à quoi sert le troisième int?
+        logo = new JLabel(new ImageIcon(new ImageIcon("./GUI/Pictures/chat.png").getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH)));
         //voir quels critères de privacy pour appeler resizeIcon de welcomGUI (créer un .java de méthodes réutilisables partout type "webtools.java"?)
         texte= new JLabel("Bienvenue!");
-
+        texte.setAlignmentX(Component.CENTER_ALIGNMENT);
         texte.setForeground(Color.CYAN);
         texte.setFont(new Font("Serif", Font.BOLD, 40));
 
         setVisible(true);
 
         buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
         buttonsPanel.add(connexionButton);
         buttonsPanel.add(inscriptionButton);
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);//ne marchent pas, parce que.
         panel.add(logo);
         panel.add(texte);
         panel.add(buttonsPanel);
-//et je ne sais pas si ça marche car montp n'a pas le bon JDK, bien sûr
-        ContentPane = getContentPane();
-        ContentPane.add(panel, BorderLayout.CENTER);
-        ContentPane.add(buttonsPanel, BorderLayout.PAGE_END);
+
+        add(panel, BorderLayout.CENTER);
+        add(buttonsPanel, BorderLayout.PAGE_END);
     }
 
 
