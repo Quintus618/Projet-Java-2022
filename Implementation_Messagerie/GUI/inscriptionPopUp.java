@@ -7,7 +7,7 @@ import java.lang.*;
 
 public class inscriptionPopUp extends JFrame {
     
-    JPanel inscriptionPanel;
+    private JPanel inscriptionPanel;
 
 
     public inscriptionPopUp(int height, int width){
@@ -50,7 +50,7 @@ public class inscriptionPopUp extends JFrame {
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                inscriptionPopUp iPP = new inscriptionPopUp(300, 700);
+                inscriptionPopUp iPP = new inscriptionPopUp(150, 700);
             }
         });
     }
