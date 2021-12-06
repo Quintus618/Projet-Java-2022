@@ -1,6 +1,5 @@
 package GUI;
 import java.awt.*;
-import java.awt.Component;
 
 //Importation Libraries
 import javax.swing.*;
@@ -25,12 +24,12 @@ public class welcomGUI extends JFrame{
         setLayout(new BorderLayout());
 
         inscriptionButton = new JButton("Inscription");
+        inscriptionButton.setPreferredSize(new Dimension(100, 100));
         connexionButton = new JButton("Connexion");
-        //très sale
-        logo = new JLabel(new ImageIcon(new ImageIcon("./GUI/Pictures/chat.png").getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH)));
-        //voir quels critères de privacy pour appeler resizeIcon de welcomGUI (créer un .java de méthodes réutilisables partout type "webtools.java"?)
+        connexionButton.setPreferredSize(new Dimension(100, 100));
+        logo = new JLabel(tools.resizeIcon(new ImageIcon("./GUI/Pictures/chat.png"),180, 180));
+
         texte= new JLabel("Bienvenue!");
-        texte.setAlignmentX(Component.CENTER_ALIGNMENT);
         texte.setForeground(Color.CYAN);
         texte.setFont(new Font("Serif", Font.BOLD, 40));
 
@@ -38,16 +37,26 @@ public class welcomGUI extends JFrame{
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+        buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(connexionButton);
+        buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(inscriptionButton);
+        buttonsPanel.add(Box.createHorizontalGlue());
+        buttonsPanel.setBackground(Color.BLACK);
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.setAlignmentY(Component.CENTER_ALIGNMENT);//ne marchent pas, parce que.
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        texte.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createVerticalGlue());
         panel.add(logo);
+        panel.add(Box.createVerticalGlue());
         panel.add(texte);
+        panel.add(Box.createVerticalGlue());
         panel.add(buttonsPanel);
+        buttonsPanel.add(Box.createVerticalGlue());
 
         add(panel, BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.PAGE_END);
