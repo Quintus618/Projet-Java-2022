@@ -17,7 +17,7 @@ public class inscriptionPopUp extends JFrame {
         setSize(width, height);
         this.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//permet de ne pas tuer welcomGUI quand fermée
 
         //Creation panel
         inscriptionPanel = new JPanel();

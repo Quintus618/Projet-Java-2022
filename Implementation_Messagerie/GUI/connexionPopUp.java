@@ -15,7 +15,7 @@ public class connexionPopUp extends JFrame{
         setSize(width, height);
         this.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Creation panel
         connexionPanel = new JPanel();

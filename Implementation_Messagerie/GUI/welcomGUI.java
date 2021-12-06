@@ -29,14 +29,15 @@ public class welcomGUI extends JFrame{
 
         connexionButton = new JButton("Connexion");
         connexionButton.setPreferredSize(new Dimension(100, 100));
-        //connexionButton..addActionListener(new ActionListener(){  
-            //public void actionPerformed(ActionEvent e){ new connexionPopUp(150,600);}});
+        connexionButton.setBounds(100,100,100, 40);//voir comment fonctionnent toutes ces dimensions
+        connexionButton.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){ new connexionPopUp(100,500);}});
 
         logo = new JLabel(tools.resizeIcon(new ImageIcon("./GUI/Pictures/chat.png"),180, 180));
 
         texte= new JLabel("Bienvenue!");
-        texte.setForeground(Color.CYAN);
-        texte.setFont(new Font("Serif", Font.BOLD, 40));
+        texte.setForeground(Color.BLUE);
+        texte.setFont(new Font("Serif", Font.BOLD, 42));
 
         setVisible(true);
 
@@ -47,10 +48,10 @@ public class welcomGUI extends JFrame{
         buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(inscriptionButton);
         buttonsPanel.add(Box.createHorizontalGlue());
-        buttonsPanel.setBackground(Color.BLACK);
+        //buttonsPanel.setBackground(Color.BLACK);
 
         panel = new JPanel();
-        panel.setBackground(Color.BLACK);
+        //panel.setBackground(Color.BLACK);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         logo.setAlignmentX(Component.CENTER_ALIGNMENT);
         texte.setAlignmentX(Component.CENTER_ALIGNMENT);
