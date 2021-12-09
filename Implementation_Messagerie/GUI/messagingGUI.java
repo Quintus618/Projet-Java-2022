@@ -160,20 +160,6 @@ public class messagingGUI extends JFrame{
 
     }
 
-    /*private void actionButton(){
-        while(true){
-            sendMessageButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});
-            System.out.println("toto");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        }
-    }*/
-
     //Send a message to another user
     private void writeMessage(String t){
         numberMessage++;
