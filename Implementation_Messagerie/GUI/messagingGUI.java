@@ -1,6 +1,9 @@
 package GUI;
 //Importation Libraries
 import javax.swing.*;
+
+import Instant_Messaging.Message;
+
 import java.awt.event.*;
 import java.awt.*;
 import java.lang.*;
@@ -141,7 +144,7 @@ public class messagingGUI extends JFrame{
                                     for(JButton c : connectedUsersList){
                                         c.setBackground(Color.decode("#2F2F2F"));
                                     }
-                                    b.setBackground(Color.GREEN);}});
+                                    b.setBackground(Color.decode("#08410f"));}});
                          }
                         try {
                             Thread.sleep(2000);
@@ -155,6 +158,8 @@ public class messagingGUI extends JFrame{
             updateConnected.start();
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
+            deconnexionButton.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){ dispose();}});
         //actionButton();
         setVisible(true);
 
@@ -166,7 +171,7 @@ public class messagingGUI extends JFrame{
         //numberLine = numberMessage % MAX_MESS;
         //c.fill = GridBagConstraints.HORIZONTAL;
         JPanel MEnv = new JPanel();
-        JLabel message1 = new JLabel(t);
+        Message message1 = new Message(t,true);
         MEnv.setBackground(Color.decode("#7F7FBF"));
         MEnv.setPreferredSize(new Dimension(750, 100));
         MEnv.add(message1);
@@ -189,7 +194,7 @@ public class messagingGUI extends JFrame{
         numberLine = numberMessage % MAX_MESS;
         c.fill = GridBagConstraints.VERTICAL;
         JPanel MRec = new JPanel();  
-        JLabel message2 = new JLabel("Message reçu");
+        Message message2 = new Message("Message reçu",false);
         MRec.setBackground(Color.decode("#7FBF7F"));
         MRec.setPreferredSize(new Dimension(750, 100));
         MRec.add(message2);
