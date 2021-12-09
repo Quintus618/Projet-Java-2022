@@ -1,16 +1,17 @@
-package GUI;
+package Instant_Messaging;
+
 import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 
-public class gestionBDD{
+public class controllerInstantMessaging{
 
     private String login = "tp_servlet_003";
     private String pwd = "ulah5Bee";
     private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/";
     private Connection lien;
 
- public gestionBDD(String potato){ 
+ public controllerInstantMessaging(String potato){ 
      try {
        //String drv = "oracle.jdbc.driver.OracleDriver";
        //String drv = "com.mysql.jdbc.Driver";
@@ -44,6 +45,6 @@ public class gestionBDD{
     }
 }
     public static void main(String[] Args){
-            gestionBDD test= new gestionBDD("potato");
+            controllerInstantMessaging test= new controllerInstantMessaging("potato");
         }
     }
