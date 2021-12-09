@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.lang.*;
+import java.util.*;
 
 public class messagingGUI extends JFrame{
 
@@ -31,6 +32,9 @@ public class messagingGUI extends JFrame{
     private int numberMessage = 0;
 
     private GridBagLayout gl;
+
+    public ArrayList<JLabel> messageList;
+    public ArrayList<JButton> connectedUsersList;
 
     //Constructor
     public messagingGUI(int height, int width){
@@ -108,8 +112,6 @@ public class messagingGUI extends JFrame{
         lconnecte.setForeground(Color.WHITE);
         lconnecte.setFont(new Font("Serif", Font.PLAIN, 20));
         connectedPanel.add(lconnecte);
-        JButton b = new JButton("Pseudodel'user");
-        connectedPanel.add(b);
         add(connectedPanel, BorderLayout.EAST);
 
         //Messages zone
@@ -120,41 +122,59 @@ public class messagingGUI extends JFrame{
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(20,10));
         add(scrollPane, BorderLayout.WEST);
-
-        //FAIRE UN SCROLL PLUTOT
-        /*receiveMessage();
-        receiveMessage();
-        receiveMessage();
-        writeMessage();
-        receiveMessage();
-        writeMessage();
-        receiveMessage();
-        writeMessage();
-        writeMessage();
-        receiveMessage();
-        receiveMessage();
-        writeMessage();
-        receiveMessage();
-        receiveMessage();
-        receiveMessage();
-        writeMessage();
-        receiveMessage();*/
-
-       /* SpringUtilities.makeCompactGrid(messagePanel,
-        10, 2, //rows, cols
-        6, 6,        //initX, initY
-        6, 6);       //xPad, yPad */
-
         add(messagePanel, BorderLayout.CENTER);
 
+        //Initialisation des listes
+        messageList = new ArrayList<JLabel>();
+        connectedUsersList = new ArrayList<JButton>();
 
         //ACTION BOUTTON
-        sendMessageButton.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});
-        
+        /*sendMessageButton.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});*/
+            Thread updateConnected = new Thread(new Runnable() {
+                @Override
+                public void run(){
+                    while(true){
+                        for (JButton b : connectedUsersList){
+                            b.addActionListener(new ActionListener(){  
+                                public void actionPerformed(ActionEvent e){ 
+                                    for(JButton c : connectedUsersList){
+                                        c.setBackground(Color.decode("#2F2F2F"));
+                                    }
+                                    b.setBackground(Color.GREEN);}});
+                         }
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            });  
+            updateConnected.start();
+            sendMessageButton.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
+        //actionButton();
         setVisible(true);
+
     }
 
+    /*private void actionButton(){
+        while(true){
+            sendMessageButton.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});
+            System.out.println("toto");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }*/
+
+    //Send a message to another user
     private void writeMessage(String t){
         numberMessage++;
         //numberLine = numberMessage % MAX_MESS;
@@ -173,11 +193,12 @@ public class messagingGUI extends JFrame{
         c.gridy = numberMessage;
         messagePanel.add(MBlanc,c);
         textSenderZone.setText("");
+        messageList.add(message1);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    private void receiveMessage(){
-
+    //Receive messages from another user
+    public void receiveMessage(){
         numberMessage++;
         numberLine = numberMessage % MAX_MESS;
         c.fill = GridBagConstraints.VERTICAL;
@@ -194,66 +215,28 @@ public class messagingGUI extends JFrame{
         c.gridx = 1;
         c.gridy = numberMessage;
         messagePanel.add(MRec,c);
+        messageList.add(message2);
+        SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    //Display connected users
+    public void displayConnectedUsers(String pseudo){
+        JButton coUsers = new JButton(pseudo);
+        coUsers.setForeground(Color.WHITE);
+        coUsers.setMaximumSize(new Dimension(Integer.MAX_VALUE, coUsers.getMinimumSize().height));
+        coUsers.setBackground(Color.decode("#2F2F2F"));
+        //coUsers.setBorderPainted(false);
+        //coUsers.setContentAreaFilled(false);
+        //coUsers.setFocusPainted(false);
+        connectedPanel.add(coUsers);
+        connectedUsersList.add(coUsers);
         SwingUtilities.updateComponentTreeUI(this);
     }
     public static void main(String[] Args) throws InterruptedException{
         messagingGUI mGUI = new messagingGUI(3000,2000);
-        Thread.sleep(5000);
-        System.out.println("Toto");
-        //System.out.println(mGUI.gl.getRows());
-        /*mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.writeMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        mGUI.receiveMessage();
-        SwingUtilities.updateComponentTreeUI(mGUI);
-        Thread.sleep(5000);
-        //System.out.println(mGUI.gl.getRows());
-        */
+        mGUI.displayConnectedUsers("Tintin");
+        mGUI.displayConnectedUsers("Milou");
+        System.out.println(mGUI.connectedUsersList.size());
     }
 
 }
