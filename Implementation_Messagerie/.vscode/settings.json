@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Library/mysql-connector.jar",
+        "Library/sqlite-jdbc-3.21.0.jar",
+        "Library/protobuf-java-3.11.4.jar",
+        "Library/mysql-connector-java-8.0.26.jar"
+    ]
+}

@@ -8,24 +8,26 @@ public class controllerInstantMessaging{
 
     private String login = "tp_servlet_003";
     private String pwd = "ulah5Bee";
-    private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/";
+    //incidemment le login est aussi le nom de la BDD
+    private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/"+login;//?useSSL=false ?
     private Connection lien;
 
  public controllerInstantMessaging(String potato){ 
      try {
-       //String drv = "oracle.jdbc.driver.OracleDriver";
+
        //String drv = "com.mysql.jdbc.Driver";
-
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-
+       //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     //Class.forName(drv);//woops
-    lien = DriverManager.getConnection(addresse,login,pwd);//login dans l'adresse?
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    lien = DriverManager.getConnection(addresse,login,pwd);
     }catch(Exception e) {
         System.out.println(e.getMessage());
         e.printStackTrace();
     }
 
     System.out.println(potato);
+
     //la commande sql n'est probablement pas bonne
     /*String commande = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(63) NOT NULL, pseudo VARCHAR(63), password VARCHAR(63) NOT NULL, PRIMARY KEY (id));";
     try {
