@@ -4,11 +4,14 @@ import javax.swing.*;
 import javax.swing.SpringLayout;
 import java.awt.*;
 import java.lang.*;
+import java.awt.event.*;
 
 public class inscriptionPopUp extends JFrame {
     
     private JPanel inscriptionPanel;
 
+    private JTextField idText;
+    private JTextField mdpText;
 
     public inscriptionPopUp(int height, int width){
         
@@ -26,8 +29,8 @@ public class inscriptionPopUp extends JFrame {
         //Creation des labels
         JLabel ID = new JLabel("ID: ", JLabel.TRAILING);
         JLabel Mdp = new JLabel("Mot de passe: ", JLabel.TRAILING);
-        JTextField idText = new JTextField(10);
-        JTextField mdpText = new JTextField(10);
+        idText = new JTextField(10);
+        mdpText = new JTextField(10);
         Mdp.setLabelFor(mdpText);
         ID.setLabelFor(idText);
         inscriptionPanel.add(ID);
@@ -43,7 +46,25 @@ public class inscriptionPopUp extends JFrame {
 
         JButton incr = new JButton("Inscription");
         add(incr, BorderLayout.SOUTH);
+
+        //Action connecting to the DB
+        incr.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent MOUSE_CLICKED){ // INFO A ENVOYER DANS LA BDD
+            }});
+
         setVisible(true);
+    }
+
+
+
+
+    // ZONE GETTER / SETTER
+    public JTextField getIdText() {
+        return idText;
+    }
+
+    public JTextField getMdpText() {
+        return mdpText;
     }
 
 
