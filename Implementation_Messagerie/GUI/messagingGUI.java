@@ -172,9 +172,12 @@ public class messagingGUI extends JFrame{
         //c.fill = GridBagConstraints.HORIZONTAL;
         JPanel MEnv = new JPanel();
         Message message1 = new Message(t,true);
+        String mdate = message1.getHorodata().toString();
+        JLabel messageLab = new JLabel(mdate);
         MEnv.setBackground(Color.decode("#7F7FBF"));
         MEnv.setPreferredSize(new Dimension(750, 100));
         MEnv.add(message1);
+        MEnv.add(messageLab, BorderLayout.SOUTH);
         JPanel MBlanc = new JPanel();
         MBlanc.setPreferredSize(new Dimension(750, 100));
         c.gridx = 0;
