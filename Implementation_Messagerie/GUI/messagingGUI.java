@@ -124,8 +124,9 @@ public class messagingGUI extends JFrame{
         JScrollPane scrollPane = new JScrollPane(messagePanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(20,10));
-        add(scrollPane, BorderLayout.WEST);
         add(messagePanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.WEST);
+       
 
         //Initialisation des listes
         messageList = new ArrayList<JLabel>();
@@ -155,6 +156,9 @@ public class messagingGUI extends JFrame{
                     }
                 }
             });  
+
+            receiveMessage();
+            receiveMessage();
             updateConnected.start();
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
@@ -170,19 +174,22 @@ public class messagingGUI extends JFrame{
         numberMessage++;
         //numberLine = numberMessage % MAX_MESS;
         //c.fill = GridBagConstraints.HORIZONTAL;
+        JPanel MEnvhorodatage = new JPanel();
+        MEnvhorodatage.setLayout(new BorderLayout());
         JPanel MEnv = new JPanel();
         Message message1 = new Message(t,true);
         String mdate = message1.getHorodata().toString();
         JLabel messageLab = new JLabel(mdate);
         MEnv.setBackground(Color.decode("#7F7FBF"));
-        MEnv.setPreferredSize(new Dimension(750, 100));
+        MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
         MEnv.add(message1);
-        MEnv.add(messageLab, BorderLayout.SOUTH);
+        MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
+        MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
         JPanel MBlanc = new JPanel();
         MBlanc.setPreferredSize(new Dimension(750, 100));
         c.gridx = 0;
         c.gridy = numberMessage;
-        messagePanel.add(MEnv,c);
+        messagePanel.add(MEnvhorodatage,c);
         c.gridx = 1;
         c.gridy = numberMessage;
         messagePanel.add(MBlanc,c);
@@ -196,11 +203,20 @@ public class messagingGUI extends JFrame{
         numberMessage++;
         numberLine = numberMessage % MAX_MESS;
         c.fill = GridBagConstraints.VERTICAL;
+        JPanel MRecHoradate = new JPanel();
+        MRecHoradate.setLayout(new BorderLayout());
         JPanel MRec = new JPanel();  
+
+        //Creation of the message
         Message message2 = new Message("Message reçu",false);
+        String mdate = message2.getHorodata().toString();
+        JLabel MRecLab = new JLabel(mdate);
+
         MRec.setBackground(Color.decode("#7FBF7F"));
-        MRec.setPreferredSize(new Dimension(750, 100));
+        MRecHoradate.setPreferredSize(new Dimension(750, 100));
         MRec.add(message2);
+        MRecHoradate.add(MRec, BorderLayout.CENTER);
+        MRecHoradate.add(MRecLab, BorderLayout.SOUTH);
         JPanel MBlanc = new JPanel();
         MBlanc.setPreferredSize(new Dimension(750, 100));
         c.gridx = 0;
@@ -208,7 +224,7 @@ public class messagingGUI extends JFrame{
         messagePanel.add(MBlanc,c);
         c.gridx = 1;
         c.gridy = numberMessage;
-        messagePanel.add(MRec,c);
+        messagePanel.add(MRecHoradate,c);
         messageList.add(message2);
         SwingUtilities.updateComponentTreeUI(this);
     }
