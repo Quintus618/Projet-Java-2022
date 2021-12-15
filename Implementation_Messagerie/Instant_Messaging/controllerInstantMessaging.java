@@ -24,9 +24,21 @@ public class controllerInstantMessaging{
     String[] initialisation={createUsers,createArchives};
 
     askBDD(initialisation);
+    System.out.println("Succès de la création des tables initiales.");
 
-
+//créer ces tables une bonne fois pour toutes puis
 }
+
+
+//dangereux, à n'utiliser que pour des tests avant la création des tables définitives!
+private void delTablesInitiales(){
+    String delAllUsers = "DROP TABLE Users;";
+    String delAllArchives = "DROP TABLE Archives;";
+    askBDD(new String[] {delAllUsers,delAllArchives});
+    System.out.println("Succès de la suppression des tables initiales.");
+}
+
+
 
 private void ouvrir(){
 //nécessité de rajouter les .jar de /Library dans le classPath
@@ -50,10 +62,12 @@ private void fermer(){
     }
 }
 
-private void demander(String[] demandes){
+private ResultSet demander(String[] demandes){
+    ResultSet reponse;
     try {
         Statement statem = lien.createStatement();
-        for (int i=0;i<demandes.length;i++){
+        reponse=statem.execute(demandes[0]);//pas folichon
+        for (int i=1;i<demandes.length;i++){
             statem.execute(demandes[i]);
         }
         statem.close();
@@ -61,27 +75,53 @@ private void demander(String[] demandes){
         System.out.println(e.getMessage());
         e.printStackTrace();
     }
-
+    return reponse;
 }
 
-protected void askBDD(String[] requetes){
+private ResultSet askBDD(String[] requetes){
     ouvrir();
-    demander(requetes);
+    ResultSet answer=demander(requetes);
     fermer();
+    return answer;
 }
 
 //PAS ENCORE TESTEE 
-protected void addUser(String pseudo, String id){
-    String insertion = "INSERT INTO Users VALUES ("+pseudo+","+id+");";
+public void addUser(String id, String mdp){
+    String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";
     askBDD(new String[] {insertion});
 }
 
+//PAS ENCORE TESTEE 
+public String getmdp(String id){
+    String insertion = "SELECT password FROM Users WHERE id='"+id+"';";
+    String mdp=askBDD(new String[] {insertion}).getString("password");
+    return mdp;// FINIR AVEC https://alvinalexander.com/java/java-mysql-select-query-example/
+}
+
+//@TODO
+public void archiverConv(String pseudo, String id){
+    String archivage = "INSERT INTO Users VALUES ("+pseudo+","+id+");";
+    askBDD(new String[] {archivage});
+}
+
+//@TODO
+public void recupererConv(String idone, String idtwo){
+    String getConv = "SELECT * FROM Archives WHERE (id1='"+idone+"' AND id2='"+idtwo+"') OR (id1='"+idtwo+"' AND id2='"+idone+"');";
+    askBDD(new String[] {getConv});
+    //return conversation;
+}
+
+
     public static void main(String[] Args){
+
             controllerInstantMessaging test= new controllerInstantMessaging();
-            System.out.println("Succès de la création des tables initiales.");
-            String delAllUsers = "DROP TABLE Users;";
-            String delAllArchives = "DROP TABLE Archives;";
-            test.askBDD(new String[] {delAllUsers,delAllArchives});
-            System.out.println("Succès de la suppression des tables initiales.");
+
+            String potato="Potato";
+            test.addUser(potato, "NotASword");
+            System.out.println(test.getmdp(potato));
+            
+            
+            //test.delTablesInitiales();
+
         }
     }
