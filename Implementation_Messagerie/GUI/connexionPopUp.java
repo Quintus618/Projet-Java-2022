@@ -68,6 +68,14 @@ public class connexionPopUp extends JFrame{
         return pseudoText;
     }
 
+    public JTextField getCoidText() {
+        return coidText;
+    }
+
+    public JTextField getComdpText() {
+        return comdpText;
+    }
+
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
