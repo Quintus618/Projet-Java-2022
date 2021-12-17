@@ -141,9 +141,13 @@ private void askBDDmulti(String[] requetes){
 }
 
 
-public void addUser(String id, String mdp){
-    String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";
-    askBDDmono(insertion);
+public boolean addUser(String id, String mdp){
+    boolean ok=!idtaken(id);
+    if (ok){
+        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";//fin inutile aved la vérif idtaken
+        askBDDmono(insertion);
+    }
+    return ok;
 }
 
 
@@ -160,7 +164,15 @@ public String getmdp(String id){
     return mdp;
 }
 
+//TODO
+public boolean idtaken(String idtest){
+    String demande="SELECT id FROM Users WHERE id='"+idtest+"');";
+    readBDD(demande);
+    //rowset.next()
+    return true;
+}
 
+  
 //TODO
 public void archiverConv(String pseudo, String id){
     String archivage = "INSERT INTO Users VALUES ("+pseudo+","+id+");";//VRAIMENT à faire
@@ -168,10 +180,12 @@ public void archiverConv(String pseudo, String id){
 }
 
 //TODO
-public void recupererConv(String idone, String idtwo){
+//todo convertisseurs entre messages, conversation et...?
+public Message[] recupererConv(String idone, String idtwo){
+    Message[] mess=null;
     String getConv = "SELECT * FROM Archives WHERE (id1='"+idone+"' AND id2='"+idtwo+"') OR (id1='"+idtwo+"' AND id2='"+idone+"');";
     readBDD(getConv);
-    //return conversation;
+    return mess;
 }
 
 
