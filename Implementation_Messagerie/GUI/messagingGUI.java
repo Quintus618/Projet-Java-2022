@@ -5,8 +5,16 @@ import javax.swing.*;
 import Instant_Messaging.Message;
 
 import java.awt.event.*;
+import java.io.IOException;
 import java.awt.*;
 import java.lang.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class messagingGUI extends JFrame{
@@ -19,6 +27,7 @@ public class messagingGUI extends JFrame{
     private JButton mediaButton;
     private JButton fileButton;
     private JButton sendMessageButton;
+    private JButton changePeudo;
 
     //Panels of the instant messaging
     private JPanel chatPanel;
@@ -95,6 +104,9 @@ public class messagingGUI extends JFrame{
         textSenderZone.setLineWrap (true);
         textSenderZone.setWrapStyleWord (false);
 
+        //Change pseudo
+        changePeudo = new JButton("Changer le pseudo");
+        pseudo = "Tintin";
         //Display Pseudo
         JLabel lPseudo = new JLabel("Pseudo Utilisateur");
 
@@ -104,6 +116,7 @@ public class messagingGUI extends JFrame{
         chatPanel.add(fileButton);
         chatPanel.add(textSenderZone);
         chatPanel.add(sendMessageButton);
+        chatPanel.add(changePeudo);
         chatPanel.add(deconnexionButton);
         chatPanel.add(lPseudo);
         add(chatPanel, BorderLayout.SOUTH);
@@ -160,10 +173,71 @@ public class messagingGUI extends JFrame{
             receiveMessage();
             receiveMessage();
             updateConnected.start();
+
+            Thread receiveBroadcast = new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    DatagramSocket soc;
+                    try {
+
+                        soc = new DatagramSocket(7000, InetAddress.getByName("0.0.0.0"));
+                        soc.setBroadcast(true);
+
+                        while(true){
+                            byte[] bufrecep = new byte[10000];
+                            DatagramPacket packet = new DatagramPacket(bufrecep, bufrecep.length);
+
+                            try {
+                                soc.receive(packet);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+    
+                            String message = new String(packet.getData()).trim();
+
+                            String[] messagesplit = message.split(":");
+                            String[] messages = new String[2];
+                            int index = 0;
+                            for (String m : messagesplit){
+                                messages[index] = m;
+                                index++;
+                            }
+                            if(messages[0].equals("USERCONNECTED")){
+                                if (messages[1].equals(pseudo)){
+                                   udpbroadcastChangePseudo(packet);
+                                }
+                                else {
+                                    displayConnectedUsers(messages[1]);
+                                }
+                            }
+                            else if (messages[0].equals("USERDISCONNECTED")){
+                                removeConnectedUsers("Milou");
+                            }
+                            else if (messages[0].equals("CHANGEPSEUDO")){
+                                //System.out.println("Tata");
+                            }
+                        }
+                    } catch (SocketException | UnknownHostException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            receiveBroadcast.start();
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
             deconnexionButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){ dispose();}});
+                public void actionPerformed(ActionEvent e){ try {
+                    udpbroadcastdeco() ;
+                } catch (SocketException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (UnknownHostException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } dispose();}});
         //actionButton();
         setVisible(true);
 
@@ -242,10 +316,151 @@ public class messagingGUI extends JFrame{
         connectedUsersList.add(coUsers);
         SwingUtilities.updateComponentTreeUI(this);
     }
+
+    //Remove connected user
+    public void removeConnectedUsers(String pseudo){
+        for(JButton i : connectedUsersList){
+            if (i.getText().equals(pseudo)){
+                connectedUsersList.remove(i);
+                connectedPanel.remove(i);
+            }
+        }
+        SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    //broadcastUDP to notify connexion
+    public void udpbroadcastco() throws SocketException, UnknownHostException{
+        DatagramSocket socket = new DatagramSocket();
+        socket.setBroadcast(true);
+
+        // Broadcast the message over all the network interfaces
+        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+
+        while (interfaces.hasMoreElements()) {
+
+            NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
+    
+
+            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+                continue; 
+            }
+
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                InetAddress broadcast = interfaceAddress.getBroadcast();
+                if (broadcast == null) {
+                    continue;
+                }
+                
+                try {
+                    //Send a message to show that we are connected
+                    String coPseudo = "USERCONNECTED" + ":Tintin";
+                    byte[] sendconnexion = coPseudo.getBytes();
+                    DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
+                    socket.send(sendpaqconnexion);
+                }
+                catch (Exception e){}
+
+            }
+        }
+
+    }
+
+    //broadcastUDP to notify connexion
+    public void udpbroadcastdeco() throws SocketException, UnknownHostException{
+        DatagramSocket socket = new DatagramSocket();
+        socket.setBroadcast(true);
+    
+        // Broadcast the message over all the network interfaces
+        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+    
+        while (interfaces.hasMoreElements()) {
+    
+            NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
+        
+    
+            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+                continue; 
+            }
+    
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                InetAddress broadcast = interfaceAddress.getBroadcast();
+                if (broadcast == null) {
+                    continue;
+                }
+                    
+                try {
+                    //Send a message to show that we are connected
+                    String coPseudo = "USERDISCONNECTED" + ":Tintin";
+                    byte[] sendconnexion = coPseudo.getBytes();
+                    DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
+                    socket.send(sendpaqconnexion);
+                }
+                catch (Exception e){}
+    
+            }
+        }
+    
+    }
+
+        //broadcastUDP to notify connexion
+        public void udpbroadcastChangePseudo(DatagramPacket packet) throws SocketException, UnknownHostException{
+            DatagramSocket socket = new DatagramSocket();
+            socket.setBroadcast(true);
+        
+            // Broadcast the message over all the network interfaces
+            Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+        
+            while (interfaces.hasMoreElements()) {
+        
+                NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
+            
+        
+                if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+                    continue; 
+                }
+        
+                for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                    InetAddress broadcast = interfaceAddress.getBroadcast();
+                    if (broadcast == null) {
+                        continue;
+                    }
+                        
+                    try {
+                        //Send a message to show that we are connected
+                        byte[] sendurg = "CHANGEPSEUDO".getBytes();
+                        DatagramPacket sendpaqconnexion = new DatagramPacket(sendurg, sendurg.length, packet.getAddress(),7000);
+                        socket.send(sendpaqconnexion);
+                    }
+                    catch (Exception e){}
+        
+                }
+            }
+        
+        }
     public static void main(String[] Args) throws InterruptedException{
         messagingGUI mGUI = new messagingGUI(3000,2000);
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");
+        Thread.sleep(5000);
+        try {
+            mGUI.udpbroadcastco();
+        } catch (SocketException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Thread.sleep(5000);
+        try {
+            mGUI.udpbroadcastdeco();
+        } catch (SocketException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println(mGUI.connectedUsersList.size());
     }
 
