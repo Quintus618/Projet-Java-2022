@@ -18,4 +18,19 @@ public class tools {
         b.setFocusPainted(false); 
         return b;
     }
+
+    /*Ancienne version de readBDD (avant rowset)
+    ouvrir();
+    ResultSet reponse=null;
+    try {
+        Statement statem = lien.createStatement();
+
+            reponse=statem.executeQuery(demande);
+
+        statem.close();
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        e.printStackTrace();
+    }
+    fermer();*/
 }
