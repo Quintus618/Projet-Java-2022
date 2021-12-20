@@ -13,8 +13,10 @@ public class controllerBDD{
     private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/"+loginBDD;//?useSSL=false ?
     private Connection lien;
     //y accéder via terminal: mysql -h srv-bdens.insa-toulouse.fr -P 3306 -D tp_servlet_003 -u tp_servlet_003 -pulah5Bee
-    //puis show tables; (toutes les commandes mysql doivent finir par ;)(pas d'espace entre le -p et le mdp)
+    //puis 'show tables;' (toutes les commandes mysql doivent finir par ;)(pas d'espace entre le -p et le mdp)
     
+    //il est un peu bête d'avoir les ids et mdps de la BDD directement dans le code...
+
     //pour avoir des sets après la fermeture du statement
     RowSetFactory factory;
     CachedRowSet rowset;
@@ -30,36 +32,19 @@ public class controllerBDD{
 
     askBDDmulti(initialisation);
     System.out.println("Succès de la création des tables initiales.");
+
+    //ROWSET
      try {
         factory = RowSetProvider.newFactory();
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-    try {
         rowset = factory.createCachedRowSet();
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-    try {
         rowset.setUrl(addresse);
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-    try {
         rowset.setUsername(loginBDD);
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-    try {
         rowset.setPassword(pwdBDD);
     } catch (SQLException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
     }
+    //est-il utile de garder askBDD plutôt qu'un rowset.execute()?
 
 //créer ces tables une bonne fois pour toutes puis
 }
@@ -74,6 +59,8 @@ private void delTablesInitiales(){
 }
 
 
+//GESTION DES REQUETES A LA BDD
+//---------------------------------------------------------------
 
 private void ouvrir(){
 //nécessité de rajouter les .jar de /Library dans le classPath
@@ -121,12 +108,9 @@ private void readBDD(String demande){
         rowset.setCommand(demande);
         rowset.execute();
     } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
     }
 }
-
-
 
 private void askBDDmono(String requete){
     ouvrir();
@@ -141,16 +125,40 @@ private void askBDDmulti(String[] requetes){
 }
 
 
+//REQUETES A LA BDD
+//-----------------------------------------------------
+
+//testée et fonctionnelle
 public boolean addUser(String id, String mdp){
     boolean ok=!idtaken(id);
     if (ok){
         String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";//fin inutile aved la vérif idtaken
         askBDDmono(insertion);
+    }else{
+        System.out.println("Erreur; identifiant déjà existant.");
     }
+    /*si besoin faire dans le bon .java
+    javax.swing.JOptionPane.showMessageDialog(null, "Cet ID est déjà pris!");
+    ou créerun message apparaissant dynamiquement dans le même JPane,au choix*/
     return ok;
 }
 
 
+//fonction "bonus", permet d'update un mot de passe
+public boolean updateMDP(String id, String mdp){
+    boolean ok=idtaken(id);
+    if (ok){
+        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";
+        askBDDmono(insertion);
+    }else{
+        System.out.println("Erreur; cet id n'est pas utilisé.");
+    }
+    //inutile de proposer de créer l'utilisateur s'il n'existepas déjà, vus les usecases ça n'est pas censé arriver
+    return ok;
+}
+
+
+//à utiliser pour log in
 public String getmdp(String id){
     String insertion = "SELECT password FROM Users WHERE id='"+id+"';";
     String mdp=null;
@@ -164,18 +172,24 @@ public String getmdp(String id){
     return mdp;
 }
 
-//TODO
+
+//testée et fonctionnelle
 public boolean idtaken(String idtest){
-    String demande="SELECT id FROM Users WHERE id='"+idtest+"');";
+    boolean taken=true;
+    String demande="SELECT id FROM Users WHERE id='"+idtest+"';";
     readBDD(demande);
-    //rowset.next()
-    return true;
+    taken=rowset.size()>0;
+    return taken;
 }
 
   
-//TODO
-public void archiverConv(String pseudo, String id){
-    String archivage = "INSERT INTO Users VALUES ("+pseudo+","+id+");";//VRAIMENT à faire
+//TODO en priorité: conversion message en requête de stockage
+public void archiverConv(Message sms){
+    //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
+    String archivage = "INSERT INTO Archives VALUES ('"+sms.getTextMessage()+"','"+sms.getHorodata()+"');";
+    //quelle idée de bosser avec des getters :p
+    //NOTE: il y aura sans doutes des soucis de format sur l'horodatage. Uniformiser tout ça.
+    //TODO:demander l'autorisation d'éditer Message
     askBDDmono(archivage);
 }
 
@@ -189,15 +203,19 @@ public Message[] recupererConv(String idone, String idtwo){
 }
 
 
+
+
     public static void main(String[] Args){
 
             controllerBDD test= new controllerBDD();
 
-            String potato="Potato";
+            /*String potato="Potato";
             test.addUser(potato, "NotASword");
-            System.out.println(test.getmdp(potato));
+            System.out.println(test.getmdp(potato));*/
             
-            
+            test.addUser("Jean","Valjean");
+            test.addUser("Jean","Mireille");
+
             test.delTablesInitiales();
 
         }
