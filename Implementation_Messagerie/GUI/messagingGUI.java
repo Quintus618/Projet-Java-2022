@@ -245,31 +245,34 @@ public class messagingGUI extends JFrame{
 
     //Send a message to another user
     private void writeMessage(String t){
-        numberMessage++;
-        //numberLine = numberMessage % MAX_MESS;
-        //c.fill = GridBagConstraints.HORIZONTAL;
-        JPanel MEnvhorodatage = new JPanel();
-        MEnvhorodatage.setLayout(new BorderLayout());
-        JPanel MEnv = new JPanel();
-        Message message1 = new Message(t,true);
-        String mdate = message1.getHorodata().toString();
-        JLabel messageLab = new JLabel(mdate);
-        MEnv.setBackground(Color.decode("#7F7FBF"));
-        MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
-        MEnv.add(message1);
-        MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
-        MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
-        JPanel MBlanc = new JPanel();
-        MBlanc.setPreferredSize(new Dimension(750, 100));
-        c.gridx = 0;
-        c.gridy = numberMessage;
-        messagePanel.add(MEnvhorodatage,c);
-        c.gridx = 1;
-        c.gridy = numberMessage;
-        messagePanel.add(MBlanc,c);
-        textSenderZone.setText("");
-        messageList.add(message1);
-        SwingUtilities.updateComponentTreeUI(this);
+        if (!t.isBlank()){
+            numberMessage++;
+            //numberLine = numberMessage % MAX_MESS;
+            //c.fill = GridBagConstraints.HORIZONTAL;
+            //some identical code at receiveMessage, create a createMessage function?
+            JPanel MEnvhorodatage = new JPanel();
+            MEnvhorodatage.setLayout(new BorderLayout());
+            JPanel MEnv = new JPanel();
+            Message message1 = new Message(t,true);
+            String mdate = message1.getHorodata().toString();
+            JLabel messageLab = new JLabel(mdate);
+            MEnv.setBackground(Color.decode("#7F7FBF"));
+            MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
+            MEnv.add(message1);
+            MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
+            MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
+            JPanel MBlanc = new JPanel();
+            MBlanc.setPreferredSize(new Dimension(750, 100));
+            c.gridx = 0;
+            c.gridy = numberMessage;
+            messagePanel.add(MEnvhorodatage,c);
+            c.gridx = 1;
+            c.gridy = numberMessage;
+            messagePanel.add(MBlanc,c);
+            textSenderZone.setText("");
+            messageList.add(message1);
+            SwingUtilities.updateComponentTreeUI(this);
+        } 
     }
 
     //Receive messages from another user

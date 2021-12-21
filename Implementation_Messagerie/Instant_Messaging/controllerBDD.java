@@ -1,9 +1,8 @@
 package Instant_Messaging;
-
-import java.awt.*;
 import java.sql.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import javax.sql.rowset.*;
-import javax.swing.*;
 
 public class controllerBDD{
 
@@ -25,8 +24,10 @@ public class controllerBDD{
  public controllerBDD(){ 
 
     //intialisations, à modifier
+    //à la fin elle n'auront pas lieu d'être, les tables devront être crées une bonne fois pour toutes
     String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(63) NOT NULL, password VARCHAR(63) NOT NULL, PRIMARY KEY (id));";
-    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (id1 VARCHAR(63) NOT NULL, id2 VARCHAR(63) NOT NULL, message VARCHAR(8000), chrono TIME, PRIMARY KEY (id1,id2));";
+    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(63) NOT NULL, toID VARCHAR(63) NOT NULL, message VARCHAR(8191), chrono TIME, PRIMARY KEY (fromID,toID,chrono));";
+    //ATTENTION, TOUT CHANGEMENT DE CES DEUX LIGNES PEUT ENTRAINER UN CHANGEMENT DE TOUTES LES REQUETES SQL HARDCODEES
     //gérer ensuite les archivages indépendemment de la source et du destinataire
     String[] initialisation={createUsers,createArchives};
 
@@ -125,14 +126,14 @@ private void askBDDmulti(String[] requetes){
 }
 
 
-//REQUETES A LA BDD
+//GESTION DE LA TABLE USERS
 //-----------------------------------------------------
 
 //testée et fonctionnelle
 public boolean addUser(String id, String mdp){
     boolean ok=!idtaken(id);
     if (ok){
-        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";//fin inutile aved la vérif idtaken
+        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"');";
         askBDDmono(insertion);
     }else{
         System.out.println("Erreur; identifiant déjà existant.");
@@ -148,10 +149,10 @@ public boolean addUser(String id, String mdp){
 public boolean updateMDP(String id, String mdp){
     boolean ok=idtaken(id);
     if (ok){
-        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE id=id;";
+        String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"') ON DUPLICATE KEY UPDATE password='"+mdp+"';";
         askBDDmono(insertion);
     }else{
-        System.out.println("Erreur; cet id n'est pas utilisé.");
+        System.out.println("Erreur; cet id ("+id+") n'est pas utilisé.");
     }
     //inutile de proposer de créer l'utilisateur s'il n'existepas déjà, vus les usecases ça n'est pas censé arriver
     return ok;
@@ -159,7 +160,7 @@ public boolean updateMDP(String id, String mdp){
 
 
 //à utiliser pour log in
-public String getmdp(String id){
+public String getMDP(String id){
     String insertion = "SELECT password FROM Users WHERE id='"+id+"';";
     String mdp=null;
     readBDD(insertion);
@@ -183,23 +184,49 @@ public boolean idtaken(String idtest){
 }
 
   
-//TODO en priorité: conversion message en requête de stockage
-public void archiverConv(Message sms){
+//GESTION DE LA TABLE ARCHIVES
+//----------------------------------------------
+
+public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
-    String archivage = "INSERT INTO Archives VALUES ('"+sms.getTextMessage()+"','"+sms.getHorodata()+"');";
-    //quelle idée de bosser avec des getters :p
-    //NOTE: il y aura sans doutes des soucis de format sur l'horodatage. Uniformiser tout ça.
-    //TODO:demander l'autorisation d'éditer Message
+    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+sms.getTextMessage()+"','"+sms.getHorodata()+"');";
+    //NOTE TODO: il y aura sans doutes des soucis de format sur l'horodatage. Uniformiser tout ça.
     askBDDmono(archivage);
 }
 
-//TODO
-//todo convertisseurs entre messages, conversation et...?
-public Message[] recupererConv(String idone, String idtwo){
-    Message[] mess=null;
+public void archiverConv(Conversation conv){
+    for (Message sms:conv.getMessageList()){
+        archiverMessage(sms);
+    }
+}
+
+
+//à finir: TODO la méthode d'initialisation dans Message.java(ET LE TEMPS)
+public ArrayList <Message> recupererConv(String idone, String idtwo){
+    
     String getConv = "SELECT * FROM Archives WHERE (id1='"+idone+"' AND id2='"+idtwo+"') OR (id1='"+idtwo+"' AND id2='"+idone+"');";
     readBDD(getConv);
-    return mess;
+
+    ArrayList<Message> conv=new ArrayList<Message>();
+    String txt=null;
+    String from=null;
+    String to=null;
+    LocalTime chrono=null;
+
+    try {
+        while (rowset.next()){
+            txt=rowset.getString("message");
+            from=rowset.getString("fromID");
+            to=rowset.getString("toID");
+            //OSKOUR TODO les problèmes de temps
+            //chrono=rowset.getTime("chrono");
+            conv.add(new Message(txt,from,to,chrono));
+        }
+    } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return conv;
 }
 
 
@@ -211,10 +238,16 @@ public Message[] recupererConv(String idone, String idtwo){
 
             /*String potato="Potato";
             test.addUser(potato, "NotASword");
-            System.out.println(test.getmdp(potato));*/
+            System.out.println(test.getMDP(potato));*/
             
+            //tests divers
             test.addUser("Jean","Valjean");
+            System.out.println(test.getMDP("Jean")+"\n");
             test.addUser("Jean","Mireille");
+            System.out.println(test.getMDP("Jean")+"\n");
+            test.updateMDP("Jean","Mireille");
+            System.out.println(test.getMDP("Jean")+"\n");
+            test.updateMDP("Bernard","Mireille");
 
             test.delTablesInitiales();
 
