@@ -48,6 +48,7 @@ public class UDPcontroller {
                             messages[index] = m;
                             index++;
                         }
+                        System.out.println(message);
                         if(messages[0].equals("USERCONNECTED")){
                             if (messages[1].equals(mGUI.getPseudo())){
                                 udpbroadcastChangePseudo(packet);
@@ -75,7 +76,7 @@ public class UDPcontroller {
 
 
     //broadcastUDP to notify connexion
-    public void udpbroadcastco() throws SocketException, UnknownHostException{
+    public void udpbroadcastco(String ps) throws SocketException, UnknownHostException{
         DatagramSocket socket = new DatagramSocket();
         socket.setBroadcast(true);
     
@@ -99,7 +100,8 @@ public class UDPcontroller {
                     
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERCONNECTED" + ":Tintin";
+                    String coPseudo = "USERCONNECTED:" + ps;
+                    System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
@@ -136,7 +138,7 @@ public class UDPcontroller {
                         
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERDISCONNECTED" + ":Tintin";
+                    String coPseudo = "USERDISCONNECTED:" + ":Tintin";
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);

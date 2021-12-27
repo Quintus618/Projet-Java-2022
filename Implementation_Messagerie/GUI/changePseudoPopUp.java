@@ -40,7 +40,9 @@ public class changePseudoPopUp extends JFrame{
 
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent MOUSE_CLICKED){ // INFO TO BROADCAST IN UDP
+            public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+                new messagingGUI(3000,2000, pseudoText.getText());
+                dispose();
             }});
 
 

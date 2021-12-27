@@ -51,13 +51,14 @@ public class messagingGUI extends JFrame{
     public ArrayList<JButton> connectedUsersList;
 
     //Constructor
-    public messagingGUI(int height, int width){
+    public messagingGUI(int height, int width, String pseudo){
         
         //Creation of GUI
         super("Insatact");
         setSize(width, height);
         this.setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pseudo = pseudo;
 
         //Creation of graphical components 
         buildComponentInterface(this);
@@ -108,9 +109,8 @@ public class messagingGUI extends JFrame{
 
         //Change pseudo
         changePeudo = new JButton("Changer le pseudo");
-        pseudo = "Tintin";
         //Display Pseudo
-        JLabel lPseudo = new JLabel("Pseudo Utilisateur");
+        JLabel lPseudo = new JLabel(pseudo);
 
         chatPanel = new JPanel();
         chatPanel.setBackground(Color.gray);
@@ -230,6 +230,15 @@ public class messagingGUI extends JFrame{
 
             //Creation UDPcontroller
             UDPcontroller udpController = new UDPcontroller(this);
+            try {
+                udpController.udpbroadcastco(pseudo);
+            } catch (SocketException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            } catch (UnknownHostException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            }
 
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
@@ -345,13 +354,13 @@ public class messagingGUI extends JFrame{
     }
 
     public static void main(String[] Args) throws InterruptedException{
-        messagingGUI mGUI = new messagingGUI(3000,2000);
+        messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");
         UDPcontroller udp = new UDPcontroller(mGUI);
         Thread.sleep(5000);
         try {
-            udp.udpbroadcastco();
+            udp.udpbroadcastco("Tintin");
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
