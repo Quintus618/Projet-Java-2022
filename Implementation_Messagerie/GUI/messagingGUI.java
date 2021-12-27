@@ -230,21 +230,12 @@ public class messagingGUI extends JFrame{
 
             //Creation UDPcontroller
             UDPcontroller udpController = new UDPcontroller(this);
-            try {
-                udpController.udpbroadcastco(pseudo);
-            } catch (SocketException e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-            } catch (UnknownHostException e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-            }
 
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){ try {
-                    udpController.udpbroadcastdeco() ;
+                    udpController.udpbroadcastdeco(pseudo) ;
                 } catch (SocketException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -370,7 +361,7 @@ public class messagingGUI extends JFrame{
         }
         Thread.sleep(5000);
         try {
-            udp.udpbroadcastdeco();
+            udp.udpbroadcastdeco("Tintin");
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

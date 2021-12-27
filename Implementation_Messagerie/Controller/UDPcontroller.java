@@ -13,10 +13,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
 import javax.swing.*;
+
+import GUI.changePseudoPopUp;
 import GUI.messagingGUI;
 
 
 public class UDPcontroller {
+
+    private int nbfoisdemande = 0;
 
     public UDPcontroller(messagingGUI mGUI){
         Thread receiveBroadcast = new Thread(new Runnable(){
@@ -48,20 +52,29 @@ public class UDPcontroller {
                             messages[index] = m;
                             index++;
                         }
+
                         System.out.println(message);
+                        //String pseudoRecu="";
+
                         if(messages[0].equals("USERCONNECTED")){
                             if (messages[1].equals(mGUI.getPseudo())){
-                                udpbroadcastChangePseudo(packet);
+                                udpbroadcastChangePseudo(packet,messages[1]);
+                                //pseudoRecu=messages[1];
                             }
                             else {
                                 mGUI.displayConnectedUsers(messages[1]);
+                                nbfoisdemande = 0;
+                                System.out.println("totto");
                             }
                         }
                         else if (messages[0].equals("USERDISCONNECTED")){
-                            mGUI.removeConnectedUsers("Milou");
+                            mGUI.removeConnectedUsers(messages[1]);
                         }
                         else if (messages[0].equals("CHANGEPSEUDO")){
-                            //System.out.println("Tata");
+                            if(nbfoisdemande==0){
+                                changePseudoPopUp cPseudo = new changePseudoPopUp(100, 500);
+                                nbfoisdemande++;
+                            }
                         }
                     }
                 } catch (SocketException | UnknownHostException e) {
@@ -72,6 +85,32 @@ public class UDPcontroller {
         });
 
         receiveBroadcast.start();
+
+        Thread connexionPeriodBroadcast = new Thread(new Runnable(){
+            @Override
+            public void run(){
+                while(true){
+                    try {
+                        udpbroadcastco(mGUI.getPseudo());
+                    } catch (SocketException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (UnknownHostException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });   
+        
+        connexionPeriodBroadcast.start();
     }
 
 
@@ -114,7 +153,7 @@ public class UDPcontroller {
     }
     
     //broadcastUDP to notify connexion
-    public void udpbroadcastdeco() throws SocketException, UnknownHostException{
+    public void udpbroadcastdeco(String ps) throws SocketException, UnknownHostException{
         DatagramSocket socket = new DatagramSocket();
         socket.setBroadcast(true);
         
@@ -138,7 +177,7 @@ public class UDPcontroller {
                         
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERDISCONNECTED:" + ":Tintin";
+                    String coPseudo = "USERDISCONNECTED:" + ps;
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
@@ -151,7 +190,7 @@ public class UDPcontroller {
     }
     
     //broadcastUDP to notify connexion
-    public void udpbroadcastChangePseudo(DatagramPacket packet) throws SocketException, UnknownHostException{
+    public void udpbroadcastChangePseudo(DatagramPacket packet, String ps) throws SocketException, UnknownHostException{
         DatagramSocket socket = new DatagramSocket();
         socket.setBroadcast(true);
             
@@ -175,7 +214,8 @@ public class UDPcontroller {
                             
                 try {
                     //Send a message to show that we are connected
-                    byte[] sendurg = "CHANGEPSEUDO".getBytes();
+                    String sendurgString = "CHANGEPSEUDO:" + ps;
+                    byte[] sendurg = sendurgString.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendurg, sendurg.length, packet.getAddress(),7000);
                     socket.send(sendpaqconnexion);
                 }
