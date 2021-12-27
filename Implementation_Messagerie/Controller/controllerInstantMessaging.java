@@ -1,4 +1,4 @@
-package Instant_Messaging;
+package Controller;
 
 
 public class controllerInstantMessaging{

@@ -1,8 +1,11 @@
-package Instant_Messaging;
+package Controller;
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.sql.rowset.*;
+
+import Instant_Messaging.Conversation;
+import Instant_Messaging.Message;
 
 public class controllerBDD{
 

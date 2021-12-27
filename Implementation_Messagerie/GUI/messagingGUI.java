@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 
 import Instant_Messaging.Message;
-
+import Controller.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.awt.*;
@@ -34,6 +34,8 @@ public class messagingGUI extends JFrame{
     private JPanel infoProfilPanel;
     private JPanel connectedPanel;
     private JPanel messagePanel;
+
+    private JScrollPane scrollPane;
 
     private GridBagConstraints c = new GridBagConstraints();
 
@@ -134,12 +136,11 @@ public class messagingGUI extends JFrame{
         messagePanel = new JPanel();
         gl = new GridBagLayout();
         messagePanel.setLayout(gl);
-        JScrollPane scrollPane = new JScrollPane(messagePanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane = new JScrollPane(messagePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(20,10));
         add(messagePanel, BorderLayout.CENTER);
         add(scrollPane, BorderLayout.WEST);
-       
 
         //Initialisation des listes
         messageList = new ArrayList<JLabel>();
@@ -174,7 +175,7 @@ public class messagingGUI extends JFrame{
             receiveMessage();
             updateConnected.start();
 
-            Thread receiveBroadcast = new Thread(new Runnable(){
+            /*Thread receiveBroadcast = new Thread(new Runnable(){
                 @Override
                 public void run(){
                     DatagramSocket soc;
@@ -225,12 +226,16 @@ public class messagingGUI extends JFrame{
                 }
             });
 
-            receiveBroadcast.start();
+            receiveBroadcast.start();*/
+
+            //Creation UDPcontroller
+            UDPcontroller udpController = new UDPcontroller(this);
+
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){ try {
-                    udpbroadcastdeco() ;
+                    udpController.udpbroadcastdeco() ;
                 } catch (SocketException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -257,11 +262,13 @@ public class messagingGUI extends JFrame{
             String mdate = message1.getHorodata().toString();
             JLabel messageLab = new JLabel(mdate);
             MEnv.setBackground(Color.decode("#7F7FBF"));
+            MEnvhorodatage.setMinimumSize(new Dimension(750, 100));
             MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
             MEnv.add(message1);
             MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
             MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
             JPanel MBlanc = new JPanel();
+            MBlanc.setMinimumSize(new Dimension(750, 100));
             MBlanc.setPreferredSize(new Dimension(750, 100));
             c.gridx = 0;
             c.gridy = numberMessage;
@@ -290,11 +297,13 @@ public class messagingGUI extends JFrame{
         JLabel MRecLab = new JLabel(mdate);
 
         MRec.setBackground(Color.decode("#7FBF7F"));
+        MRecHoradate.setMinimumSize(new Dimension(750, 100));
         MRecHoradate.setPreferredSize(new Dimension(750, 100));
         MRec.add(message2);
         MRecHoradate.add(MRec, BorderLayout.CENTER);
         MRecHoradate.add(MRecLab, BorderLayout.SOUTH);
         JPanel MBlanc = new JPanel();
+        MBlanc.setMinimumSize(new Dimension(750, 100));
         MBlanc.setPreferredSize(new Dimension(750, 100));
         c.gridx = 0;
         c.gridy = numberMessage;
@@ -331,122 +340,18 @@ public class messagingGUI extends JFrame{
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    //broadcastUDP to notify connexion
-    public void udpbroadcastco() throws SocketException, UnknownHostException{
-        DatagramSocket socket = new DatagramSocket();
-        socket.setBroadcast(true);
-
-        // Broadcast the message over all the network interfaces
-        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
-
-        while (interfaces.hasMoreElements()) {
-
-            NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
-    
-
-            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
-                continue; 
-            }
-
-            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-                InetAddress broadcast = interfaceAddress.getBroadcast();
-                if (broadcast == null) {
-                    continue;
-                }
-                
-                try {
-                    //Send a message to show that we are connected
-                    String coPseudo = "USERCONNECTED" + ":Tintin";
-                    byte[] sendconnexion = coPseudo.getBytes();
-                    DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
-                    socket.send(sendpaqconnexion);
-                }
-                catch (Exception e){}
-
-            }
-        }
-
+    public String getPseudo() {
+        return pseudo;
     }
 
-    //broadcastUDP to notify connexion
-    public void udpbroadcastdeco() throws SocketException, UnknownHostException{
-        DatagramSocket socket = new DatagramSocket();
-        socket.setBroadcast(true);
-    
-        // Broadcast the message over all the network interfaces
-        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
-    
-        while (interfaces.hasMoreElements()) {
-    
-            NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
-        
-    
-            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
-                continue; 
-            }
-    
-            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-                InetAddress broadcast = interfaceAddress.getBroadcast();
-                if (broadcast == null) {
-                    continue;
-                }
-                    
-                try {
-                    //Send a message to show that we are connected
-                    String coPseudo = "USERDISCONNECTED" + ":Tintin";
-                    byte[] sendconnexion = coPseudo.getBytes();
-                    DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
-                    socket.send(sendpaqconnexion);
-                }
-                catch (Exception e){}
-    
-            }
-        }
-    
-    }
-
-        //broadcastUDP to notify connexion
-        public void udpbroadcastChangePseudo(DatagramPacket packet) throws SocketException, UnknownHostException{
-            DatagramSocket socket = new DatagramSocket();
-            socket.setBroadcast(true);
-        
-            // Broadcast the message over all the network interfaces
-            Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
-        
-            while (interfaces.hasMoreElements()) {
-        
-                NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
-            
-        
-                if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
-                    continue; 
-                }
-        
-                for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-                    InetAddress broadcast = interfaceAddress.getBroadcast();
-                    if (broadcast == null) {
-                        continue;
-                    }
-                        
-                    try {
-                        //Send a message to show that we are connected
-                        byte[] sendurg = "CHANGEPSEUDO".getBytes();
-                        DatagramPacket sendpaqconnexion = new DatagramPacket(sendurg, sendurg.length, packet.getAddress(),7000);
-                        socket.send(sendpaqconnexion);
-                    }
-                    catch (Exception e){}
-        
-                }
-            }
-        
-        }
     public static void main(String[] Args) throws InterruptedException{
         messagingGUI mGUI = new messagingGUI(3000,2000);
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");
+        UDPcontroller udp = new UDPcontroller(mGUI);
         Thread.sleep(5000);
         try {
-            mGUI.udpbroadcastco();
+            udp.udpbroadcastco();
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -456,7 +361,7 @@ public class messagingGUI extends JFrame{
         }
         Thread.sleep(5000);
         try {
-            mGUI.udpbroadcastdeco();
+            udp.udpbroadcastdeco();
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
