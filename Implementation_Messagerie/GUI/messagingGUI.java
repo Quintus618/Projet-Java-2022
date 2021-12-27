@@ -2,6 +2,7 @@ package GUI;
 //Importation Libraries
 import javax.swing.*;
 
+import Instant_Messaging.Conversation;
 import Instant_Messaging.Message;
 import Controller.*;
 import java.awt.event.*;
@@ -146,20 +147,41 @@ public class messagingGUI extends JFrame{
         messageList = new ArrayList<JLabel>();
         connectedUsersList = new ArrayList<JButton>();
 
+        messagingGUI m = this;
+
         //ACTION BOUTTON
         /*sendMessageButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});*/
             Thread updateConnected = new Thread(new Runnable() {
+
+                int nbfois = 0;
+                JButton buttonselected;
+
                 @Override
                 public void run(){
                     while(true){
+            
                         for (JButton b : connectedUsersList){
                             b.addActionListener(new ActionListener(){  
                                 public void actionPerformed(ActionEvent e){ 
                                     for(JButton c : connectedUsersList){
                                         c.setBackground(Color.decode("#2F2F2F"));
                                     }
-                                    b.setBackground(Color.decode("#08410f"));}});
+                                    b.setBackground(Color.decode("#08410f"));
+                                
+                                    if(buttonselected != b){
+                                        buttonselected=b;
+                                        nbfois = 0;
+                                        m.createConversation();
+                                        System.out.println("testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                                    }
+                                    else{
+                                        System.out.println(buttonselected.getText() + "................................");
+                                    }
+                                }});
+                
+                                    
+                                    
                          }
                         try {
                             Thread.sleep(2000);
@@ -174,59 +196,6 @@ public class messagingGUI extends JFrame{
             receiveMessage();
             receiveMessage();
             updateConnected.start();
-
-            /*Thread receiveBroadcast = new Thread(new Runnable(){
-                @Override
-                public void run(){
-                    DatagramSocket soc;
-                    try {
-
-                        soc = new DatagramSocket(7000, InetAddress.getByName("0.0.0.0"));
-                        soc.setBroadcast(true);
-
-                        while(true){
-                            byte[] bufrecep = new byte[10000];
-                            DatagramPacket packet = new DatagramPacket(bufrecep, bufrecep.length);
-
-                            try {
-                                soc.receive(packet);
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-    
-                            String message = new String(packet.getData()).trim();
-
-                            String[] messagesplit = message.split(":");
-                            String[] messages = new String[2];
-                            int index = 0;
-                            for (String m : messagesplit){
-                                messages[index] = m;
-                                index++;
-                            }
-                            if(messages[0].equals("USERCONNECTED")){
-                                if (messages[1].equals(pseudo)){
-                                   udpbroadcastChangePseudo(packet);
-                                }
-                                else {
-                                    displayConnectedUsers(messages[1]);
-                                }
-                            }
-                            else if (messages[0].equals("USERDISCONNECTED")){
-                                removeConnectedUsers("Milou");
-                            }
-                            else if (messages[0].equals("CHANGEPSEUDO")){
-                                //System.out.println("Tata");
-                            }
-                        }
-                    } catch (SocketException | UnknownHostException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            receiveBroadcast.start();*/
 
             //Creation UDPcontroller
             UDPcontroller udpController = new UDPcontroller(this);
@@ -246,6 +215,12 @@ public class messagingGUI extends JFrame{
         //actionButton();
         setVisible(true);
 
+    }
+
+    //Create conversation
+    private void createConversation(){
+        messagePanel.removeAll();
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     //Send a message to another user
@@ -344,10 +319,16 @@ public class messagingGUI extends JFrame{
         return pseudo;
     }
 
+    public GridBagLayout getGl() {
+        return gl;
+    }
+
     public static void main(String[] Args) throws InterruptedException{
         messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");
+        mGUI.displayConnectedUsers("Hadock");
+        mGUI.displayConnectedUsers("Tournesol");
         UDPcontroller udp = new UDPcontroller(mGUI);
         Thread.sleep(5000);
         try {
