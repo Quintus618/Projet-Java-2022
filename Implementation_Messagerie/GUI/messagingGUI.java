@@ -16,6 +16,8 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class messagingGUI extends JFrame{
@@ -47,6 +49,9 @@ public class messagingGUI extends JFrame{
     private int numberMessage = 0;
 
     private GridBagLayout gl;
+
+    private TCPcontrollerClient tcpClient;
+    private TCPcontrollerServer tcpServer;
 
     public ArrayList<JLabel> messageList;
     public ArrayList<JButton> connectedUsersList;
@@ -172,7 +177,7 @@ public class messagingGUI extends JFrame{
                                     if(buttonselected != b){
                                         buttonselected=b;
                                         nbfois = 0;
-                                        m.createConversation();
+                                        m.createConversation(b.getText());
                                         System.out.println("testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                                     }
                                     else{
@@ -193,15 +198,19 @@ public class messagingGUI extends JFrame{
                 }
             });  
 
-            receiveMessage();
-            receiveMessage();
+            receiveMessage("Message recu");
+            receiveMessage("Message recu");
             updateConnected.start();
 
             //Creation UDPcontroller
             UDPcontroller udpController = new UDPcontroller(this);
 
+            //Action when there is a mouse click on a button
             sendMessageButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent MOUSE_CLICKED){ writeMessage(textSenderZone.getText());}});
+                public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+                    writeMessage(textSenderZone.getText());
+                    //tcpClient.sendMessage(textSenderZone.getText());
+                }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){ try {
                     udpController.udpbroadcastdeco(pseudo) ;
@@ -212,14 +221,23 @@ public class messagingGUI extends JFrame{
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } dispose();}});
-        //actionButton();
+    
+        //Creation TCP server
+        tcpServer = new TCPcontrollerServer(this.pseudo);
+        
         setVisible(true);
 
     }
 
     //Create conversation
-    private void createConversation(){
+    private void createConversation(String dest){
         messagePanel.removeAll();
+
+        
+        //Creation TCP client
+        //tcpClient = new TCPcontrollerClient(,);
+
+
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -234,8 +252,13 @@ public class messagingGUI extends JFrame{
             MEnvhorodatage.setLayout(new BorderLayout());
             JPanel MEnv = new JPanel();
             Message message1 = new Message(t,true);
-            String mdate = message1.getHorodata().toString();
-            JLabel messageLab = new JLabel(mdate);
+            //String mdate = message1.getHorodata().toString();
+
+            LocalTime mdate = message1.getHorodata();
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formattedDate = mdate.format(myFormatObj);
+            JLabel messageLab = new JLabel(formattedDate);
+
             MEnv.setBackground(Color.decode("#7F7FBF"));
             MEnvhorodatage.setMinimumSize(new Dimension(750, 100));
             MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
@@ -258,7 +281,7 @@ public class messagingGUI extends JFrame{
     }
 
     //Receive messages from another user
-    public void receiveMessage(){
+    public void receiveMessage(String t){
         numberMessage++;
         numberLine = numberMessage % MAX_MESS;
         c.fill = GridBagConstraints.VERTICAL;
@@ -267,9 +290,12 @@ public class messagingGUI extends JFrame{
         JPanel MRec = new JPanel();  
 
         //Creation of the message
-        Message message2 = new Message("Message reçu",false);
-        String mdate = message2.getHorodata().toString();
-        JLabel MRecLab = new JLabel(mdate);
+        Message message2 = new Message(t,false);
+        LocalTime mdate = message2.getHorodata();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedDate = mdate.format(myFormatObj);
+        JLabel messageLab = new JLabel(formattedDate);
+        JLabel MRecLab = new JLabel(formattedDate);
 
         MRec.setBackground(Color.decode("#7FBF7F"));
         MRecHoradate.setMinimumSize(new Dimension(750, 100));
