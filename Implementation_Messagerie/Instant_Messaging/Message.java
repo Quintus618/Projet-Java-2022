@@ -1,7 +1,10 @@
 package Instant_Messaging;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.swing.JLabel;
+
+import Controller.controllerInstantMessaging;
 
 public class Message extends JLabel{
 
@@ -10,35 +13,32 @@ public class Message extends JLabel{
 
     private boolean isSender;
     private String textMessage;
-    private LocalTime horodata;
+    private LocalDateTime horodata;
 
     //cet initialisateur sera à supprimer dès lors que l'on aura réglé le stockage de l'id
-    public Message(String textMessage, boolean isSender){
+    public Message(String textMessage, String idcorresp, boolean amSender){
         super(textMessage);
         this.textMessage = textMessage;
-        this.isSender = isSender;
-        this.horodata = java.time.LocalTime.now();
+        this.isSender = amSender;
+        if(isSender){
+            this.idfrom=controllerInstantMessaging.getmyID();
+            this.idto=idcorresp;
+            }
+        else{
+            this.idto=controllerInstantMessaging.getmyID();
+            this.idfrom=idcorresp;
+        }
+        this.horodata = java.time.LocalDateTime.now();
     }
 
-    //pas encore pleinement fonctionnel
-    public Message(String textMessage, String idsender, String iddest){
-        super(textMessage);
-        this.textMessage = textMessage;
-        this.idfrom=idsender;
-        this.idto=iddest;
-        this.isSender = true;//TODO
-        //NON!!!!!!! Devra être idfrom==MY_ID
-        this.horodata = java.time.LocalTime.now();
-    }  
-
+ 
     //utilisée pour le désarchivage
-    public Message(String textMessage, String idsender, String iddest, LocalTime temps){
+    public Message(String textMessage, String idsender, String iddest, LocalDateTime temps){
         super(textMessage);
         this.textMessage = textMessage;
         this.idfrom=idsender;
         this.idto=iddest;
-        this.isSender = true;//TODO
-        //NON!!!!!!! Devra être idfrom==MY_ID
+        this.isSender = idfrom==controllerInstantMessaging.getmyID();
         this.horodata = temps;
     }
 
@@ -46,7 +46,7 @@ public class Message extends JLabel{
         this.textMessage = textMessage;
     }
 
-    public LocalTime getHorodata() {
+    public LocalDateTime getHorodata() {
         return horodata;
     }
 

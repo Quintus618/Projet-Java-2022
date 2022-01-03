@@ -16,6 +16,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -237,46 +238,52 @@ public class messagingGUI extends JFrame{
         //Creation TCP client
         //tcpClient = new TCPcontrollerClient(,);
 
+        //Instant_Messaging.Conversation?
 
         SwingUtilities.updateComponentTreeUI(this);
     }
 
     //Send a message to another user
     private void writeMessage(String t){
-        if (!t.isBlank()){
-            numberMessage++;
-            //numberLine = numberMessage % MAX_MESS;
-            //c.fill = GridBagConstraints.HORIZONTAL;
-            //some identical code at receiveMessage, create a createMessage function?
-            JPanel MEnvhorodatage = new JPanel();
-            MEnvhorodatage.setLayout(new BorderLayout());
-            JPanel MEnv = new JPanel();
-            Message message1 = new Message(t,true);
-            //String mdate = message1.getHorodata().toString();
+        if(t.length()>=4096){
+            JOptionPane.showMessageDialog(null, "Les messages sont limités à 4096 caractères.");
+        }//attention si l'on modifie la valeur max dans les tables
+        else{  
+            if (!t.isBlank()){
+                numberMessage++;
+                //numberLine = numberMessage % MAX_MESS;
+                //c.fill = GridBagConstraints.HORIZONTAL;
+                //some identical code at receiveMessage, create a createMessage function?
+                JPanel MEnvhorodatage = new JPanel();
+                MEnvhorodatage.setLayout(new BorderLayout());
+                JPanel MEnv = new JPanel();
+                Message message1 = new Message(t, "ERROR_ERROR_ERROR",true);
+                //String mdate = message1.getHorodata().toString();
 
-            LocalTime mdate = message1.getHorodata();
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String formattedDate = mdate.format(myFormatObj);
-            JLabel messageLab = new JLabel(formattedDate);
+                LocalDateTime mdate = message1.getHorodata();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+                String formattedDate = mdate.format(myFormatObj);
+                JLabel messageLab = new JLabel(formattedDate);
 
-            MEnv.setBackground(Color.decode("#7F7FBF"));
-            MEnvhorodatage.setMinimumSize(new Dimension(750, 100));
-            MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
-            MEnv.add(message1);
-            MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
-            MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
-            JPanel MBlanc = new JPanel();
-            MBlanc.setMinimumSize(new Dimension(750, 100));
-            MBlanc.setPreferredSize(new Dimension(750, 100));
-            c.gridx = 0;
-            c.gridy = numberMessage;
-            messagePanel.add(MEnvhorodatage,c);
-            c.gridx = 1;
-            c.gridy = numberMessage;
-            messagePanel.add(MBlanc,c);
-            textSenderZone.setText("");
-            messageList.add(message1);
-            SwingUtilities.updateComponentTreeUI(this);
+                MEnv.setBackground(Color.decode("#7F7FBF"));
+                MEnvhorodatage.setMinimumSize(new Dimension(750, 100));
+                MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
+                MEnv.add(message1);
+                MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
+                MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
+                JPanel MBlanc = new JPanel();
+                MBlanc.setMinimumSize(new Dimension(750, 100));
+                MBlanc.setPreferredSize(new Dimension(750, 100));
+                c.gridx = 0;
+                c.gridy = numberMessage;
+                messagePanel.add(MEnvhorodatage,c);
+                c.gridx = 1;
+                c.gridy = numberMessage;
+                messagePanel.add(MBlanc,c);
+                textSenderZone.setText("");
+                messageList.add(message1);
+                SwingUtilities.updateComponentTreeUI(this);
+            } 
         } 
     }
 
@@ -290,9 +297,10 @@ public class messagingGUI extends JFrame{
         JPanel MRec = new JPanel();  
 
         //Creation of the message
-        Message message2 = new Message(t,false);
-        LocalTime mdate = message2.getHorodata();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
+        //TODO PAS LE BON ARGUMENT (idem à l'envoi de message)(j'ai l'impression qu'on ne s'occupe pas de l'ID du correspondant, ça va demander de se pencher sur CreationConversation bientôt je sens)
+        Message message2 = new Message(t, "ERROR_ERROR_ERROR", false);
+        LocalDateTime mdate = message2.getHorodata();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = mdate.format(myFormatObj);
         JLabel messageLab = new JLabel(formattedDate);
         JLabel MRecLab = new JLabel(formattedDate);

@@ -28,8 +28,10 @@ public class controllerBDD{
 
     //intialisations, à modifier
     //à la fin elle n'auront pas lieu d'être, les tables devront être crées une bonne fois pour toutes
-    String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(63) NOT NULL, password VARCHAR(63) NOT NULL, PRIMARY KEY (id));";
-    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(63) NOT NULL, toID VARCHAR(63) NOT NULL, message VARCHAR(8191), chrono TIME, PRIMARY KEY (fromID,toID,chrono));";
+    String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(64) NOT NULL, password VARCHAR(64) NOT NULL, PRIMARY KEY (id));";
+    //TODO set les bonnes tailles
+    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(64) NOT NULL, toID VARCHAR(64) NOT NULL, message VARCHAR(4096), chrono TIMESTAMP, PRIMARY KEY (fromID,toID,chrono));";
+    //comment va vraiment marcher le temps? Il faudrait un timestamp plutôt qu'un TIME...
     //ATTENTION, TOUT CHANGEMENT DE CES DEUX LIGNES PEUT ENTRAINER UN CHANGEMENT DE TOUTES LES REQUETES SQL HARDCODEES
     //gérer ensuite les archivages indépendemment de la source et du destinataire
     String[] initialisation={createUsers,createArchives};
@@ -192,8 +194,8 @@ public boolean idtaken(String idtest){
 
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
-    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+sms.getTextMessage()+"','"+sms.getHorodata()+"');";
-    //NOTE TODO: il y aura sans doutes des soucis de format sur l'horodatage. Uniformiser tout ça.
+    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+sms.getTextMessage()+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');";
+    //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
 }
 
@@ -214,16 +216,15 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
     String txt=null;
     String from=null;
     String to=null;
-    LocalTime chrono=null;
+    Timestamp chrono=null;
 
     try {
         while (rowset.next()){
             txt=rowset.getString("message");
             from=rowset.getString("fromID");
             to=rowset.getString("toID");
-            //OSKOUR TODO les problèmes de temps
-            //chrono=rowset.getTime("chrono");
-            conv.add(new Message(txt,from,to,chrono));
+            chrono=rowset.getTimestamp("chrono");
+            conv.add(new Message(txt,from,to,chrono.toLocalDateTime()));
         }
     } catch (SQLException e) {
         // TODO Auto-generated catch block
@@ -251,6 +252,8 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
             test.updateMDP("Jean","Mireille");
             System.out.println(test.getMDP("Jean")+"\n");
             test.updateMDP("Bernard","Mireille");
+
+//TODO mais complexe: tester archivage/désarchivage
 
             test.delTablesInitiales();
 
