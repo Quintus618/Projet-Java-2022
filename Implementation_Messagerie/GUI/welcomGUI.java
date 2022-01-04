@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Controller.controllerBDD;
+
 public class welcomGUI extends JFrame{
 
     private JButton connexionButton;
@@ -13,7 +15,7 @@ public class welcomGUI extends JFrame{
     private JPanel buttonsPanel;
     
     //Constructor
-    public welcomGUI(int height, int width){
+    public welcomGUI(controllerBDD comtoBDD, int height, int width){
         
         //Creation of GUI
         super("Insatact");
@@ -25,7 +27,7 @@ public class welcomGUI extends JFrame{
         inscriptionButton = new JButton("Inscription");
         inscriptionButton.setPreferredSize(new Dimension(100, 100));
         inscriptionButton.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){ new inscriptionPopUp(150,600);}});
+            public void actionPerformed(ActionEvent e){ new inscriptionPopUp(comtoBDD,150,600);}});
 
         connexionButton = new JButton("Connexion");
         connexionButton.setPreferredSize(new Dimension(100, 100));
@@ -74,8 +76,11 @@ public class welcomGUI extends JFrame{
 
 
     public static void main(String[] Args){
+        /*
         welcomGUI wGUI = new welcomGUI(500, 700);
         wGUI.setTitle("Low quality chat system - Welcome!");
+        */
+        JOptionPane.showMessageDialog(null, "Attention, il faut maintenant utiliser InstantMessagingController au démarrage!");
     }
 
 }

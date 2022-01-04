@@ -3,6 +3,7 @@ import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.sql.rowset.*;
+import javax.swing.JOptionPane;
 
 import Instant_Messaging.Conversation;
 import Instant_Messaging.Message;
@@ -13,7 +14,7 @@ public class controllerBDD{
     private String pwdBDD = "ulah5Bee";
     //incidemment le login est aussi le nom de la BDD
     private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/"+loginBDD;//?useSSL=false ?
-    private Connection lien;
+    private  Connection lien;
     //y accéder via terminal: mysql -h srv-bdens.insa-toulouse.fr -P 3306 -D tp_servlet_003 -u tp_servlet_003 -pulah5Bee
     //puis 'show tables;' (toutes les commandes mysql doivent finir par ;)(pas d'espace entre le -p et le mdp)
     
@@ -28,9 +29,9 @@ public class controllerBDD{
 
     //intialisations, à modifier
     //à la fin elle n'auront pas lieu d'être, les tables devront être crées une bonne fois pour toutes
-    String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(64) NOT NULL, password VARCHAR(64) NOT NULL, PRIMARY KEY (id));";
+    String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(32) NOT NULL, password VARCHAR(32) NOT NULL, PRIMARY KEY (id));";
     //TODO set les bonnes tailles
-    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(64) NOT NULL, toID VARCHAR(64) NOT NULL, message VARCHAR(4096), chrono TIMESTAMP, PRIMARY KEY (fromID,toID,chrono));";
+    String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(32) NOT NULL, toID VARCHAR(32) NOT NULL, message VARCHAR(4096), chrono TIMESTAMP, PRIMARY KEY (fromID,toID,chrono));";
     //comment va vraiment marcher le temps? Il faudrait un timestamp plutôt qu'un TIME...
     //ATTENTION, TOUT CHANGEMENT DE CES DEUX LIGNES PEUT ENTRAINER UN CHANGEMENT DE TOUTES LES REQUETES SQL HARDCODEES
     //gérer ensuite les archivages indépendemment de la source et du destinataire
@@ -66,7 +67,7 @@ private void delTablesInitiales(){
 
 
 //GESTION DES REQUETES A LA BDD
-//---------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------
 
 private void ouvrir(){
 //nécessité de rajouter les .jar de /Library dans le classPath
@@ -132,7 +133,7 @@ private void askBDDmulti(String[] requetes){
 
 
 //GESTION DE LA TABLE USERS
-//-----------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
 
 //testée et fonctionnelle
 public boolean addUser(String id, String mdp){
@@ -141,11 +142,8 @@ public boolean addUser(String id, String mdp){
         String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"');";
         askBDDmono(insertion);
     }else{
-        System.out.println("Erreur; identifiant déjà existant.");
+        JOptionPane.showMessageDialog(null,"Identifiant déjà utilisé.\nMerci d'en choisir un autre.");
     }
-    /*si besoin faire dans le bon .java
-    javax.swing.JOptionPane.showMessageDialog(null, "Cet ID est déjà pris!");
-    ou créerun message apparaissant dynamiquement dans le même JPane,au choix*/
     return ok;
 }
 
@@ -190,7 +188,7 @@ public boolean idtaken(String idtest){
 
   
 //GESTION DE LA TABLE ARCHIVES
-//----------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------
 
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
@@ -206,7 +204,6 @@ public void archiverConv(Conversation conv){
 }
 
 
-//à finir: TODO la méthode d'initialisation dans Message.java(ET LE TEMPS)
 public ArrayList <Message> recupererConv(String idone, String idtwo){
     
     String getConv = "SELECT * FROM Archives WHERE (id1='"+idone+"' AND id2='"+idtwo+"') OR (id1='"+idtwo+"' AND id2='"+idone+"');";
@@ -237,25 +234,27 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
 
 
     public static void main(String[] Args){
+            
+        //reset pour le dev
+        new controllerBDD().delTablesInitiales();
+        new controllerBDD();
 
-            controllerBDD test= new controllerBDD();
-
+        
             /*String potato="Potato";
             test.addUser(potato, "NotASword");
             System.out.println(test.getMDP(potato));*/
             
             //tests divers
-            test.addUser("Jean","Valjean");
+            /*test.addUser("Jean","Valjean");
             System.out.println(test.getMDP("Jean")+"\n");
             test.addUser("Jean","Mireille");
             System.out.println(test.getMDP("Jean")+"\n");
             test.updateMDP("Jean","Mireille");
             System.out.println(test.getMDP("Jean")+"\n");
-            test.updateMDP("Bernard","Mireille");
+            test.updateMDP("Bernard","Mireille");*/
 
 //TODO mais complexe: tester archivage/désarchivage
 
-            test.delTablesInitiales();
 
         }
     }

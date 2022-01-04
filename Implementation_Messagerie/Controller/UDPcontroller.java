@@ -127,7 +127,7 @@ public class UDPcontroller {
             NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
         
     
-            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
                 continue; 
             }
     
@@ -165,7 +165,7 @@ public class UDPcontroller {
             NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
             
         
-            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
                 continue; 
             }
         
@@ -202,7 +202,7 @@ public class UDPcontroller {
             NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
                 
             
-            if (/*networkInterface.isLoopback() ||*/ !networkInterface.isUp()) {
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
                 continue; 
             }
             

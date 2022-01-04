@@ -2,8 +2,11 @@ package GUI;
 
 import javax.swing.*;
 import javax.swing.SpringLayout;
+
+import Controller.controllerBDD;
+import Controller.controllerInstantMessaging;
+
 import java.awt.*;
-import java.lang.*;
 import java.awt.event.*;
 
 public class inscriptionPopUp extends JFrame {
@@ -13,7 +16,7 @@ public class inscriptionPopUp extends JFrame {
     private JTextField idText;
     private JTextField mdpText;
 
-    public inscriptionPopUp(int height, int width){
+    public inscriptionPopUp(controllerBDD comtoBDD, int height, int width){
         
         //Creation of GUI
         super("Inscription");
@@ -50,6 +53,16 @@ public class inscriptionPopUp extends JFrame {
         //Action connecting to the DB
         incr.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){ // INFO A ENVOYER DANS LA BDD
+                String wantedid=idText.getText();
+                String wantedmdp=mdpText.getText();
+                if(wantedid.length()>0 && wantedmdp.length()>3){
+                    if(comtoBDD.addUser(wantedid,wantedmdp)){
+                        JOptionPane.showMessageDialog(null, "Succès de l'inscription; bienvenue "+wantedid+"!");
+                        dispose();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Merci de choisir un identifiant ainsi qu'un mot de passe d'au moins quatre caractères.");
+                }
             }});
 
         setVisible(true);
@@ -71,7 +84,7 @@ public class inscriptionPopUp extends JFrame {
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                inscriptionPopUp iPP = new inscriptionPopUp(150, 700);
+                //inscriptionPopUp iPP = new inscriptionPopUp(comtoBDD, 150, 700);
             }
         });
     }
