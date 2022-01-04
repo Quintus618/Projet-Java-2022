@@ -254,7 +254,8 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
             test.updateMDP("Bernard","Mireille");*/
 
 //TODO mais complexe: tester archivage/désarchivage
-
+        controllerBDD test=new controllerBDD();
+        //test.archiverMessage(sms);
 
         }
     }

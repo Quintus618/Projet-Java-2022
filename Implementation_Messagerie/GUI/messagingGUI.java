@@ -246,7 +246,7 @@ public class messagingGUI extends JFrame{
     //Send a message to another user
     private void writeMessage(String t){
         if(t.length()>=4096){
-            JOptionPane.showMessageDialog(null, "Les messages sont limités à 4096 caractères.");
+            JOptionPane.showMessageDialog(null, "Les messages sont limités à 4096 caractères, contre "+t.length()+" ici.");
         }//attention si l'on modifie la valeur max dans les tables
         else{  
             if (!t.isBlank()){
@@ -257,7 +257,7 @@ public class messagingGUI extends JFrame{
                 JPanel MEnvhorodatage = new JPanel();
                 MEnvhorodatage.setLayout(new BorderLayout());
                 JPanel MEnv = new JPanel();
-                Message message1 = new Message(t, "ERROR_ERROR_ERROR",true);
+                Message message1 = new Message(t, "ERROR_ERROR_ERROR",true);//TODO le bon ID
                 //String mdate = message1.getHorodata().toString();
 
                 LocalDateTime mdate = message1.getHorodata();
@@ -281,7 +281,7 @@ public class messagingGUI extends JFrame{
                 c.gridy = numberMessage;
                 messagePanel.add(MBlanc,c);
                 textSenderZone.setText("");
-                messageList.add(message1);
+                messageList.add(message1);//TODO conversation?
                 SwingUtilities.updateComponentTreeUI(this);
             } 
         } 

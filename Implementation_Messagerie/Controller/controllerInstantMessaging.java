@@ -18,13 +18,13 @@ protected static void setmyID(String IDgiven){
 public controllerBDD comtoBDD;
 
 //le pseudo est dans messagingGUI, rassembler?
-//peut-être créer le type User comprenant pseudo+id(+mdp si soi-même)
+//TODO peut-être créer le type User comprenant pseudo+id+IP+TIMER à utiliser pour le broadcast (+mdp si soi-même)
 
  public controllerInstantMessaging(){ 
 
     comtoBDD = new controllerBDD();
     welcomGUI wGUI = new welcomGUI(comtoBDD, 500, 700);
-    wGUI.setTitle("Low quality chat system - Welcome!");
+    wGUI.setTitle("Insatact: your favorite low quality chat system - Welcome!");
     
 
 }

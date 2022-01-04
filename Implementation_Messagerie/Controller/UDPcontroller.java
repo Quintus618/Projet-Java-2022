@@ -39,7 +39,6 @@ public class UDPcontroller {
                         try {
                             soc.receive(packet);
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
     
@@ -67,7 +66,7 @@ public class UDPcontroller {
                                 System.out.println("totto");
                             }
                         }
-                        else if (messages[0].equals("USERDISCONNECTED")){
+                        else if (messages[0].equals("USERDISCONNECTED")){//or if a timer is exceeded?
                             mGUI.removeConnectedUsers(messages[1]);
                         }
                         else if (messages[0].equals("CHANGEPSEUDO")){
@@ -78,7 +77,6 @@ public class UDPcontroller {
                         }
                     }
                 } catch (SocketException | UnknownHostException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -93,17 +91,14 @@ public class UDPcontroller {
                     try {
                         udpbroadcastco(mGUI.getPseudo());
                     } catch (SocketException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     } catch (UnknownHostException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
                     try {
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -177,7 +172,7 @@ public class UDPcontroller {
                         
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERDISCONNECTED:" + ps;
+                    String coPseudo = "USERDISCONNECTED:" + ps;//TODO ?
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
