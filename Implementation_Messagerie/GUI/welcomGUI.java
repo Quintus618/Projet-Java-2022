@@ -80,7 +80,7 @@ public class welcomGUI extends JFrame{
         welcomGUI wGUI = new welcomGUI(500, 700);
         wGUI.setTitle("Low quality chat system - Welcome!");
         */
-        JOptionPane.showMessageDialog(null, "Attention, il faut maintenant utiliser InstantMessagingController au démarrage!");
+        JOptionPane.showMessageDialog(null, "Attention, il faut maintenant utiliser InstantMessagingController pour le démarrage!");
     }
 
 }

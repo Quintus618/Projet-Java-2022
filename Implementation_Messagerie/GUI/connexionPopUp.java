@@ -58,8 +58,22 @@ public class connexionPopUp extends JFrame{
 
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent MOUSE_CLICKED){ // INFO TO BROADCAST IN UDP
-            }});
+            public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+                String connectid=coidText.getText();
+                String connectmdp=comdpText.getText();
+                if(!comtoBDD.idtaken(connectid)){
+                    JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
+                }else{
+                    if(connectmdp.equals(comtoBDD.getMDP(connectid))){
+                        new messagingGUI(3000,2000, pseudoText.getText());
+                        dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Mot de passe incorrect.");
+                    }
+                } 
+            }
+        }
+        );
 
 
         setVisible(true);
