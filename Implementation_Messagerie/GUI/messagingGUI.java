@@ -353,6 +353,11 @@ public class messagingGUI extends JFrame{
         return pseudo;
     }
 
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+    
+
     public GridBagLayout getGl() {
         return gl;
     }

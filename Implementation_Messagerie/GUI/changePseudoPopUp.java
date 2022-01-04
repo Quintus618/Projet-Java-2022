@@ -10,7 +10,7 @@ public class changePseudoPopUp extends JFrame{
     private JTextField pseudoText;
 
     //Constructor
-    public changePseudoPopUp(int height, int width){
+    public changePseudoPopUp(messagingGUI mGUI, int height, int width){
 
         //Creation of GUI
         super("Pseudo modification");
@@ -41,7 +41,7 @@ public class changePseudoPopUp extends JFrame{
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
-                new messagingGUI(3000,2000, pseudoText.getText());
+                mGUI.setPseudo(pseudoText.getText());
                 dispose();
             }});
 
@@ -58,7 +58,7 @@ public class changePseudoPopUp extends JFrame{
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                changePseudoPopUp cPP = new changePseudoPopUp(100, 500);
+                //changePseudoPopUp cPP = new changePseudoPopUp(100, 500);
             }
         });
     }

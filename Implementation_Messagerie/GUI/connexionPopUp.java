@@ -1,6 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+
+import Controller.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -12,7 +15,7 @@ public class connexionPopUp extends JFrame{
     private JTextField pseudoText;
 
     //Constructor
-    public connexionPopUp(int height, int width){
+    public connexionPopUp(controllerBDD comtoBDD, int height, int width){
 
         //Creation of GUI
         super("Connexion");
@@ -79,7 +82,7 @@ public class connexionPopUp extends JFrame{
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                connexionPopUp cPP = new connexionPopUp(200, 500);
+                //connexionPopUp cPP = new connexionPopUp(200, 500);
             }
         });
     }

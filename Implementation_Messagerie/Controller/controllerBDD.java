@@ -235,11 +235,11 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
 
     public static void main(String[] Args){
             
-        //reset pour le dev
+        /*/reset pour le dev
         new controllerBDD().delTablesInitiales();
-        new controllerBDD();
+        new controllerBDD();*/
 
-        
+
             /*String potato="Potato";
             test.addUser(potato, "NotASword");
             System.out.println(test.getMDP(potato));*/

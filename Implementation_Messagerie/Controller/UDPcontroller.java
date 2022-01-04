@@ -72,7 +72,7 @@ public class UDPcontroller {
                         }
                         else if (messages[0].equals("CHANGEPSEUDO")){
                             if(nbfoisdemande==0){
-                                changePseudoPopUp cPseudo = new changePseudoPopUp(100, 500);
+                                changePseudoPopUp cPseudo = new changePseudoPopUp(mGUI, 100, 500);
                                 nbfoisdemande++;
                             }
                         }

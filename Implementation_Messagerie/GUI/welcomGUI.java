@@ -35,7 +35,7 @@ public class welcomGUI extends JFrame{
         connexionButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){ 
                 //new connexionPopUp(200,600);
-                new changePseudoPopUp(100, 500);
+                new connexionPopUp(comtoBDD, 150, 500);
                 dispose();
             }});
 
