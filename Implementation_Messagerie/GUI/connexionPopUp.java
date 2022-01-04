@@ -93,6 +93,7 @@ public class connexionPopUp extends JFrame{
         return comdpText;
     }
 
+//à supprimer?
     public static void main(String[] Args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

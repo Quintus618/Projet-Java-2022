@@ -142,7 +142,7 @@ public boolean addUser(String id, String mdp){
         String insertion = "INSERT INTO Users VALUES ('"+id+"','"+mdp+"');";
         askBDDmono(insertion);
     }else{
-        JOptionPane.showMessageDialog(null,"Identifiant déjà utilisé.\nMerci d'en choisir un autre.");
+        JOptionPane.showMessageDialog(null,"Identifiant déjà utilisé.\nMerci d'en choisir un autre!");
     }
     return ok;
 }
@@ -203,10 +203,10 @@ public void archiverConv(Conversation conv){
     }
 }
 
-
+//TODO: pareil mais avec un objet Conversation?
 public ArrayList <Message> recupererConv(String idone, String idtwo){
     
-    String getConv = "SELECT * FROM Archives WHERE (id1='"+idone+"' AND id2='"+idtwo+"') OR (id1='"+idtwo+"' AND id2='"+idone+"');";
+    String getConv = "SELECT * FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');";
     readBDD(getConv);
 
     ArrayList<Message> conv=new ArrayList<Message>();
@@ -235,9 +235,9 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
 
     public static void main(String[] Args){
             
-        /*/reset pour le dev
-        new controllerBDD().delTablesInitiales();
-        new controllerBDD();*/
+        //reset pour le dev !!!WARNING, DANGEREUX!!!
+        //new controllerBDD().delTablesInitiales();
+       /* new controllerBDD();*/
 
 
             /*String potato="Potato";
@@ -253,9 +253,11 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
             System.out.println(test.getMDP("Jean")+"\n");
             test.updateMDP("Bernard","Mireille");*/
 
-//TODO mais complexe: tester archivage/désarchivage
-        controllerBDD test=new controllerBDD();
-        //test.archiverMessage(sms);
-
+            /*controllerBDD test=new controllerBDD();
+            Message sms=new Message("Salut, comment ça va?", "Tintin", true);
+            test.archiverMessage(sms);
+            //id null car null par défaut
+            System.out.println(test.recupererConv(null, "Tintin").get(0).toString());*/
+        
         }
     }

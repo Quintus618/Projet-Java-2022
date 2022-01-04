@@ -12,6 +12,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.Timer;
+
 import javax.swing.*;
 
 import GUI.changePseudoPopUp;
@@ -27,6 +29,7 @@ public class UDPcontroller {
             @Override
             public void run(){
                 DatagramSocket soc;
+                //TimerTask task;
                 try {
 
                     soc = new DatagramSocket(7000, InetAddress.getByName("0.0.0.0"));
@@ -64,10 +67,20 @@ public class UDPcontroller {
                                 mGUI.displayConnectedUsers(messages[1]);
                                 nbfoisdemande = 0;
                                 System.out.println("totto");
+                                /*
+                                timer.cancel();
+                                timer.purge();
+                                timer.schedule(TODOdeconnexion, 15000);//vérifier le délai avec le cahier des charges
+                                //comment avoir autant de timer que d'users?
+                                */
                             }
                         }
                         else if (messages[0].equals("USERDISCONNECTED")){//or if a timer is exceeded?
                             mGUI.removeConnectedUsers(messages[1]);
+                            /*
+                            timer.cancel();
+                            timer.purge();
+                            */
                         }
                         else if (messages[0].equals("CHANGEPSEUDO")){
                             if(nbfoisdemande==0){

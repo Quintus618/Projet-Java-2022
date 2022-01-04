@@ -224,7 +224,7 @@ public class messagingGUI extends JFrame{
                 } dispose();}});
     
         //Creation TCP server
-        tcpServer = new TCPcontrollerServer(this.pseudo);
+        tcpServer = new TCPcontrollerServer(this.pseudo);//usertype getIPaddr
         
         setVisible(true);
 
@@ -246,7 +246,7 @@ public class messagingGUI extends JFrame{
     //Send a message to another user
     private void writeMessage(String t){
         if(t.length()>=4096){
-            JOptionPane.showMessageDialog(null, "Les messages sont limités à 4096 caractères, contre "+t.length()+" ici.");
+            JOptionPane.showMessageDialog(null, "Les messages sont limités à 4095 caractères, contre "+t.length()+" ici.");
         }//attention si l'on modifie la valeur max dans les tables
         else{  
             if (!t.isBlank()){
@@ -333,8 +333,18 @@ public class messagingGUI extends JFrame{
         //coUsers.setBorderPainted(false);
         //coUsers.setContentAreaFilled(false);
         //coUsers.setFocusPainted(false);
-        connectedPanel.add(coUsers);
-        connectedUsersList.add(coUsers);
+        boolean trouve = false;
+        for(JButton jb:connectedUsersList){
+            if(jb.getText().equals(pseudo)){
+                trouve=true;
+            }
+        }
+
+        if(!trouve){
+            connectedPanel.add(coUsers);
+            connectedUsersList.add(coUsers);
+        }
+
         SwingUtilities.updateComponentTreeUI(this);
     }
 
