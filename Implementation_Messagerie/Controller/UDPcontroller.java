@@ -103,6 +103,7 @@ public class UDPcontroller {
                 while(true){
                     try {
                         udpbroadcastco(mGUI.getPseudo());
+                        //System.out.println(mGUI.getPseudo());
                     } catch (SocketException e) {
                         e.printStackTrace();
                     } catch (UnknownHostException e) {
@@ -148,7 +149,7 @@ public class UDPcontroller {
                 try {
                     //Send a message to show that we are connected
                     String coPseudo = "USERCONNECTED:" + ps;
-                    System.out.println(coPseudo);
+                    //System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);

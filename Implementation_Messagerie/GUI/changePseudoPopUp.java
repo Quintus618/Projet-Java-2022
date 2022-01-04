@@ -42,6 +42,7 @@ public class changePseudoPopUp extends JFrame{
         connexion.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
                 mGUI.setPseudo(pseudoText.getText());
+                mGUI.changePseudof(mGUI.lPseudo);
                 dispose();
             }});
 

@@ -54,6 +54,8 @@ public class messagingGUI extends JFrame{
     private TCPcontrollerClient tcpClient;
     private TCPcontrollerServer tcpServer;
 
+    protected JLabel lPseudo;
+
     public ArrayList<JLabel> messageList;
     public ArrayList<JButton> connectedUsersList;
 
@@ -116,8 +118,9 @@ public class messagingGUI extends JFrame{
 
         //Change pseudo
         changePeudo = new JButton("Changer le pseudo");
+
         //Display Pseudo
-        JLabel lPseudo = new JLabel(pseudo);
+        lPseudo = new JLabel(pseudo);
 
         chatPanel = new JPanel();
         chatPanel.setBackground(Color.gray);
@@ -222,7 +225,14 @@ public class messagingGUI extends JFrame{
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } dispose();}});
-    
+                changePeudo.addActionListener(new ActionListener(){  
+                    public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+                        //changePseudof();
+                        new changePseudoPopUp(m,100,500);
+                        changePseudof(lPseudo);
+                        //tcpClient.sendMessage(textSenderZone.getText());
+                    }});
+
         //Creation TCP server
         tcpServer = new TCPcontrollerServer(this.pseudo);//usertype getIPaddr
         
@@ -361,6 +371,11 @@ public class messagingGUI extends JFrame{
 
     public String getPseudo() {
         return pseudo;
+    }
+
+    public void changePseudof(JLabel chpseudo){
+        chpseudo.setText(this.pseudo);
+        SwingUtilities.updateComponentTreeUI(chpseudo);
     }
 
     public void setPseudo(String pseudo) {
