@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import Instant_Messaging.Conversation;
 import Instant_Messaging.Message;
+import Instant_Messaging.usertype;
 
 public class controllerBDD{
 
@@ -204,8 +205,11 @@ public void archiverConv(Conversation conv){
 }
 
 //TODO: pareil mais avec un objet Conversation?
-public ArrayList <Message> recupererConv(String idone, String idtwo){
+public ArrayList <Message> recupererConv(usertype corr){
     
+    String idone=controllerInstantMessaging.getmyID();
+    String idtwo=corr.getId();
+
     String getConv = "SELECT * FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');";
     readBDD(getConv);
 
@@ -257,7 +261,8 @@ public ArrayList <Message> recupererConv(String idone, String idtwo){
             Message sms=new Message("Salut, comment ça va?", "Tintin", true);
             test.archiverMessage(sms);
             //id null car null par défaut
-            System.out.println(test.recupererConv(null, "Tintin").get(0).toString());*/
+            System.out.println(test.recupererConv(new usertype("Tintin", null, null)).get(0).toString());*/
+        
         
         }
     }

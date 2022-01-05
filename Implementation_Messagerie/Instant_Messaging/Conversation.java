@@ -20,23 +20,27 @@ import java.util.*;
 import GUI.messagingGUI;
 
 public class Conversation extends JLabel{
-    private String idSender;
-    private String idReceiver;
+
+    private usertype correspondant;
     private int numberMessage;
     private int sport;
     private int dport;
+    private static int maxToArchive=64;//TODO voir combien demande le cahier des charges
     private ArrayList<Message> MessageList;
 
     public JPanel messagePanel;
     public JScrollPane scrollPane;
 
-    public Conversation(String idSender, String idReceiver, int sport, int dport, messagingGUI mGUI){
-        this.idSender = idSender;
-        this.idReceiver = idReceiver;
+    public Conversation(usertype correspondant, int sport, int dport, messagingGUI mGUI){
+        this.correspondant = correspondant;
         this.sport = sport;
         this.dport = dport;
-        MessageList = new ArrayList<Message>();
-        this.numberMessage = 0;
+        MessageList = mGUI.getComtoBDD().recupererConv(correspondant);
+        this.numberMessage = MessageList.size();
+    }
+
+    public usertype getCorrespondant() {
+        return correspondant;
     }
 
     public int getDport() {
@@ -47,13 +51,20 @@ public class Conversation extends JLabel{
         return sport;
     }
 
-    public String getIdSender() {
-        return idSender;
+    //reourne le nombre de messages effacés
+    public int addMessage(Message sms){
+        int nbdeleted=0;
+        while(numberMessage>=maxToArchive){
+            //la méthode remove est censée décaler l'index des éléments restants
+            MessageList.remove(0);
+            numberMessage--;
+            nbdeleted++;
+        }
+        MessageList.add(sms);
+        numberMessage++;
+        return nbdeleted;
     }
 
-    public String getIdReceiver() {
-        return idReceiver;
-    }
 
     public ArrayList<Message> getMessageList() {
         return MessageList;

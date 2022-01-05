@@ -10,18 +10,18 @@ private static String MyUserID=null;
 public static String getmyID(){
     return MyUserID;
 }
-
-protected static void setmyID(String IDgiven){
+//TODO WARNING j'ai l'impression qu'il y a des carabistouilles avec les static, on devrait peut-être juste passer le controller en arg à chaque fois (au lieu du controllerBDD)
+public static void setmyID(String IDgiven){
     MyUserID=IDgiven;
 }
 
-public controllerBDD comtoBDD;
+private controllerBDD comtoBDD;
 
 //le pseudo est dans messagingGUI, rassembler?
-//TODO peut-être créer le type User comprenant pseudo+id+IP+TIMER à utiliser pour le broadcast (+mdp si soi-même)
 
  public controllerInstantMessaging(){ 
 
+    //TODO ça ne va pas du tout de passer le comBDD en paramètre à chaque fois, remplacer par un appel à un comBDD static défini ici?
     comtoBDD = new controllerBDD();
     welcomGUI wGUI = new welcomGUI(comtoBDD, 500, 700);
     wGUI.setTitle("Insatact: your favorite low quality chat system - Welcome!");

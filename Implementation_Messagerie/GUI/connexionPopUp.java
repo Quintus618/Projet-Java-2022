@@ -65,7 +65,8 @@ public class connexionPopUp extends JFrame{
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
                 }else{
                     if(connectmdp.equals(comtoBDD.getMDP(connectid))){
-                        new messagingGUI(3000,2000, pseudoText.getText());
+                        controllerInstantMessaging.setmyID(connectid);
+                        new messagingGUI(comtoBDD, 3000,2000, pseudoText.getText());
                         dispose();
                     }else{
                         JOptionPane.showMessageDialog(null, "Mot de passe incorrect.");

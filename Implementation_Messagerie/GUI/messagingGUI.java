@@ -26,6 +26,8 @@ public class messagingGUI extends JFrame{
     //CONSTANTE
     private int MAX_MESS = 10;
 
+    private controllerBDD comtoBDD;
+
     //Buttons of the instant messaging
     private JButton deconnexionButton;
     private JButton mediaButton;
@@ -62,7 +64,7 @@ public class messagingGUI extends JFrame{
     public UDPcontroller udpController;
 
     //Constructor
-    public messagingGUI(int height, int width, String pseudo){
+    public messagingGUI(controllerBDD comtoBDD, int height, int width, String pseudo){
         
         //Creation of GUI
         super("Insatact");
@@ -74,6 +76,12 @@ public class messagingGUI extends JFrame{
         //Creation of graphical components 
         buildComponentInterface(this);
 
+        this.comtoBDD=comtoBDD;
+
+    }
+
+    public controllerBDD getComtoBDD() {
+        return comtoBDD;
     }
 
     //Redimensionner une icone
@@ -399,7 +407,7 @@ public class messagingGUI extends JFrame{
     }
 
     public static void main(String[] Args) throws InterruptedException{
-        messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
+        /*messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");
         mGUI.displayConnectedUsers("Hadock");
@@ -426,6 +434,7 @@ public class messagingGUI extends JFrame{
             e.printStackTrace();
         }
         System.out.println(mGUI.connectedUsersList.size());
+        */
     }
 
 }
