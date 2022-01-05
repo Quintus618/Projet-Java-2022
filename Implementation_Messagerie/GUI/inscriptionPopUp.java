@@ -16,7 +16,7 @@ public class inscriptionPopUp extends JFrame {
     private JTextField idText;
     private JTextField mdpText;
 
-    public inscriptionPopUp(controllerBDD comtoBDD, int height, int width){
+    public inscriptionPopUp(controllerInstantMessaging controlCHAT, int height, int width){
         
         //Creation of GUI
         super("Inscription");
@@ -56,7 +56,7 @@ public class inscriptionPopUp extends JFrame {
                 String wantedid=idText.getText();
                 String wantedmdp=mdpText.getText();
                 if(wantedid.length()>0 && wantedmdp.length()>3){
-                    if(comtoBDD.addUser(wantedid,wantedmdp)){
+                    if(controlCHAT.getComtoBDD().addUser(wantedid,wantedmdp)){
                         JOptionPane.showMessageDialog(null, "Succès de l'inscription; bienvenue "+wantedid+"!");
                         dispose();
                     }

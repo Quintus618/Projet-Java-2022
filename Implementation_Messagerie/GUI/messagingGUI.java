@@ -26,7 +26,7 @@ public class messagingGUI extends JFrame{
     //CONSTANTE
     private int MAX_MESS = 10;
 
-    private controllerBDD comtoBDD;
+    private controllerInstantMessaging controlCHAT;
 
     //Buttons of the instant messaging
     private JButton deconnexionButton;
@@ -64,7 +64,7 @@ public class messagingGUI extends JFrame{
     public UDPcontroller udpController;
 
     //Constructor
-    public messagingGUI(controllerBDD comtoBDD, int height, int width, String pseudo){
+    public messagingGUI(controllerInstantMessaging controlCHAT, int height, int width, String pseudo){
         
         //Creation of GUI
         super("Insatact");
@@ -76,14 +76,13 @@ public class messagingGUI extends JFrame{
         //Creation of graphical components 
         buildComponentInterface(this);
 
-        this.comtoBDD=comtoBDD;
+        this.controlCHAT=controlCHAT;
 
     }
 
-    public controllerBDD getComtoBDD() {
-        return comtoBDD;
+    public controllerInstantMessaging getControlCHAT() {
+        return controlCHAT;
     }
-
     //Redimensionner une icone
     public static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image img = icon.getImage();  

@@ -15,7 +15,7 @@ public class connexionPopUp extends JFrame{
     private JTextField pseudoText;
 
     //Constructor
-    public connexionPopUp(controllerBDD comtoBDD, int height, int width){
+    public connexionPopUp(controllerInstantMessaging controlCHAT, int height, int width){
 
         //Creation of GUI
         super("Connexion");
@@ -61,12 +61,12 @@ public class connexionPopUp extends JFrame{
             public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
                 String connectid=coidText.getText();
                 String connectmdp=comdpText.getText();
-                if(!comtoBDD.idtaken(connectid)){
+                if(!controlCHAT.getComtoBDD().idtaken(connectid)){
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
                 }else{
-                    if(connectmdp.equals(comtoBDD.getMDP(connectid))){
-                        controllerInstantMessaging.setmyID(connectid);
-                        new messagingGUI(comtoBDD, 3000,2000, pseudoText.getText());
+                    if(connectmdp.equals(controlCHAT.getComtoBDD().getMDP(connectid))){
+                        controlCHAT.setmyID(connectid);
+                        new messagingGUI(controlCHAT, 3000,2000, pseudoText.getText());
                         dispose();
                     }else{
                         JOptionPane.showMessageDialog(null, "Mot de passe incorrect.");

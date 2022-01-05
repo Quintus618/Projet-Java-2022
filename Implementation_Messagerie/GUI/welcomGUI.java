@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import Controller.controllerBDD;
+import Controller.controllerInstantMessaging;
 
 public class welcomGUI extends JFrame{
 
@@ -15,7 +16,7 @@ public class welcomGUI extends JFrame{
     private JPanel buttonsPanel;
     
     //Constructor
-    public welcomGUI(controllerBDD comtoBDD, int height, int width){
+    public welcomGUI(controllerInstantMessaging controlCHAT, int height, int width){
         
         //Creation of GUI
         super("Insatact");
@@ -27,7 +28,7 @@ public class welcomGUI extends JFrame{
         inscriptionButton = new JButton("Inscription");
         inscriptionButton.setPreferredSize(new Dimension(100, 100));
         inscriptionButton.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){ new inscriptionPopUp(comtoBDD,150,600);}});
+            public void actionPerformed(ActionEvent e){ new inscriptionPopUp(controlCHAT,150,600);}});
 
         connexionButton = new JButton("Connexion");
         connexionButton.setPreferredSize(new Dimension(100, 100));
@@ -35,7 +36,7 @@ public class welcomGUI extends JFrame{
         connexionButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){ 
                 //new connexionPopUp(200,600);
-                new connexionPopUp(comtoBDD, 150, 500);
+                new connexionPopUp(controlCHAT, 150, 500);
                 dispose();
             }});
 

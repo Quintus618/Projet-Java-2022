@@ -1,38 +1,45 @@
 package Controller;
 
+import java.net.InetAddress;
+
 import GUI.*;
+import Instant_Messaging.usertype;
 
 public class controllerInstantMessaging{
 
     
-private static String MyUserID=null;
+private static usertype Me=new usertype("","", InetAddress.getLoopbackAddress());
 
 public static String getmyID(){
-    return MyUserID;
+    return Me.getId();
 }
-//TODO WARNING j'ai l'impression qu'il y a des carabistouilles avec les static, on devrait peut-être juste passer le controller en arg à chaque fois (au lieu du controllerBDD)
-public static void setmyID(String IDgiven){
-    MyUserID=IDgiven;
+
+public void setmyID(String IDgiven){
+    Me.setId(IDgiven);
 }
 
 private controllerBDD comtoBDD;
+
+public controllerBDD getComtoBDD() {
+    return comtoBDD;
+}
 
 //le pseudo est dans messagingGUI, rassembler?
 
  public controllerInstantMessaging(){ 
 
-    //TODO ça ne va pas du tout de passer le comBDD en paramètre à chaque fois, remplacer par un appel à un comBDD static défini ici?
     comtoBDD = new controllerBDD();
-    welcomGUI wGUI = new welcomGUI(comtoBDD, 500, 700);
+    welcomGUI wGUI = new welcomGUI(this, 500, 700);
     wGUI.setTitle("Insatact: your favorite low quality chat system - Welcome!");
     
 
 }
 
 
+//ici pour lancer tout le projet
     public static void main(String[] Args){
-        controllerInstantMessaging CIM = new controllerInstantMessaging();
+        
+        new controllerInstantMessaging();
 
-            
-    }
+        }
     }

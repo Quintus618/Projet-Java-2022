@@ -3,20 +3,6 @@ package Instant_Messaging;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import Instant_Messaging.Message;
-import Controller.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.awt.*;
-import java.lang.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.*;
 import GUI.messagingGUI;
 
 public class Conversation extends JLabel{
@@ -35,7 +21,7 @@ public class Conversation extends JLabel{
         this.correspondant = correspondant;
         this.sport = sport;
         this.dport = dport;
-        MessageList = mGUI.getComtoBDD().recupererConv(correspondant);
+        MessageList = mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant);
         this.numberMessage = MessageList.size();
     }
 
