@@ -18,6 +18,7 @@ import javax.swing.*;
 
 import GUI.changePseudoPopUp;
 import GUI.messagingGUI;
+import Instant_Messaging.usertype;
 
 
 public class UDPcontroller {
@@ -82,6 +83,12 @@ public class UDPcontroller {
                             }
                             else {
                                 mGUI.displayConnectedUsers(messages[1]);
+
+                                //TODO sera à enlever quand l'ID sera dans le broadcast
+                                usertype corresp=new usertype("Truc", "Truc", null);
+
+                                mGUI.newUser(corresp);
+
                                 nbfoisdemande = 0;
                                 System.out.println("totto");
                                 /*
@@ -134,7 +141,7 @@ public class UDPcontroller {
                 while(true){
                     try {
                         udpbroadcastco(mGUI.getPseudo());
-                        //System.out.println(mGUI.getPseudo());
+                        //TODO udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
                     } catch (SocketException e) {
                         e.printStackTrace();
                     } catch (UnknownHostException e) {

@@ -5,8 +5,8 @@ import java.util.Timer;
 
 import Controller.controllerInstantMessaging;
 
-public class usertype {
-    
+public class usertype implements Comparable<usertype>{
+
     private String id=null;
     private String pseudo=null;
     private InetAddress IPaddr=null;
@@ -50,9 +50,15 @@ public class usertype {
     }
 
     public usertype(String id, String pseudo, InetAddress IP){
+        super();
         this.id=id;
         this.pseudo=pseudo;
         this.IPaddr=IP;
+    }
+
+ 
+    public int compareTo(usertype o) {
+        return this.id.compareTo(o.getId());
     }
 
 

@@ -2,22 +2,18 @@ package GUI;
 //Importation Libraries
 import javax.swing.*;
 
-import Instant_Messaging.Conversation;
-import Instant_Messaging.Message;
+import Instant_Messaging.*;
 import Controller.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.awt.*;
 import java.lang.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -27,6 +23,11 @@ public class messagingGUI extends JFrame{
     private int MAX_MESS = 10;
 
     private controllerInstantMessaging controlCHAT;
+
+
+    private usertype correspondant;
+    private Map <usertype, Conversation> mapConvos=new HashMap<usertype, Conversation>();
+//permet de gérer les conversations plus facilement qu'une arraylist
 
     //Buttons of the instant messaging
     private JButton deconnexionButton;
@@ -71,7 +72,12 @@ public class messagingGUI extends JFrame{
         setSize(width, height);
         this.setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.controlCHAT=controlCHAT;
+        //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         this.pseudo = pseudo;
+        correspondant=new usertype("", "", null);
+        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0, this));
 
         //Creation of graphical components 
         buildComponentInterface(this);
@@ -83,6 +89,7 @@ public class messagingGUI extends JFrame{
     public controllerInstantMessaging getControlCHAT() {
         return controlCHAT;
     }
+    
     //Redimensionner une icone
     public static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image img = icon.getImage();  
@@ -249,10 +256,20 @@ public class messagingGUI extends JFrame{
 
     }
 
+
+
+//TODO faudrait-il fusionner la liste des users du controller et la hashmap des conversations?
+//aussi, sera-t' ilutile d'avoir des numéros de port? Parce qu'alors ils pourraient servir à la hashmap
+//au lieu de l'ID (qui est déjà dans la conv). Peut-être aussi inutilede passer this...
+    public void newUser(usertype corresp){
+        controlCHAT.addUser(corresp);
+        mapConvos.put(corresp, new Conversation(corresp, 0, 0, this));
+    }
+
     //Create conversation
     private void createConversation(String dest){
         messagePanel.removeAll();
-
+        //!!!la récupération des anciens messages se fait déjà via new Conversation()
         
         //Creation TCP client
         //tcpClient = new TCPcontrollerClient(,);
@@ -262,12 +279,18 @@ public class messagingGUI extends JFrame{
         SwingUtilities.updateComponentTreeUI(this);
     }
 
+
+
+
+
     //Send a message to another user
     private void writeMessage(String t){
         if(t.length()>=4096){
             JOptionPane.showMessageDialog(null, "Les messages sont limités à 4095 caractères, contre "+t.length()+" ici.");
         }//attention si l'on modifie la valeur max dans les tables
-        else{  
+        else if(correspondant.getId().equals("")){
+            JOptionPane.showMessageDialog(null, "Merci de choisir un destinataire.");
+        }else{  
             if (!t.isBlank()){
                 numberMessage++;
                 //numberLine = numberMessage % MAX_MESS;
@@ -276,7 +299,7 @@ public class messagingGUI extends JFrame{
                 JPanel MEnvhorodatage = new JPanel();
                 MEnvhorodatage.setLayout(new BorderLayout());
                 JPanel MEnv = new JPanel();
-                Message message1 = new Message(t, "ERROR_ERROR_ERROR",true);//TODO le bon ID
+                Message message1 = new Message(t, correspondant.getId(),true);
                 //String mdate = message1.getHorodata().toString();
 
                 LocalDateTime mdate = message1.getHorodata();
@@ -316,8 +339,7 @@ public class messagingGUI extends JFrame{
         JPanel MRec = new JPanel();  
 
         //Creation of the message
-        //TODO PAS LE BON ARGUMENT (idem à l'envoi de message)(j'ai l'impression qu'on ne s'occupe pas de l'ID du correspondant, ça va demander de se pencher sur CreationConversation bientôt je sens)
-        Message message2 = new Message(t, "ERROR_ERROR_ERROR", false);
+        Message message2 = new Message(t, correspondant.getId(), false);
         LocalDateTime mdate = message2.getHorodata();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = mdate.format(myFormatObj);
