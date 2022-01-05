@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import Controller.controllerBDD;
-import Controller.controllerInstantMessaging;
+import Controller.*;
 
 public class welcomGUI extends JFrame{
 

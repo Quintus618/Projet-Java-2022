@@ -70,5 +70,9 @@ public void addUser(usertype user) {
         
         new controllerInstantMessaging();
 
+        //tests
+        /*
+        System.out.println((new usertype("id", "pseudo", InetAddress.getLoopbackAddress())).toString());
+        */
         }
     }

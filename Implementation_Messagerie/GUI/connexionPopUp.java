@@ -61,12 +61,17 @@ public class connexionPopUp extends JFrame{
             public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
                 String connectid=coidText.getText();
                 String connectmdp=comdpText.getText();
+                String connectpseudo=pseudoText.getText();
+
                 if(!controlCHAT.getComtoBDD().idtaken(connectid)){
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
+                }else if(connectid.contains(" ")||connectpseudo.contains(" ")){
+                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits.");
+                    
                 }else{
                     if(connectmdp.equals(controlCHAT.getComtoBDD().getMDP(connectid))){
                         controlCHAT.setmyID(connectid);
-                        new messagingGUI(controlCHAT, 3000,2000, pseudoText.getText());
+                        new messagingGUI(controlCHAT, 3000,2000, connectpseudo);
                         dispose();
                     }else{
                         JOptionPane.showMessageDialog(null, "Mot de passe incorrect.");

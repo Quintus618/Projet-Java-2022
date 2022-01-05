@@ -82,9 +82,10 @@ public class UDPcontroller {
                                 //pseudoRecu=messages[1];
                             }
                             else {
-                                mGUI.displayConnectedUsers(messages[1]);
+                                mGUI.displayConnectedUsers(messages[1].split(" ")[0]);
 
                                 //TODO sera à enlever quand l'ID sera dans le broadcast
+                                //donc maintenant
                                 usertype corresp=new usertype("Truc", "Truc", null);
 
                                 mGUI.newUser(corresp);
@@ -140,8 +141,7 @@ public class UDPcontroller {
             public void run(){
                 while(true){
                     try {
-                        udpbroadcastco(mGUI.getPseudo());
-                        //TODO udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
+                        udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
                     } catch (SocketException e) {
                         e.printStackTrace();
                     } catch (UnknownHostException e) {
@@ -186,7 +186,7 @@ public class UDPcontroller {
                     
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERCONNECTED:" + ps;
+                    String coPseudo = "USERCONNECTED: " + ps;
                     //System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
                     System.out.println(broadcast);

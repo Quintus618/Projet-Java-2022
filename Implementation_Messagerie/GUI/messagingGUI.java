@@ -233,7 +233,7 @@ public class messagingGUI extends JFrame{
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){ try {
-                    udpController.udpbroadcastdeco(pseudo) ;
+                    udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
                 } catch (SocketException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

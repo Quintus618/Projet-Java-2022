@@ -1,7 +1,7 @@
 package Instant_Messaging;
 
 import java.net.InetAddress;
-import java.util.Timer;
+//import java.util.Timer;
 
 import Controller.controllerInstantMessaging;
 
@@ -61,6 +61,9 @@ public class usertype implements Comparable<usertype>{
         return this.id.compareTo(o.getId());
     }
 
-
+    
+    public String toString() {
+        return pseudo+" "+id+" "+IPaddr.toString();
+    }
 
 }

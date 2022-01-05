@@ -1,6 +1,5 @@
 package Controller;
 import java.sql.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.sql.rowset.*;
 import javax.swing.JOptionPane;
@@ -35,11 +34,12 @@ public class controllerBDD{
     String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(32) NOT NULL, toID VARCHAR(32) NOT NULL, message VARCHAR(4096), chrono TIMESTAMP, PRIMARY KEY (fromID,toID,chrono));";
     //comment va vraiment marcher le temps? Il faudrait un timestamp plutôt qu'un TIME...
     //ATTENTION, TOUT CHANGEMENT DE CES DEUX LIGNES PEUT ENTRAINER UN CHANGEMENT DE TOUTES LES REQUETES SQL HARDCODEES
-    //gérer ensuite les archivages indépendemment de la source et du destinataire
-    String[] initialisation={createUsers,createArchives};
+    String createFichiers = "CREATE TABLE IF NOT EXISTS Fichiers (fromID VARCHAR(32) NOT NULL, file MEDIUMBLOB NOT NULL, chrono TIMESTAMP, PRIMARY KEY (fromID,chrono));";
+    
+    String[] initialisation={createUsers,createArchives,createFichiers};
 
     askBDDmulti(initialisation);
-    System.out.println("Succès de la création des tables initiales.");
+    System.out.println("Tables initialisées.");
 
     //ROWSET
      try {
