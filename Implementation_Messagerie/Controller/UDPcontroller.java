@@ -44,7 +44,26 @@ public class UDPcontroller {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-    
+
+                        String machine = InetAddress.getLocalHost().getHostName();
+                        String s = packet.getAddress().getHostName();
+                        char[] amachine = machine.toCharArray();
+                        char[] as = s.toCharArray();
+                        Boolean meme = true;
+
+                        for(int i=0 ; i<machine.length() ; i++){
+                            if(amachine[i]!=as[i]){
+                                meme = false;
+                            }
+                        }
+
+                        if(meme==true){
+                            continue;
+                        }
+                        
+                        String[] ss = s.split(".");
+                        System.out.println(s.length());
+                        //System.out.println(source.length); 
                         String message = new String(packet.getData()).trim();
 
                         String[] messagesplit = message.split(":");
