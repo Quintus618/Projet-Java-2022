@@ -62,9 +62,6 @@ public class UDPcontroller {
                             continue;
                         }
                         
-                        String[] ss = s.split(".");
-                        System.out.println(s.length());
-                        //System.out.println(source.length); 
                         String message = new String(packet.getData()).trim();
 
                         String[] messagesplit = message.split(":");
