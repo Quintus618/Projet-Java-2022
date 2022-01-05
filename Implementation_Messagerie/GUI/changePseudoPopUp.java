@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class changePseudoPopUp extends JFrame{
     
@@ -40,9 +42,20 @@ public class changePseudoPopUp extends JFrame{
 
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+            public void actionPerformed(ActionEvent MOUSE_CLICKED){
+                String oldPseudo = mGUI.getPseudo(); 
                 mGUI.setPseudo(pseudoText.getText());
                 mGUI.changePseudof(mGUI.lPseudo);
+                try {
+                    mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getPseudo(), oldPseudo);
+                } catch (SocketException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("test2");
                 dispose();
             }});
 

@@ -59,6 +59,8 @@ public class messagingGUI extends JFrame{
     public ArrayList<JLabel> messageList;
     public ArrayList<JButton> connectedUsersList;
 
+    public UDPcontroller udpController;
+
     //Constructor
     public messagingGUI(int height, int width, String pseudo){
         
@@ -207,7 +209,7 @@ public class messagingGUI extends JFrame{
             updateConnected.start();
 
             //Creation UDPcontroller
-            UDPcontroller udpController = new UDPcontroller(this);
+            udpController = new UDPcontroller(this);
 
             //Action when there is a mouse click on a button
             sendMessageButton.addActionListener(new ActionListener(){  
@@ -367,6 +369,15 @@ public class messagingGUI extends JFrame{
             }
         }
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    public void updateConnectedList(String newPseudo, String oldPseudo){
+        for(JButton b: connectedUsersList){
+            if (b.getText().equals(oldPseudo)){
+                b.setText(newPseudo);
+                SwingUtilities.updateComponentTreeUI(b);
+            }
+        }
     }
 
     public String getPseudo() {

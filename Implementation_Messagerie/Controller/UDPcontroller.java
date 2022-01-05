@@ -48,7 +48,7 @@ public class UDPcontroller {
                         String message = new String(packet.getData()).trim();
 
                         String[] messagesplit = message.split(":");
-                        String[] messages = new String[2];
+                        String[] messages = new String[messagesplit.length];
                         int index = 0;
                         for (String m : messagesplit){
                             messages[index] = m;
@@ -86,6 +86,20 @@ public class UDPcontroller {
                             if(nbfoisdemande==0){
                                 changePseudoPopUp cPseudo = new changePseudoPopUp(mGUI, 100, 500);
                                 nbfoisdemande++;
+                            }
+                        }
+                        else if (messages[0].equals("MODIFIEDPSEUDO")){
+
+                            /////////////////////////////////////////////
+                            System.out.println(messages[1]+ " " + messages[2]);
+                            /////////////////////////////////////////////
+
+                            if (messages[1].equals(mGUI.getPseudo())){
+                                udpbroadcastChangePseudo(packet,messages[1]);
+                                //pseudoRecu=messages[1];
+                            }
+                            else {
+                                mGUI.updateConnectedList(messages[1], messages[2]);
                             }
                         }
                     }
@@ -151,6 +165,7 @@ public class UDPcontroller {
                     String coPseudo = "USERCONNECTED:" + ps;
                     //System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
+                    System.out.println(broadcast);
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
                 }
@@ -234,4 +249,42 @@ public class UDPcontroller {
         }
             
     }
+
+        //broadcastUDP to notify a pseudo modification
+        public void udpbroadcastPseudoChanged(String newPseudo, String oldPseudo) throws SocketException, UnknownHostException{
+            
+            DatagramSocket socket = new DatagramSocket();
+            socket.setBroadcast(true);
+                
+            // Broadcast the message over all the network interfaces
+            Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+                
+            while (interfaces.hasMoreElements()) {
+                
+                NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
+                    
+                
+                if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                    continue; 
+                }
+                
+                for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                    InetAddress broadcast = interfaceAddress.getBroadcast();
+                    if (broadcast == null) {
+                        continue;
+                    }
+                                
+                    try {
+                        //Send a message to show that we are connected
+                        String sendmodPseudoString = "MODIFIEDPSEUDO:" + newPseudo + ":" + oldPseudo;
+                        byte[] sendmodps = sendmodPseudoString.getBytes();
+                        DatagramPacket sendpaqconnexion = new DatagramPacket(sendmodps, sendmodps.length, broadcast,7000);
+                        socket.send(sendpaqconnexion);
+                    }
+                    catch (Exception e){}
+                
+                }
+            }
+                
+        }
 }
