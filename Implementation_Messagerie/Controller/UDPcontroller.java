@@ -47,6 +47,7 @@ public class UDPcontroller {
 
                         String machine = InetAddress.getLocalHost().getHostName();
                         String s = packet.getAddress().getHostName();
+                    
                         char[] amachine = machine.toCharArray();
                         char[] as = s.toCharArray();
                         Boolean meme = true;
