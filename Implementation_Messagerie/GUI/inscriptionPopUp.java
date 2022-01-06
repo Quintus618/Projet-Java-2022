@@ -3,8 +3,7 @@ package GUI;
 import javax.swing.*;
 import javax.swing.SpringLayout;
 
-import Controller.controllerBDD;
-import Controller.controllerInstantMessaging;
+import Controller.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -56,7 +55,9 @@ public class inscriptionPopUp extends JFrame {
                 String wantedid=idText.getText();
                 String wantedmdp=mdpText.getText();
                 if(wantedid.length()>0 && wantedmdp.length()>3){
-                    if(controlCHAT.getComtoBDD().addUser(wantedid,wantedmdp)){
+                    if(wantedid.contains(" ")||wantedmdp.contains(" ")){
+                        JOptionPane.showMessageDialog(null, "Les espaces sont interdits.");
+                    }else if(controlCHAT.getComtoBDD().addUser(wantedid,wantedmdp)){
                         JOptionPane.showMessageDialog(null, "Succès de l'inscription; bienvenue "+wantedid+"!");
                         dispose();
                     }

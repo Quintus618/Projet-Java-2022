@@ -1,6 +1,5 @@
 package Instant_Messaging;
 
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

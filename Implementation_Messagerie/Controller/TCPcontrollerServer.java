@@ -12,7 +12,7 @@ public class TCPcontrollerServer {
 
     public TCPcontrollerServer(String Host){//pas plutôt inetAdress?
         //dans messagingGUI c'est le pseudo qui est passé! ça doit être l'erreur
-
+//usertype correspondant?
         try {
             //Verification if the input IP address is valid
             if (Host != null && !Host.isEmpty()){

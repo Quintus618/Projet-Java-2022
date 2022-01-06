@@ -62,7 +62,9 @@ public class messagingGUI extends JFrame{
     public ArrayList<JLabel> messageList;
     public ArrayList<JButton> connectedUsersList;
 
-    public UDPcontroller udpController;
+    protected UDPcontroller udpController;
+
+    private Thread updateConnected;
 
     //Constructor
     public messagingGUI(controllerInstantMessaging controlCHAT, int height, int width, String pseudo){
@@ -71,7 +73,49 @@ public class messagingGUI extends JFrame{
         super("Insatact");
         setSize(width, height);
         this.setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //ceci permet d'utiliser disconnect() en actionlistener et d'arrêter les broadcasts UDP
+        addWindowListener(new WindowListener(){  
+            public void windowActivated(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            public void windowClosing(WindowEvent e) {
+                disconnect();
+                
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            });
 
         this.controlCHAT=controlCHAT;
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
@@ -177,7 +221,7 @@ public class messagingGUI extends JFrame{
         //ACTION BOUTTON
         /*sendMessageButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){ writeMessage(textSenderZone.getText());}});*/
-            Thread updateConnected = new Thread(new Runnable() {
+            updateConnected = new Thread(new Runnable() {
 
                 int nbfois = 0;
                 JButton buttonselected;
@@ -209,9 +253,8 @@ public class messagingGUI extends JFrame{
                                     
                          }
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(2000);//TODO attention, ce thread empeche la fermeture
                         } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                     }
@@ -233,17 +276,7 @@ public class messagingGUI extends JFrame{
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                    try {
-                        udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
-                    } catch (SocketException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    } catch (UnknownHostException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    backupBDD(); 
-                    dispose();
+                    disconnect();
                 }
                 });
             changePeudo.addActionListener(new ActionListener(){  
@@ -260,10 +293,24 @@ public class messagingGUI extends JFrame{
         //Conversation.launch()
         
         setVisible(true);
-
     }
 
 
+
+    private void disconnect(){
+        try {
+            udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
+        } catch (SocketException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (UnknownHostException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        udpController.interrupt();
+        backupBDD(); 
+        dispose();
+    }
 
 //TODO faudrait-il fusionner la liste des users du controller et la hashmap des conversations?
 //aussi, sera-t' ilutile d'avoir des numéros de port? Parce qu'alors ils pourraient servir à la hashmap
@@ -282,7 +329,6 @@ public class messagingGUI extends JFrame{
 
     //Create conversation
     //!différent de la lancer, on ne la lance que si on write ou reçoit un message
-    //pas forcément le bon paramètre donné ici (userttype?)
     private void createConversation(String dest){
         messagePanel.removeAll();
         //!!!la récupération des anciens messages se fait déjà via new Conversation()
@@ -444,6 +490,7 @@ public class messagingGUI extends JFrame{
     }
 
     public static void main(String[] Args) throws InterruptedException{
+        //ne marchent probablement plus maintenant
         /*messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
         mGUI.displayConnectedUsers("Tintin");
         mGUI.displayConnectedUsers("Milou");

@@ -1,8 +1,5 @@
 package Controller;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import GUI.*;
 import Instant_Messaging.usertype;
 import java.util.*;

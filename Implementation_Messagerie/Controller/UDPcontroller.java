@@ -16,8 +16,7 @@ import java.util.Timer;
 
 import javax.swing.*;
 
-import GUI.changePseudoPopUp;
-import GUI.messagingGUI;
+import GUI.*;
 import Instant_Messaging.usertype;
 
 
@@ -25,27 +24,31 @@ public class UDPcontroller {
 
     private int nbfoisdemande = 0;
 
+    private Thread receiveBroadcast;
+    private Thread connexionPeriodBroadcast;
+    private DatagramSocket soc;
+
     public UDPcontroller(messagingGUI mGUI){
-        Thread receiveBroadcast = new Thread(new Runnable(){
+        receiveBroadcast = new Thread(new Runnable(){
             @Override
             public void run(){
-                DatagramSocket soc;
                 //TimerTask task;
                 try {
 
                     soc = new DatagramSocket(7000, InetAddress.getByName("0.0.0.0"));
                     soc.setBroadcast(true);
 
-                    while(true){
+                    while(!Thread.currentThread().isInterrupted()||soc.isClosed()){
                         byte[] bufrecep = new byte[10000];
                         DatagramPacket packet = new DatagramPacket(bufrecep, bufrecep.length);
 
                         try {
                             soc.receive(packet);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            System.out.println("Listening UDP socket closed");
+                            Thread.currentThread().interrupt();
                         }
-
+                        //TODO ce thread empeche la fermeture
                         String machine = InetAddress.getLocalHost().getHostName();
                         String s = packet.getAddress().getHostName();
                     
@@ -59,9 +62,9 @@ public class UDPcontroller {
                             }
                         }
 
-                        if(meme==true){
+                        if(meme==true)
                             continue;
-                        }
+                        
                         
                         String message = new String(packet.getData()).trim();
 
@@ -85,7 +88,8 @@ public class UDPcontroller {
                         System.out.println(message);
                         //String pseudoRecu="";
 
-                        if(messages[0].equals("USERCONNECTED")){
+                        switch(messages[0]){
+                            case"USERCONNECTED":
                             if (messages[1].equals(mGUI.getPseudo())){
                                 udpbroadcastChangePseudo(packet,messages[1]);
                                 //pseudoRecu=messages[1];
@@ -106,21 +110,21 @@ public class UDPcontroller {
                                 //comment avoir autant de timer que d'users?
                                 */
                             }
-                        }
-                        else if (messages[0].equals("USERDISCONNECTED")){//or if a timer is exceeded?
+                            break;
+                            case "USERDISCONNECTED"://or if a timer is exceeded?
                             mGUI.removeConnectedUsers(messages[1]);
                             /*
                             timer.cancel();
                             timer.purge();
                             */
-                        }
-                        else if (messages[0].equals("CHANGEPSEUDO")){
+                            break;
+                            case "CHANGEPSEUDO":
                             if(nbfoisdemande==0){
                                 changePseudoPopUp cPseudo = new changePseudoPopUp(mGUI, 100, 500);
                                 nbfoisdemande++;
                             }
-                        }
-                        else if (messages[0].equals("MODIFIEDPSEUDO")){
+                        break;
+                            case "MODIFIEDPSEUDO":
 
                             /////////////////////////////////////////////
                             System.out.println(messages[1]+ " " + messages[2]);
@@ -133,6 +137,8 @@ public class UDPcontroller {
                             else {
                                 mGUI.updateConnectedList(messages[1], messages[2]);
                             }
+                        break;
+                            default: System.out.println("Alert: unexpected message");
                         }
                     }
                 } catch (SocketException | UnknownHostException e) {
@@ -143,23 +149,23 @@ public class UDPcontroller {
 
         receiveBroadcast.start();
 
-        Thread connexionPeriodBroadcast = new Thread(new Runnable(){
+        connexionPeriodBroadcast = new Thread(new Runnable(){
             @Override
             public void run(){
-                while(true){
-                    try {
-                        udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
-                    } catch (SocketException e) {
-                        e.printStackTrace();
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    }
+                try{
+                    while(!Thread.currentThread().isInterrupted()){
+                        try {
+                            udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
+                        } catch (SocketException e) {
+                            e.printStackTrace();
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
                         Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+                } catch (InterruptedException e) {
+                    System.out.println("Thread broadcastCo interrupted");
                 }
             }
         });   
@@ -200,14 +206,16 @@ public class UDPcontroller {
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
                 }
-                catch (Exception e){}
+                catch (Exception e){
+                    e.printStackTrace();
+                }
     
             }
         }
     
     }
     
-    //broadcastUDP to notify connexion
+    //broadcastUDP to notify deconnexion
     public void udpbroadcastdeco(String ps) throws SocketException, UnknownHostException{
         DatagramSocket socket = new DatagramSocket();
         socket.setBroadcast(true);
@@ -319,4 +327,12 @@ public class UDPcontroller {
             }
                 
         }
-}
+
+        //kill the threads for deconnexion (maybe put this in udpbroadcastdeco?)
+        public void interrupt(){
+            soc.close();
+            receiveBroadcast.interrupt();
+            //connexionPeriodBroadcast.interrupt(); déjà géré par le socket close?
+        }
+
+    }
