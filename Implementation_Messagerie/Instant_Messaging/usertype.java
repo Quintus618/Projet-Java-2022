@@ -1,6 +1,9 @@
 package Instant_Messaging;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 //import java.util.Timer;
 
 import Controller.controllerInstantMessaging;
@@ -9,7 +12,9 @@ public class usertype implements Comparable<usertype>{
 
     private String id=null;
     private String pseudo=null;
-    private InetAddress IPaddr=null;
+    private String IPaddr=null;
+    //InetAddresscontient le hostname et le hostaddress, c'est trop
+
     //private Timer chrono=null;
 
     public void setId(String id) {
@@ -28,11 +33,21 @@ public class usertype implements Comparable<usertype>{
         this.pseudo = pseudo;
     }
 
-    public InetAddress getIPaddr() {
+    public String getIPaddr() {
         return IPaddr;
     }
+    
+    public InetAddress getInetAddr() {
+        InetAddress returnip=null;
+        try {
+            returnip=InetAddress.getByName(IPaddr);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return returnip;
+    }
 
-    public void setIPaddr(InetAddress iPaddr) {
+    public void setIPaddr(String iPaddr) {
         IPaddr = iPaddr;
     }
 
@@ -49,12 +64,26 @@ public class usertype implements Comparable<usertype>{
         return id==controllerInstantMessaging.getmyID();
     }
 
-    public usertype(String id, String pseudo, InetAddress IP){
+    public usertype(String id, String pseudo, String IP){
         super();
         this.id=id;
         this.pseudo=pseudo;
         this.IPaddr=IP;
     }
+
+    //constructeur utilisé pour l'UDP
+    public usertype(String idpseudoIP){
+        super();
+        String[] identifiers=idpseudoIP.split(" ");
+            if(identifiers.length==3){
+            this.id=identifiers[0];
+            this.pseudo=identifiers[1];
+            this.IPaddr=identifiers[2];
+        }else{
+            System.out.println("ALERTE erreur à l'initialisation de l'usertype!");
+        } 
+    }
+
 
  
     public int compareTo(usertype o) {
@@ -63,7 +92,7 @@ public class usertype implements Comparable<usertype>{
 
     
     public String toString() {
-        return pseudo+" "+id+" "+IPaddr.toString();
+        return pseudo+" "+id+" "+IPaddr;
     }
 
 }

@@ -232,25 +232,32 @@ public class messagingGUI extends JFrame{
                     //tcpClient.sendMessage(textSenderZone.getText());
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){ try {
-                    udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
-                } catch (SocketException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (UnknownHostException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } dispose();}});
-                changePeudo.addActionListener(new ActionListener(){  
-                    public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
-                        //changePseudof();
-                        new changePseudoPopUp(m,100,500);
-                        changePseudof(lPseudo);
-                        //tcpClient.sendMessage(textSenderZone.getText());
-                    }});
+                public void actionPerformed(ActionEvent e){
+                    try {
+                        udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
+                    } catch (SocketException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    } catch (UnknownHostException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    backupBDD(); 
+                    dispose();
+                }
+                });
+            changePeudo.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
+                    //changePseudof();
+                    new changePseudoPopUp(m,100,500);
+                    changePseudof(lPseudo);
+                    //tcpClient.sendMessage(textSenderZone.getText());
+                }
+            });
 
         //Creation TCP server
-        tcpServer = new TCPcontrollerServer(this.pseudo);//usertype getIPaddr
+        //tcpServer = new TCPcontrollerServer();//usertype getIPaddr
+        //Conversation.launch()
         
         setVisible(true);
 
@@ -266,15 +273,24 @@ public class messagingGUI extends JFrame{
         mapConvos.put(corresp, new Conversation(corresp, 0, 0, this));
     }
 
+    private void backupBDD(){
+        for(Conversation convtobackup:mapConvos.values()){
+            controlCHAT.getComtoBDD().archiverConv(convtobackup);
+        }
+    }
+
+
     //Create conversation
+    //!différent de la lancer, on ne la lance que si on write ou reçoit un message
+    //pas forcément le bon paramètre donné ici (userttype?)
     private void createConversation(String dest){
         messagePanel.removeAll();
         //!!!la récupération des anciens messages se fait déjà via new Conversation()
-        
-        //Creation TCP client
+        correspondant=controlCHAT.getUserByPseudo(dest);
+        //Creation TCP client->donc non, pas ici; conversation.launch
         //tcpClient = new TCPcontrollerClient(,);
-
-        //Instant_Messaging.Conversation?
+        mapConvos.put(correspondant, new Conversation(correspondant, MAX_MESS, MAX_MESS, this));
+        
 
         SwingUtilities.updateComponentTreeUI(this);
     }

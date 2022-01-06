@@ -45,17 +45,24 @@ public void addUser(usertype user) {
     ListeConnectes.add(user);
 }
 
+//TODO TODO TODO
+public usertype getUserByPseudo(String pseudal){
+    usertype usr=null;
+    for(usertype usrsearch:ListeConnectes){
+        if(usrsearch.getPseudo().equals(pseudal)){
+            usr=usrsearch;
+            break;
+        }
+    }
+    return usr;
+}
+
 
 
 //le pseudo est dans messagingGUI, rassembler?
  public controllerInstantMessaging(){ 
 
-    try {
-        Me=new usertype("","", InetAddress.getLocalHost());
-    } catch (UnknownHostException e) {
-        System.out.println("Echec de la recherche de l'adresse locale.");
-        e.printStackTrace();
-    }
+    Me=new usertype("","", "127.0.0.1");
 
     comtoBDD = new controllerBDD();
     welcomGUI wGUI = new welcomGUI(this, 500, 700);
@@ -72,7 +79,8 @@ public void addUser(usertype user) {
 
         //tests
         /*
-        System.out.println((new usertype("id", "pseudo", InetAddress.getLoopbackAddress())).toString());
+
+        
         */
         }
     }

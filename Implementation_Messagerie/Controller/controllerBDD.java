@@ -26,7 +26,7 @@ public class controllerBDD{
 
 
  public controllerBDD(){ 
-
+    /*
     //intialisations, à modifier
     //à la fin elle n'auront pas lieu d'être, les tables devront être crées une bonne fois pour toutes
     String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(32) NOT NULL, password VARCHAR(32) NOT NULL, PRIMARY KEY (id));";
@@ -40,6 +40,7 @@ public class controllerBDD{
 
     askBDDmulti(initialisation);
     System.out.println("Tables initialisées.");
+    */
 
     //ROWSET
      try {
@@ -54,17 +55,16 @@ public class controllerBDD{
     }
     //est-il utile de garder askBDD plutôt qu'un rowset.execute()?
 
-//créer ces tables une bonne fois pour toutes puis
 }
 
 
 //dangereux, à n'utiliser que pour des tests avant la création des tables définitives!
-private void delTablesInitiales(){
+/*private void delTablesInitiales(){
     String delAllUsers = "DROP TABLE Users;";
     String delAllArchives = "DROP TABLE Archives;";
     askBDDmulti(new String[] {delAllUsers,delAllArchives});
     System.out.println("Succès de la suppression des tables initiales.");
-}
+}*/
 
 
 //GESTION DES REQUETES A LA BDD
@@ -126,6 +126,7 @@ private void askBDDmono(String requete){
     fermer();
 }
 
+//utilisée pour la partie de l'initialisation commentée, peut toujours servir
 private void askBDDmulti(String[] requetes){
     ouvrir();
     demander(requetes);
@@ -196,7 +197,9 @@ public void archiverMessage(Message sms){
     String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+sms.getTextMessage()+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');";
     //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
-}
+}//!!! Il faudra trouver un moyen (stocker un booleen par conversation, faire un on duplicate key...)
+//pour ne pas avoir les messages stockés en double!
+
 
 public void archiverConv(Conversation conv){
     for (Message sms:conv.getMessageList()){

@@ -25,6 +25,12 @@ public class Conversation extends JLabel{
         this.numberMessage = MessageList.size();
     }
 
+//TODO TODO TODO
+    public void launchTCP(){
+
+    }
+
+
     public usertype getCorrespondant() {
         return correspondant;
     }

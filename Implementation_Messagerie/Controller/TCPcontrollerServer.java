@@ -10,13 +10,13 @@ public class TCPcontrollerServer {
     //Creation of the server socket
     private ServerSocket socServer;
 
-    public TCPcontrollerServer(String ipAddress){//pas plutôt inetAdress?
+    public TCPcontrollerServer(String Host){//pas plutôt inetAdress?
         //dans messagingGUI c'est le pseudo qui est passé! ça doit être l'erreur
 
         try {
             //Verification if the input IP address is valid
-            if (ipAddress != null && !ipAddress.isEmpty()){
-                this.socServer = new ServerSocket(0,1,InetAddress.getByName(ipAddress));//et donc ici pas besoin de getbyname
+            if (Host != null && !Host.isEmpty()){
+                this.socServer = new ServerSocket(0,1,InetAddress.getByName(Host));
             }
             else {
                 this.socServer = new ServerSocket(0,1,InetAddress.getLocalHost());

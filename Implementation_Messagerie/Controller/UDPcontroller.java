@@ -65,13 +65,22 @@ public class UDPcontroller {
                         
                         String message = new String(packet.getData()).trim();
 
+                        String[] messages = message.split(":");
+                        /*
+                        String[] messages = message.split(":",2);
+                        le 2 permet que ça marche même si un user a un : dans son pseudo ou ID
+                        mais ne marche pas ici à cause du message changepseudo qui en a un autre
+                         */
+
+                        //je laisse au cas où ça servait à quelque chose mais là je ne vois pas
+                        /*
                         String[] messagesplit = message.split(":");
                         String[] messages = new String[messagesplit.length];
                         int index = 0;
                         for (String m : messagesplit){
                             messages[index] = m;
                             index++;
-                        }
+                        }*/
 
                         System.out.println(message);
                         //String pseudoRecu="";
@@ -84,9 +93,7 @@ public class UDPcontroller {
                             else {
                                 mGUI.displayConnectedUsers(messages[1].split(" ")[0]);
 
-                                //TODO sera à enlever quand l'ID sera dans le broadcast
-                                //donc maintenant
-                                usertype corresp=new usertype("Truc", "Truc", null);
+                                usertype corresp=new usertype(messages[1]);
 
                                 mGUI.newUser(corresp);
 
@@ -186,7 +193,7 @@ public class UDPcontroller {
                     
                 try {
                     //Send a message to show that we are connected
-                    String coPseudo = "USERCONNECTED: " + ps;
+                    String coPseudo = "USERCONNECTED:" + ps;
                     //System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
                     System.out.println(broadcast);
@@ -225,6 +232,7 @@ public class UDPcontroller {
                         
                 try {
                     //Send a message to show that we are connected
+                    //NE PAS RAJOUTER D'ESPACES
                     String coPseudo = "USERDISCONNECTED:" + ps;//TODO ?
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
