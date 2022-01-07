@@ -63,6 +63,8 @@ public class messagingGUI extends JFrame{
 
     protected UDPcontroller udpController;
 
+
+    private boolean connectedUsermutex = false;
     private Thread updateConnected;
 
     //Constructor
@@ -252,7 +254,9 @@ public class messagingGUI extends JFrame{
                                     
                          }
                         try {
+
                             Thread.sleep(2000);//TODO attention, ce thread empeche la fermeture
+
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
@@ -429,6 +433,16 @@ public class messagingGUI extends JFrame{
 
     //Display connected users
     public void displayConnectedUsers(String pseudo){
+
+        while(connectedUsermutex){try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}
+
+        connectedUsermutex = true;
+
         JButton coUsers = new JButton(pseudo);
         coUsers.setForeground(Color.WHITE);
         coUsers.setMaximumSize(new Dimension(Integer.MAX_VALUE, coUsers.getMinimumSize().height));
@@ -449,27 +463,54 @@ public class messagingGUI extends JFrame{
         }
 
         SwingUtilities.updateComponentTreeUI(this);
+
+        connectedUsermutex = false;
     }
 
     //Remove connected user
     public void removeConnectedUsers(String pseudo){
+
+        while(connectedUsermutex){try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}
+        connectedUsermutex = true;
+
         String[] ps = pseudo.split(" ");
+        System.out.println(ps[0]);
         for(JButton i : connectedUsersList){
             if (i.getText().equals(ps[0])){
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
+                SwingUtilities.updateComponentTreeUI(this);
             }
         }
-        SwingUtilities.updateComponentTreeUI(this);
+        
+
+        connectedUsermutex = false;
     }
 
     public void updateConnectedList(String newPseudo, String oldPseudo){
+
+        while(connectedUsermutex){try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}
+
+        connectedUsermutex = true;
         for(JButton b: connectedUsersList){
             if (b.getText().equals(oldPseudo)){
                 b.setText(newPseudo);
                 SwingUtilities.updateComponentTreeUI(b);
             }
         }
+
+        connectedUsermutex = false;
+
     }
 
 
