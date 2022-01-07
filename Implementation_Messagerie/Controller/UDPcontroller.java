@@ -41,7 +41,7 @@ public class UDPcontroller {
                     while(!Thread.currentThread().isInterrupted()||soc.isClosed()){
                         byte[] bufrecep = new byte[10000];
                         DatagramPacket packet = new DatagramPacket(bufrecep, bufrecep.length);
-                        System.out.println("testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
                         try {
                             soc.receive(packet);
                         } catch (IOException e) {
