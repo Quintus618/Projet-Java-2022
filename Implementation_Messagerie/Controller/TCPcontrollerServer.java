@@ -47,7 +47,7 @@ public class TCPcontrollerServer {
 
             BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
             while((message=dataRec.readLine()) != null){
-                System.out.println(message);
+                System.out.println("MESSSSSSSSAAAAAAAAAAAAAAAAAAGGGGGGEEEEEEEEEE"+message);
                 mGUI.receiveMessage(message);
             }
         }

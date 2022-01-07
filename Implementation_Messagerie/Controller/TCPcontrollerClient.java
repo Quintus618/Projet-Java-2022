@@ -17,6 +17,7 @@ public class TCPcontrollerClient {
         try {
             PrintWriter out = new PrintWriter(this.skt.getOutputStream(), true);
             out.println(message);
+            System.out.println("Voici le message envoyé" + message);
             out.flush();
         }
         catch(Exception e){

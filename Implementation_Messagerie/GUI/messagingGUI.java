@@ -284,8 +284,9 @@ public class messagingGUI extends JFrame{
             //Action when there is a mouse click on a button
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
-                    writeMessage(textSenderZone.getText());
-                    mapConvos.get(correspondant).getTCP().sendMessage(textSenderZone.getText());
+                    String mess = textSenderZone.getText();
+                    writeMessage(mess);
+                    mapConvos.get(correspondant).getTCP().sendMessage(mess);
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
