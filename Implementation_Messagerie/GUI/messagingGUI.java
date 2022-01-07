@@ -109,7 +109,7 @@ public class messagingGUI extends JFrame{
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         controlCHAT.setmyPseudo(pseudo);
         correspondant=new usertype("", "", null);
-        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0));
+        mapConvos.put(correspondant, new Conversation(correspondant));
 
         //Creation of graphical components 
         buildComponentInterface(this);
@@ -313,7 +313,7 @@ public class messagingGUI extends JFrame{
 //au lieu de l'ID (qui est déjà dans la conv).
     public void newUser(usertype corresp){
         controlCHAT.addUser(corresp);
-        mapConvos.put(corresp, new Conversation(corresp, 0, 0));
+        mapConvos.put(corresp, new Conversation(corresp));
     }
 
     private void backupBDD(){
@@ -331,7 +331,7 @@ public class messagingGUI extends JFrame{
         mapConvos.get(correspondant).load(this);
         //Creation TCP client->donc non, pas ici; conversation.launch
         //tcpClient = new TCPcontrollerClient(,);
-        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0));
+        mapConvos.put(correspondant, new Conversation(correspondant));
         mapConvos.get(correspondant).load(this);//récupération des messages
         
         SwingUtilities.updateComponentTreeUI(this);

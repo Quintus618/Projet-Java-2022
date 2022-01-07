@@ -29,7 +29,7 @@ public class inscriptionPopUp extends JFrame {
         inscriptionPanel.setLayout(new SpringLayout());
         
         //Creation des labels
-        JLabel ID = new JLabel("ID: ", JLabel.TRAILING);
+        JLabel ID = new JLabel("Identifiant: ", JLabel.TRAILING);
         JLabel Mdp = new JLabel("Mot de passe: ", JLabel.TRAILING);
         idText = new JTextField(10);
         mdpText = new JTextField(10);

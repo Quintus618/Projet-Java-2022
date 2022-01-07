@@ -2,19 +2,30 @@ package Controller;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class TCPcontrollerClient {
     
     private Socket socket;
 
-    public TCPcontrollerClient(InetAddress servAddress, int servPort){
-
+    public TCPcontrollerClient(InetAddress servAddress){
+        /*
+        Socket skt;
         try {
-            this.socket = new Socket(servAddress,servPort);
-        }catch(Exception e){
-            System.out.println("Creation of the socket failed");
-        }
+            skt = new Socket(servAddress, 1234);
+        BufferedReader in = new BufferedReader(new
+           InputStreamReader(skt.getInputStream()));
+        System.out.print("Received string: '");
+
+        while (!in.ready()) {}
+        System.out.println(in.readLine()); // Read one line and output it
+
+        System.out.print("'\n");
+        in.close();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }*/
         
     }
 

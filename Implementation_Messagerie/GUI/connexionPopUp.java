@@ -29,7 +29,7 @@ public class connexionPopUp extends JFrame{
         connexionPanel.setLayout(new SpringLayout());
 
 
-        JLabel coID = new JLabel("ID: ", JLabel.TRAILING);
+        JLabel coID = new JLabel("Identifiant : ", JLabel.TRAILING);
         JLabel coMdp = new JLabel("Mot de passe: ", JLabel.TRAILING);
         coidText = new JTextField(10);
         comdpText = new JTextField(10);
@@ -41,7 +41,7 @@ public class connexionPopUp extends JFrame{
         connexionPanel.add(comdpText);
         add(connexionPanel);
 
-        JLabel jl = new JLabel("Pseudo: ");
+        JLabel jl = new JLabel("Pseudo: ", JLabel.TRAILING);
         pseudoText = new JTextField(10);
         jl.setLabelFor(pseudoText);
         connexionPanel.add(jl);
@@ -66,7 +66,7 @@ public class connexionPopUp extends JFrame{
                 if(!controlCHAT.getComtoBDD().idtaken(connectid)){
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
                 }else if(connectid.contains(" ")||connectpseudo.contains(" ")){
-                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits.");
+                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits!");
                     
                 }else{
                     if(connectmdp.equals(controlCHAT.getComtoBDD().getMDP(connectid))){

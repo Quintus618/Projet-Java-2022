@@ -6,8 +6,6 @@ import Instant_Messaging.usertype;
 import java.net.*;
 import java.util.*;
 
-import javax.swing.JOptionPane;
-
 public class controllerInstantMessaging{
 
     

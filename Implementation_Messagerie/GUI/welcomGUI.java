@@ -33,8 +33,7 @@ public class welcomGUI extends JFrame{
         connexionButton.setPreferredSize(new Dimension(100, 100));
         connexionButton.setBounds(100,100,100, 40);//voir comment fonctionnent toutes ces dimensions
         connexionButton.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){ 
-                //new connexionPopUp(200,600);
+            public void actionPerformed(ActionEvent e){
                 new connexionPopUp(controlCHAT, 150, 500);
                 dispose();
             }});
