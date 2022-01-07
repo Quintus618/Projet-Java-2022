@@ -33,7 +33,7 @@ public class TCPcontrollerServer {
     }
 
     //Listen to receive data from the client
-    private void dataReception(messagingGUI mGUI){
+    public void dataReception(messagingGUI mGUI){
 
         String message = null;
         Socket socClient;

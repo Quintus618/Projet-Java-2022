@@ -263,6 +263,8 @@ public class messagingGUI extends JFrame{
 
             //Creation TCP server
              tcpServer = new TCPcontrollerServer(controlCHAT.getMyIdentity());
+             tcpServer.dataReception(this);
+             
             //Creation UDPcontroller
             udpController = new UDPcontroller(this);
 
