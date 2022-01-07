@@ -66,7 +66,7 @@ public String getMyPseudo() {
  public controllerInstantMessaging(){ 
 
     Me=new usertype("","", "127.0.0.1");
-
+    //TODO Me.getInetAddr();
     comtoBDD = new controllerBDD();
     welcomGUI wGUI = new welcomGUI(this, 500, 700);
     wGUI.setTitle("Insatact: your favorite low quality chat system - Welcome!");

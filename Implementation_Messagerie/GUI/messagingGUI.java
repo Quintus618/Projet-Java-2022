@@ -476,6 +476,18 @@ public class messagingGUI extends JFrame{
         SwingUtilities.updateComponentTreeUI(chpseudo);
     }
 
+    //en rab du cahier des charges
+    public Boolean pseudotaken(String pseudal){
+        boolean oui=false;
+        for(JButton b: connectedUsersList){
+            if (b.getText().equals(pseudal)){
+                oui=true;
+                break;
+            }
+        }
+        return oui;
+    }
+
   
 
     public GridBagLayout getGl() {

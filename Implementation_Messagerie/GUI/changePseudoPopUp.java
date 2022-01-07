@@ -43,20 +43,27 @@ public class changePseudoPopUp extends JFrame{
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){
-                String oldPseudo = mGUI.getControlCHAT().getMyPseudo(); 
-                mGUI.getControlCHAT().setmyPseudo(pseudoText.getText());
-                mGUI.changePseudof(mGUI.lPseudo);
-                try {
-                    mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getControlCHAT().getMyPseudo(), oldPseudo);
-                } catch (SocketException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (UnknownHostException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                String wantedps=pseudoText.getText();
+                if (wantedps.equals("")||wantedps.contains(" ")){
+                    JOptionPane.showMessageDialog(null, "Le pseudo ne peut pas être vide, ni contenir d'espaces!");
+                }else if(mGUI.pseudotaken(wantedps)){
+                    JOptionPane.showMessageDialog(null, "Ce pseudo est déjà pris par un autre utilisateur!");
+                }else{
+                    String oldPseudo = mGUI.getControlCHAT().getMyPseudo(); 
+                    mGUI.getControlCHAT().setmyPseudo(wantedps);
+                    mGUI.changePseudof(mGUI.lPseudo);
+                    try {
+                        mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getControlCHAT().getMyPseudo(), oldPseudo);
+                    } catch (SocketException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (UnknownHostException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println("test2");
+                    dispose();
                 }
-                System.out.println("test2");
-                dispose();
             }});
 
 
