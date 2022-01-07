@@ -2,7 +2,11 @@ package Controller;
 
 import GUI.*;
 import Instant_Messaging.usertype;
+
+import java.net.*;
 import java.util.*;
+
+import javax.swing.JOptionPane;
 
 public class controllerInstantMessaging{
 
@@ -66,7 +70,24 @@ public String getMyPseudo() {
  public controllerInstantMessaging(){ 
 
     Me=new usertype("","", "127.0.0.1");
-    //TODO Me.getInetAddr();
+
+    Enumeration interfaces;
+    try {
+    interfaces = NetworkInterface.getNetworkInterfaces();
+    while (interfaces.hasMoreElements()) {
+        NetworkInterface networkInterface = (NetworkInterface) interfaces.nextElement();
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                continue; 
+            }
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()){
+                Me.setIPaddr(interfaceAddress.getAddress().getHostAddress());
+            }
+        }
+    } catch (SocketException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+
     comtoBDD = new controllerBDD();
     welcomGUI wGUI = new welcomGUI(this, 500, 700);
     wGUI.setTitle("Insatact: your favorite low quality chat system - Welcome!");
