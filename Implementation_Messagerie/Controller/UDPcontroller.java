@@ -41,7 +41,7 @@ public class UDPcontroller {
                     while(!Thread.currentThread().isInterrupted()||soc.isClosed()){
                         byte[] bufrecep = new byte[10000];
                         DatagramPacket packet = new DatagramPacket(bufrecep, bufrecep.length);
-
+                        System.out.println("testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                         try {
                             soc.receive(packet);
                         } catch (IOException e) {
@@ -102,7 +102,6 @@ public class UDPcontroller {
                                 mGUI.newUser(corresp);
 
                                 nbfoisdemande = 0;
-                                System.out.println("totto");
                                 /*
                                 timer.cancel();
                                 timer.purge();
@@ -123,7 +122,7 @@ public class UDPcontroller {
                                 changePseudoPopUp cPseudo = new changePseudoPopUp(mGUI, 100, 500);
                                 nbfoisdemande++;
                             }
-                        break;
+                            break;
                             case "MODIFIEDPSEUDO":
 
                             /////////////////////////////////////////////
@@ -137,7 +136,7 @@ public class UDPcontroller {
                             else {
                                 mGUI.updateConnectedList(messages[1], messages[2]);
                             }
-                        break;
+                            break;
                             default: System.out.println("Alert: unexpected message");
                         }
                     }
@@ -156,13 +155,14 @@ public class UDPcontroller {
                     while(!Thread.currentThread().isInterrupted()){
                         try {
                             udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
+                            Thread.sleep(3000);
                         } catch (SocketException e) {
                             e.printStackTrace();
                         } catch (UnknownHostException e) {
                             e.printStackTrace();
                         }
 
-                        Thread.sleep(10000);
+                        
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Thread broadcastCo interrupted");

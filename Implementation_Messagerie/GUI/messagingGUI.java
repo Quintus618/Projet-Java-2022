@@ -225,7 +225,7 @@ public class messagingGUI extends JFrame{
                 @Override
                 public void run(){
                     while(true){
-            
+
                         for (JButton b : connectedUsersList){
                             b.addActionListener(new ActionListener(){  
                                 public void actionPerformed(ActionEvent e){ 
@@ -238,7 +238,6 @@ public class messagingGUI extends JFrame{
                                         buttonselected=b;
                                         nbfois = 0;
                                         m.createConversation(b.getText());
-                                        System.out.println("testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                                     }
                                     else{
                                         System.out.println(buttonselected.getText() + "................................");
@@ -478,10 +477,10 @@ public class messagingGUI extends JFrame{
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
                 SwingUtilities.updateComponentTreeUI(this);
+                break;
             }
         }
         
-
         connectedUsermutex = false;
     }
 
@@ -514,6 +513,16 @@ public class messagingGUI extends JFrame{
 
     //en rab du cahier des charges
     public Boolean pseudotaken(String pseudal){
+
+        while(connectedUsermutex){try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}
+
+        connectedUsermutex=true;
+
         boolean oui=false;
         for(JButton b: connectedUsersList){
             if (b.getText().equals(pseudal)){
@@ -521,6 +530,9 @@ public class messagingGUI extends JFrame{
                 break;
             }
         }
+
+        connectedUsermutex=false;
+
         return oui;
     }
 
