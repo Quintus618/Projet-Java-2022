@@ -112,7 +112,7 @@ public class UDPcontroller {
                             }
                             break;
                             case "USERDISCONNECTED"://or if a timer is exceeded?
-                            mGUI.removeConnectedUsers(messages[1]);
+                            mGUI.removeConnectedUsers(messages[1]); System.out.println("Test "+ messages[1]);
                             /*
                             timer.cancel();
                             timer.purge();
@@ -202,7 +202,6 @@ public class UDPcontroller {
                     String coPseudo = "USERCONNECTED:" + ps;
                     //System.out.println(coPseudo);
                     byte[] sendconnexion = coPseudo.getBytes();
-                    System.out.println(broadcast);
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
                 }
@@ -331,8 +330,9 @@ public class UDPcontroller {
         //kill the threads for deconnexion (maybe put this in udpbroadcastdeco?)
         public void interrupt(){
             soc.close();
+            connexionPeriodBroadcast.interrupt();
             receiveBroadcast.interrupt();
-            //connexionPeriodBroadcast.interrupt(); déjà géré par le socket close?
+            
         }
 
     }

@@ -298,6 +298,7 @@ public class messagingGUI extends JFrame{
 
     private void disconnect(){
         try {
+            udpController.interrupt();
             udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
         } catch (SocketException e1) {
             // TODO Auto-generated catch block
@@ -306,7 +307,7 @@ public class messagingGUI extends JFrame{
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        udpController.interrupt();
+        //udpController.interrupt();
         backupBDD(); 
         dispose();
     }
@@ -452,10 +453,11 @@ public class messagingGUI extends JFrame{
 
     //Remove connected user
     public void removeConnectedUsers(String pseudo){
+        String[] ps = pseudo.split(" ");
         for(JButton i : connectedUsersList){
-            if (i.getText().equals(pseudo)){
-                connectedUsersList.remove(i);
+            if (i.getText().equals(ps[0])){
                 connectedPanel.remove(i);
+                connectedUsersList.remove(i);
             }
         }
         SwingUtilities.updateComponentTreeUI(this);
