@@ -258,8 +258,6 @@ public class messagingGUI extends JFrame{
                 }
             });  
 
-            receiveMessage("Message recu");
-            receiveMessage("Message recu");
             updateConnected.start();
 
             //Creation TCP server
@@ -269,7 +267,11 @@ public class messagingGUI extends JFrame{
             listen = new Thread(new Runnable(){
                 @Override
                 public void run(){
-                    tcpServer.dataReception(m);
+
+                    while(!Thread.currentThread().isInterrupted()){
+                        System.out.println("Testttttt");
+                        tcpServer.dataReception(m);
+                    }            
                 }
             });  
             listen.start();
@@ -316,6 +318,7 @@ public class messagingGUI extends JFrame{
             updateConnected.interrupt();
         }
         while(listen.isAlive()){
+            System.out.println("A l'aide");
             listen.interrupt();
         }
         backupBDD(); 

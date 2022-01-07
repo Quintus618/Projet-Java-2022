@@ -39,8 +39,11 @@ public class TCPcontrollerServer {
         Socket socClient;
 
         try {
+            System.out.println("En attente de connexions");
             socClient = this.socServer.accept();
             String clientIPAddress = socClient.getInetAddress().getHostAddress();
+
+            System.out.println("Connexion acceptée" + clientIPAddress);
 
             BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
             while((message=dataRec.readLine()) != null){
