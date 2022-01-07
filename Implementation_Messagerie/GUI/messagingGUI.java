@@ -53,7 +53,6 @@ public class messagingGUI extends JFrame{
 
     private GridBagLayout gl;
 
-    private TCPcontrollerClient tcpClient;
     private TCPcontrollerServer tcpServer;
 
     protected JLabel lPseudo;
@@ -262,6 +261,8 @@ public class messagingGUI extends JFrame{
             receiveMessage("Message recu");
             updateConnected.start();
 
+            //Creation TCP server
+             tcpServer = new TCPcontrollerServer(controlCHAT.getMyIdentity());
             //Creation UDPcontroller
             udpController = new UDPcontroller(this);
 
@@ -285,9 +286,6 @@ public class messagingGUI extends JFrame{
                 }
             });
 
-        //Creation TCP server
-        //tcpServer = new TCPcontrollerServer();//usertype getIPaddr
-        //Conversation.launch()
         
         setVisible(true);
     }
@@ -333,10 +331,9 @@ public class messagingGUI extends JFrame{
         messagePanel.removeAll();
         correspondant=controlCHAT.getUserByPseudo(dest);
         mapConvos.get(correspondant).load(this);
-        //Creation TCP client->donc non, pas ici; conversation.launch
-        //tcpClient = new TCPcontrollerClient(,);
         mapConvos.put(correspondant, new Conversation(correspondant));
         mapConvos.get(correspondant).load(this);//récupération des messages
+        mapConvos.get(correspondant).launchTCP();;//TODO mettre dans writemessage
         
         SwingUtilities.updateComponentTreeUI(this);
     }

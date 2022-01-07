@@ -1,8 +1,11 @@
 package Instant_Messaging;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
+import javax.accessibility.AccessibleContext;
 import javax.swing.*;
 
 import Controller.TCPcontrollerClient;
@@ -12,8 +15,6 @@ public class Conversation extends JLabel{
 
     private usertype correspondant;
     private int numberMessage;
-    private int sport;
-    private int dport;
     private static int maxToArchive=64;//TODO voir combien demande le cahier des charges
     private ArrayList<Message> MessageList;
     private TCPcontrollerClient TCP=null;
@@ -24,8 +25,6 @@ public class Conversation extends JLabel{
 
     public Conversation(usertype correspondant){
         this.correspondant = correspondant;
-        this.sport = sport;
-        this.dport = dport;
         MessageList = new ArrayList<Message>();
         this.numberMessage = MessageList.size();
     }
@@ -33,9 +32,11 @@ public class Conversation extends JLabel{
 //TODO TODO TODO
     public void launchTCP(){
         try {
-            TCP=new TCPcontrollerClient(InetAddress.getByName(correspondant.getIPaddr()));
+            TCP=new TCPcontrollerClient(InetAddress.getByName(correspondant.getIPaddr()), correspondant.getPort());
         } catch (UnknownHostException e) {
-            System.out.println("Echec de création du client IP de la conversation avec "+correspondant.toString());;
+            System.out.println("Echec de création du client TCP de la conversation avec "+correspondant.toString());
+        } catch (IOException e) {
+            System.out.println("Echec de création du client TCP de la conversation avec "+correspondant.toString());
         }
     }
     
@@ -50,13 +51,6 @@ public class Conversation extends JLabel{
         return correspondant;
     }
 
-    public int getDport() {
-        return dport;
-    }
-
-    public int getSport() {
-        return sport;
-    }
 
     //reourne le nombre de messages effacés
     public int addMessage(Message sms){

@@ -12,6 +12,7 @@ public class usertype implements Comparable<usertype>{
     private String id=null;
     private String pseudo=null;
     private String IPaddr=null;
+    private int port;
     //InetAddresscontient le hostname et le hostaddress, c'est trop
 
     //private Timer chrono=null;
@@ -36,6 +37,14 @@ public class usertype implements Comparable<usertype>{
         return IPaddr;
     }
     
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
     public InetAddress getInetAddr() {
         InetAddress returnip=null;
         try {
@@ -63,6 +72,7 @@ public class usertype implements Comparable<usertype>{
         return id==controllerInstantMessaging.getmyID();
     }
 
+
     public usertype(String id, String pseudo, String IP){
         super();
         this.id=id;
@@ -70,14 +80,16 @@ public class usertype implements Comparable<usertype>{
         this.IPaddr=IP;
     }
 
+
     //constructeur utilisé pour l'UDP
-    public usertype(String idpseudoIP){
+    public usertype(String idpseudoIPport){
         super();
-        String[] identifiers=idpseudoIP.split(" ");
-            if(identifiers.length==3){
+        String[] identifiers=idpseudoIPport.split(" ");
+            if(identifiers.length==4){
             this.id=identifiers[0];
             this.pseudo=identifiers[1];
             this.IPaddr=identifiers[2];
+            this.port=Integer.valueOf(identifiers[3]);
         }else{
             System.out.println("ALERTE erreur à l'initialisation de l'usertype!");
         } 
@@ -91,7 +103,7 @@ public class usertype implements Comparable<usertype>{
 
     
     public String toString() {
-        return pseudo+" "+id+" "+IPaddr;
+        return pseudo+" "+id+" "+IPaddr+" "+Integer.toString(port);
     }
 
 }

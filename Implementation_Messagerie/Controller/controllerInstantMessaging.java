@@ -64,6 +64,8 @@ public String getMyPseudo() {
     return Me.getPseudo();
 }
 
+
+
 //le pseudo est dans messagingGUI, rassembler?
  public controllerInstantMessaging(){ 
 
