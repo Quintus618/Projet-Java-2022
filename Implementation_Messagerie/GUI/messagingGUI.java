@@ -76,43 +76,30 @@ public class messagingGUI extends JFrame{
         //ceci permet d'utiliser disconnect() en actionlistener et d'arrêter les broadcasts UDP
         addWindowListener(new WindowListener(){  
             public void windowActivated(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
             }
 
             public void windowClosing(WindowEvent e) {
-                disconnect();
-                
+                disconnect();//important
             }
 
             @Override
-            public void windowDeactivated(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
+            public void windowDeactivated(WindowEvent e) {                
             }
 
             @Override
-            public void windowDeiconified(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
+            public void windowDeiconified(WindowEvent e) {                
             }
 
             @Override
-            public void windowIconified(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
+            public void windowIconified(WindowEvent e) {                
             }
 
             @Override
-            public void windowOpened(WindowEvent e) {
-                // TODO Auto-generated method stub
-                
+            public void windowOpened(WindowEvent e) {                
             }
             });
 
@@ -120,7 +107,7 @@ public class messagingGUI extends JFrame{
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         controlCHAT.setmyPseudo(pseudo);
         correspondant=new usertype("", "", null);
-        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0, this));
+        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0));
 
         //Creation of graphical components 
         buildComponentInterface(this);
@@ -183,13 +170,21 @@ public class messagingGUI extends JFrame{
 
         chatPanel = new JPanel();
         chatPanel.setBackground(Color.gray);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(mediaButton);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(fileButton);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(textSenderZone);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(sendMessageButton);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(changePeudo);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(deconnexionButton);
+        chatPanel.add(Box.createHorizontalGlue());
         chatPanel.add(lPseudo);
+        chatPanel.add(Box.createHorizontalGlue());
         add(chatPanel, BorderLayout.SOUTH);
 
         connectedPanel = new JPanel();
@@ -296,15 +291,13 @@ public class messagingGUI extends JFrame{
 
 
 
-    private void disconnect(){
+    private void disconnect(){//TODO finir
         try {
             udpController.interrupt();
             udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
         } catch (SocketException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (UnknownHostException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         //udpController.interrupt();
@@ -314,10 +307,10 @@ public class messagingGUI extends JFrame{
 
 //TODO faudrait-il fusionner la liste des users du controller et la hashmap des conversations?
 //aussi, sera-t' ilutile d'avoir des numéros de port? Parce qu'alors ils pourraient servir à la hashmap
-//au lieu de l'ID (qui est déjà dans la conv). Peut-être aussi inutilede passer this...
+//au lieu de l'ID (qui est déjà dans la conv).
     public void newUser(usertype corresp){
         controlCHAT.addUser(corresp);
-        mapConvos.put(corresp, new Conversation(corresp, 0, 0, this));
+        mapConvos.put(corresp, new Conversation(corresp, 0, 0));
     }
 
     private void backupBDD(){
@@ -331,13 +324,13 @@ public class messagingGUI extends JFrame{
     //!différent de la lancer, on ne la lance que si on write ou reçoit un message
     private void createConversation(String dest){
         messagePanel.removeAll();
-        //!!!la récupération des anciens messages se fait déjà via new Conversation()
         correspondant=controlCHAT.getUserByPseudo(dest);
+        mapConvos.get(correspondant).load(this);
         //Creation TCP client->donc non, pas ici; conversation.launch
         //tcpClient = new TCPcontrollerClient(,);
-        mapConvos.put(correspondant, new Conversation(correspondant, MAX_MESS, MAX_MESS, this));
+        mapConvos.put(correspondant, new Conversation(correspondant, 0, 0));
+        mapConvos.get(correspondant).load(this);//récupération des messages
         
-
         SwingUtilities.updateComponentTreeUI(this);
     }
 

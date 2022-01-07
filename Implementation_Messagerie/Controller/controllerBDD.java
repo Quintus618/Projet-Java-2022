@@ -50,7 +50,6 @@ public class controllerBDD{
         rowset.setUsername(loginBDD);
         rowset.setPassword(pwdBDD);
     } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
     }
     //est-il utile de garder askBDD plutôt qu'un rowset.execute()?
@@ -127,11 +126,11 @@ private void askBDDmono(String requete){
 }
 
 //utilisée pour la partie de l'initialisation commentée, peut toujours servir
-private void askBDDmulti(String[] requetes){
+/*private void askBDDmulti(String[] requetes){
     ouvrir();
     demander(requetes);
     fermer();
-}
+}*/
 
 
 //GESTION DE LA TABLE USERS

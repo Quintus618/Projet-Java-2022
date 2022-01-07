@@ -17,11 +17,11 @@ public class Conversation extends JLabel{
     public JPanel messagePanel;
     public JScrollPane scrollPane;
 
-    public Conversation(usertype correspondant, int sport, int dport, messagingGUI mGUI){
+    public Conversation(usertype correspondant, int sport, int dport){
         this.correspondant = correspondant;
         this.sport = sport;
         this.dport = dport;
-        MessageList = mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant);
+        MessageList = new ArrayList<Message>();
         this.numberMessage = MessageList.size();
     }
 
@@ -29,7 +29,12 @@ public class Conversation extends JLabel{
     public void launchTCP(){
 
     }
-
+    
+    public void load(messagingGUI mGUI){
+        mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant);
+        this.numberMessage = MessageList.size();
+        //TODO affihcer messages, ici ou dans mGUI?
+    }
 
     public usertype getCorrespondant() {
         return correspondant;
