@@ -224,8 +224,8 @@ public class messagingGUI extends JFrame{
 
                 @Override
                 public void run(){
-                    while(true){
-
+                    while(!Thread.currentThread().isInterrupted()){
+                        System.out.println("Test");
                         for (JButton b : connectedUsersList){
                             b.addActionListener(new ActionListener(){  
                                 public void actionPerformed(ActionEvent e){ 
@@ -303,7 +303,11 @@ public class messagingGUI extends JFrame{
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         }
-        //udpController.interrupt();
+
+        while(updateConnected.isAlive()){
+            updateConnected.interrupt();
+        }
+        
         backupBDD(); 
         dispose();
     }
