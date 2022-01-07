@@ -71,6 +71,7 @@ public class connexionPopUp extends JFrame{
                 }else{
                     if(connectmdp.equals(controlCHAT.getComtoBDD().getMDP(connectid))){
                         controlCHAT.setmyID(connectid);
+                        controlCHAT.setmyPseudo(connectpseudo);
                         new messagingGUI(controlCHAT, 3000,2000, connectpseudo);
                         dispose();
                     }else{

@@ -55,6 +55,12 @@ public usertype getUserByPseudo(String pseudal){
 }
 
 
+public void setmyPseudo(String pseudal) {
+    Me.setPseudo(pseudal);
+}
+public String getMyPseudo() {
+    return Me.getPseudo();
+}
 
 //le pseudo est dans messagingGUI, rassembler?
  public controllerInstantMessaging(){ 
@@ -80,4 +86,5 @@ public usertype getUserByPseudo(String pseudal){
         
         */
         }
+
     }

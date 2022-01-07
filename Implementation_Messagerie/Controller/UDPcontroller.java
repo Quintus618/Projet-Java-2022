@@ -90,7 +90,7 @@ public class UDPcontroller {
 
                         switch(messages[0]){
                             case"USERCONNECTED":
-                            if (messages[1].equals(mGUI.getPseudo())){
+                            if (messages[1].equals(mGUI.getControlCHAT().getMyPseudo())){
                                 udpbroadcastChangePseudo(packet,messages[1]);
                                 //pseudoRecu=messages[1];
                             }
@@ -130,7 +130,7 @@ public class UDPcontroller {
                             System.out.println(messages[1]+ " " + messages[2]);
                             /////////////////////////////////////////////
 
-                            if (messages[1].equals(mGUI.getPseudo())){
+                            if (messages[1].equals(mGUI.getControlCHAT().getMyPseudo())){
                                 udpbroadcastChangePseudo(packet,messages[1]);
                                 //pseudoRecu=messages[1];
                             }

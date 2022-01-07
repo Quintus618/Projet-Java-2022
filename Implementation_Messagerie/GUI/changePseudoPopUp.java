@@ -43,11 +43,11 @@ public class changePseudoPopUp extends JFrame{
         //Action broadcasting the pseudo on the network
         connexion.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){
-                String oldPseudo = mGUI.getPseudo(); 
-                mGUI.setPseudo(pseudoText.getText());
+                String oldPseudo = mGUI.getControlCHAT().getMyPseudo(); 
+                mGUI.getControlCHAT().setmyPseudo(pseudoText.getText());
                 mGUI.changePseudof(mGUI.lPseudo);
                 try {
-                    mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getPseudo(), oldPseudo);
+                    mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getControlCHAT().getMyPseudo(), oldPseudo);
                 } catch (SocketException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

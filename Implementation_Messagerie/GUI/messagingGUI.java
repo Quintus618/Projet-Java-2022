@@ -48,7 +48,6 @@ public class messagingGUI extends JFrame{
 
     private JTextArea textSenderZone;
 
-    private String pseudo;
     private int numberLine = 0;
     private int numberMessage = 0;
 
@@ -119,7 +118,7 @@ public class messagingGUI extends JFrame{
 
         this.controlCHAT=controlCHAT;
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
-        this.pseudo = pseudo;
+        controlCHAT.setmyPseudo(pseudo);
         correspondant=new usertype("", "", null);
         mapConvos.put(correspondant, new Conversation(correspondant, 0, 0, this));
 
@@ -180,7 +179,7 @@ public class messagingGUI extends JFrame{
         changePeudo = new JButton("Changer le pseudo");
 
         //Display Pseudo
-        lPseudo = new JLabel(pseudo);
+        lPseudo = new JLabel(controlCHAT.getMyPseudo());
 
         chatPanel = new JPanel();
         chatPanel.setBackground(Color.gray);
@@ -471,19 +470,13 @@ public class messagingGUI extends JFrame{
         }
     }
 
-    public String getPseudo() {
-        return pseudo;
-    }
 
     public void changePseudof(JLabel chpseudo){
-        chpseudo.setText(this.pseudo);
+        chpseudo.setText(controlCHAT.getMyPseudo());
         SwingUtilities.updateComponentTreeUI(chpseudo);
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-    
+  
 
     public GridBagLayout getGl() {
         return gl;
