@@ -51,6 +51,9 @@ public class Conversation extends JLabel{
         return correspondant;
     }
 
+    public TCPcontrollerClient getTCP() {
+        return TCP;
+    }
 
     //reourne le nombre de messages effacés
     public int addMessage(Message sms){

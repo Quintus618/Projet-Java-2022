@@ -270,7 +270,7 @@ public class messagingGUI extends JFrame{
             sendMessageButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
                     writeMessage(textSenderZone.getText());
-                    //tcpClient.sendMessage(textSenderZone.getText());
+                    mapConvos.get(correspondant).getTCP().sendMessage(textSenderZone.getText());
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
@@ -282,7 +282,6 @@ public class messagingGUI extends JFrame{
                     //changePseudof();
                     new changePseudoPopUp(m,100,500);
                     changePseudof(lPseudo);
-                    //tcpClient.sendMessage(textSenderZone.getText());
                 }
             });
 
