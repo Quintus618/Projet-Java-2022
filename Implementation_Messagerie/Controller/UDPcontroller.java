@@ -112,7 +112,7 @@ public class UDPcontroller {
                             }
                             break;
                             case "USERDISCONNECTED"://or if a timer is exceeded?
-                            mGUI.removeConnectedUsers(messages[1]); System.out.println("Test "+ messages[1]);
+                            mGUI.removeConnectedUsers(messages[1]);
                             /*
                             timer.cancel();
                             timer.purge();
