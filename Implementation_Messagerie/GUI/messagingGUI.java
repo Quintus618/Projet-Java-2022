@@ -65,6 +65,7 @@ public class messagingGUI extends JFrame{
 
     private boolean connectedUsermutex = false;
     private Thread updateConnected;
+    private Thread listen;
 
     //Constructor
     public messagingGUI(controllerInstantMessaging controlCHAT, int height, int width, String pseudo){
@@ -263,8 +264,16 @@ public class messagingGUI extends JFrame{
 
             //Creation TCP server
              tcpServer = new TCPcontrollerServer(controlCHAT.getMyIdentity());
-             tcpServer.dataReception(this);
-             
+
+            //Le serveur écoute
+            listen = new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    tcpServer.dataReception(m);
+                }
+            });  
+            listen.start();
+
             //Creation UDPcontroller
             udpController = new UDPcontroller(this);
 
@@ -306,7 +315,9 @@ public class messagingGUI extends JFrame{
         while(updateConnected.isAlive()){
             updateConnected.interrupt();
         }
-        
+        while(listen.isAlive()){
+            listen.interrupt();
+        }
         backupBDD(); 
         dispose();
     }
