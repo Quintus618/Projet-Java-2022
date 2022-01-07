@@ -50,8 +50,10 @@ public usertype getUserByPseudo(String pseudal){
     for(usertype usrsearch:ListeConnectes){
         if(usrsearch.getPseudo().equals(pseudal)){
             usr=usrsearch;
+            System.out.println("C'est rentré");
             break;
         }
+        System.out.println("Recherche  de"+pseudal+":"+usrsearch.getPseudo());
     }
     return usr;
 }

@@ -108,7 +108,7 @@ public class messagingGUI extends JFrame{
         this.controlCHAT=controlCHAT;
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         controlCHAT.setmyPseudo(pseudo);
-        correspondant=new usertype("", "", null);
+        //correspondant=new usertype("", "", null);//permet d'avoir un user "vide" à qui ne PAS envoyer de message
         mapConvos.put(correspondant, new Conversation(correspondant));
 
         //Creation of graphical components 
@@ -225,7 +225,7 @@ public class messagingGUI extends JFrame{
                 @Override
                 public void run(){
                     while(!Thread.currentThread().isInterrupted()){
-                        System.out.println("Test");
+                    
                         for (JButton b : connectedUsersList){
                             b.addActionListener(new ActionListener(){  
                                 public void actionPerformed(ActionEvent e){ 
@@ -237,7 +237,9 @@ public class messagingGUI extends JFrame{
                                     if(buttonselected != b){
                                         buttonselected=b;
                                         nbfois = 0;
+                                        System.out.println("Test1");
                                         m.createConversation(b.getText());
+                                        System.out.println("Test2");
                                     }
                                     else{
                                         System.out.println(buttonselected.getText() + "................................");
@@ -326,15 +328,13 @@ public class messagingGUI extends JFrame{
     }
 
 //TODO faudrait-il fusionner la liste des users du controller et la hashmap des conversations?
-//aussi, sera-t' ilutile d'avoir des numéros de port? Parce qu'alors ils pourraient servir à la hashmap
-//au lieu de l'ID (qui est déjà dans la conv).
     public void newUser(usertype corresp){
         controlCHAT.addUser(corresp);
         mapConvos.put(corresp, new Conversation(corresp));
     }
 
     private void backupBDD(){
-        for(Conversation convtobackup:mapConvos.values()){
+        for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
             controlCHAT.getComtoBDD().archiverConv(convtobackup);
         }
     }
@@ -344,11 +344,15 @@ public class messagingGUI extends JFrame{
     //!différent de la lancer, on ne la lance que si on write ou reçoit un message
     private void createConversation(String dest){
         messagePanel.removeAll();
+        System.out.println("Destinataire: "  + dest);
         correspondant=controlCHAT.getUserByPseudo(dest);
-        mapConvos.get(correspondant).load(this);
-        mapConvos.put(correspondant, new Conversation(correspondant));
-        mapConvos.get(correspondant).load(this);//récupération des messages
+        System.out.println("Liste: " + controlCHAT.getListeConnectes().toString());
+        System.out.println("Recup Destinataire réussie: " + correspondant);
+        //System.out.println(mapConvos.toString()+"\n\n\n\n\n");
+        //mapConvos.get(correspondant).load(this);//récupération des messages
+        //System.out.println("Récup Historique réussie");
         mapConvos.get(correspondant).launchTCP();;//TODO mettre dans writemessage
+        System.out.println("Création TCP");
         
         SwingUtilities.updateComponentTreeUI(this);
     }
@@ -440,8 +444,9 @@ public class messagingGUI extends JFrame{
     }
 
     //Display connected users
-    public void displayConnectedUsers(String pseudo){
+    public void displayConnectedUsers(String newuser){
 
+        String pseudo=newuser.split(" ")[1];
         while(connectedUsermutex){try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
@@ -468,6 +473,7 @@ public class messagingGUI extends JFrame{
         if(!trouve){
             connectedPanel.add(coUsers);
             connectedUsersList.add(coUsers);
+            this.newUser(new usertype(newuser));
         }
 
         SwingUtilities.updateComponentTreeUI(this);
@@ -487,11 +493,12 @@ public class messagingGUI extends JFrame{
         connectedUsermutex = true;
 
         String[] ps = pseudo.split(" ");
-        System.out.println(ps[0]);
+        System.out.println(ps[1]);
         for(JButton i : connectedUsersList){
-            if (i.getText().equals(ps[0])){
+            if (i.getText().equals(ps[1])){
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
+                controlCHAT.rmUser(controlCHAT.getUserByPseudo(i.getText()));
                 SwingUtilities.updateComponentTreeUI(this);
                 break;
             }
@@ -511,7 +518,7 @@ public class messagingGUI extends JFrame{
 
         connectedUsermutex = true;
         for(JButton b: connectedUsersList){
-            if (b.getText().equals(oldPseudo)){
+            if (b.getText().equals(oldPseudo)){//TODO gere listeconnectes
                 b.setText(newPseudo);
                 SwingUtilities.updateComponentTreeUI(b);
             }

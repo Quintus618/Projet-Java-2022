@@ -32,6 +32,7 @@ public class Conversation extends JLabel{
 //TODO TODO TODO
     public void launchTCP(){
         try {
+            System.out.println("Adresse: " + InetAddress.getByName(correspondant.getIPaddr()) + "Port: " + correspondant.getPort());
             TCP=new TCPcontrollerClient(InetAddress.getByName(correspondant.getIPaddr()), correspondant.getPort());
         } catch (UnknownHostException e) {
             System.out.println("Echec de création du client TCP de la conversation avec "+correspondant.toString());
@@ -73,4 +74,9 @@ public class Conversation extends JLabel{
     public ArrayList<Message> getMessageList() {
         return MessageList;
     }
+
+    public String toString(){
+        return "Conversation avec "+this.correspondant.toString()+".";
+    }
+
 }

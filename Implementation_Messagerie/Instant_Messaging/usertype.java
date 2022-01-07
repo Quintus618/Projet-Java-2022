@@ -103,7 +103,7 @@ public class usertype implements Comparable<usertype>{
 
     
     public String toString() {
-        return pseudo+" "+id+" "+IPaddr+" "+Integer.toString(port);
+        return id+" "+pseudo+" "+IPaddr+" "+Integer.toString(port);
     }
 
 }

@@ -95,11 +95,7 @@ public class UDPcontroller {
                                 //pseudoRecu=messages[1];
                             }
                             else {
-                                mGUI.displayConnectedUsers(messages[1].split(" ")[0]);
-
-                                usertype corresp=new usertype(messages[1]);
-
-                                mGUI.newUser(corresp);
+                                mGUI.displayConnectedUsers(messages[1]);
 
                                 nbfoisdemande = 0;
                                 /*
