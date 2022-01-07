@@ -192,9 +192,19 @@ public boolean idtaken(String idtest){
 //GESTION DE LA TABLE ARCHIVES
 //--------------------------------------------------------------------------------------------------------------------------
 
+
+private String escapeString(String s) {
+    return s.replaceAll("\\\\", "\\\\\\\\").replaceAll("\b","\\b").replaceAll("\n","\\n").replaceAll("\r", "\\r").replaceAll("\t", "\\t").replaceAll("\\x1A", "\\Z").replaceAll("\\x00", "\\0").replaceAll("'", "\\'").replaceAll("\"", "\\\"");
+}
+
+private String escapeWildcards(String s) {
+    return escapeString(s).replaceAll("%", "\\%").replaceAll("_","\\_");
+}
+
+
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
-    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+sms.getTextMessage()+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');";
+    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');";
     //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
 }//!!! Il faudra trouver un moyen (stocker un booleen par conversation, faire un on duplicate key...)
@@ -203,7 +213,9 @@ public void archiverMessage(Message sms){
 
 public void archiverConv(Conversation conv){
     for (Message sms:conv.getMessageList()){
-        archiverMessage(sms);
+        if(sms.getIsSender()){//permet de ne pas archiver tous les messages en double
+            archiverMessage(sms);
+        }
     }
 }
 
@@ -221,21 +233,21 @@ public ArrayList <Message> recupererConv(usertype corr){
     String from=null;
     String to=null;
     Timestamp chrono=null;
-
-    try {
-        while (rowset.next()){
-            txt=rowset.getString("message");
-            from=rowset.getString("fromID");
-            to=rowset.getString("toID");
-            chrono=rowset.getTimestamp("chrono");
-            conv.add(new Message(txt,from,to,chrono.toLocalDateTime()));
+    if (rowset!=null){
+        try {
+            while (rowset.next()){
+                txt=rowset.getString("message");
+                from=rowset.getString("fromID");
+                to=rowset.getString("toID");
+                chrono=rowset.getTimestamp("chrono");
+                conv.add(new Message(txt,from,to,chrono.toLocalDateTime()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
     }
-    return conv;
-}
+        return conv;
+    }
 
 
 
