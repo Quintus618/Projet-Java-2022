@@ -48,6 +48,8 @@ public class changePseudoPopUp extends JFrame{
                     JOptionPane.showMessageDialog(null, "Le pseudo ne peut pas être vide, ni contenir d'espaces!");
                 }else if(mGUI.pseudotaken(wantedps)){
                     JOptionPane.showMessageDialog(null, "Ce pseudo est déjà pris par un autre utilisateur!");
+                }else if(wantedps.length()>24){
+                    JOptionPane.showMessageDialog(null, "La taille du pseudo est limitée à 24 caractères ("+wantedps.length()+" ici).");
                 }else{
                     String oldPseudo = mGUI.getControlCHAT().getMyPseudo(); 
                     mGUI.getControlCHAT().setmyPseudo(wantedps);

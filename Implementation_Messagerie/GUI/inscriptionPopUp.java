@@ -55,7 +55,9 @@ public class inscriptionPopUp extends JFrame {
                 String wantedid=idText.getText();
                 String wantedmdp=mdpText.getText();
                 if(wantedid.length()>0 && wantedmdp.length()>3){
-                    if(wantedid.contains(" ")||wantedmdp.contains(" ")){
+                    if(wantedid.length()>30 && wantedmdp.length()>30){
+                        JOptionPane.showMessageDialog(null, "Identifiant et mot de passe sont limités à 30 caractères!");
+                    }else if(wantedid.contains(" ")||wantedmdp.contains(" ")){
                         JOptionPane.showMessageDialog(null, "Les espaces sont interdits.");
                     }else if(controlCHAT.getComtoBDD().addUser(wantedid,wantedmdp)){
                         JOptionPane.showMessageDialog(null, "Succès de l'inscription; bienvenue "+wantedid+"!");

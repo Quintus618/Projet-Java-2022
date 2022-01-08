@@ -108,7 +108,7 @@ public class messagingGUI extends JFrame{
         this.controlCHAT=controlCHAT;
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         controlCHAT.setmyPseudo(pseudo);
-        //correspondant=new usertype("", "", null);//permet d'avoir un user "vide" à qui ne PAS envoyer de message
+        correspondant=new usertype("", "", null);//permet d'avoir un user "vide" à qui ne PAS envoyer de message
         mapConvos.put(correspondant, new Conversation(correspondant));
 
         //Creation of graphical components 
@@ -238,7 +238,7 @@ public class messagingGUI extends JFrame{
                                         buttonselected=b;
                                         nbfois = 0;
                                         System.out.println("Test1");
-                                        m.createConversation(b.getText());
+                                        m.displayConversation(b.getText());
                                         System.out.println("Test2");
                                     }
                                     else{
@@ -306,7 +306,6 @@ public class messagingGUI extends JFrame{
     }
 
 
-
     private void disconnect(){//TODO finir
         try {
             udpController.interrupt();
@@ -316,7 +315,7 @@ public class messagingGUI extends JFrame{
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         }
-
+        tcpServer.killserver();
         while(updateConnected.isAlive()){
             updateConnected.interrupt();
         }
@@ -324,42 +323,68 @@ public class messagingGUI extends JFrame{
             System.out.println("A l'aide");
             listen.interrupt();
         }
-        backupBDD(); 
+        endbackupBDD(); 
         dispose();
     }
 
-//TODO faudrait-il fusionner la liste des users du controller et la hashmap des conversations?
+    
+    private void endbackupBDD(){
+        for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
+            //controlCHAT.getComtoBDD().archiverConv(convtobackup);
+            convtobackup.killTCP();
+        }
+        //décommenter pour activer l'archivage
+    }
+
+
     public void newUser(usertype corresp){
-        controlCHAT.addUser(corresp);
         mapConvos.put(corresp, new Conversation(corresp));
     }
 
-    private void backupBDD(){
-        for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
-            controlCHAT.getComtoBDD().archiverConv(convtobackup);
+    private usertype getUserByPseudo(String upseudo){
+        usertype thisuser=null;
+        for(usertype usrsearch:mapConvos.keySet()){
+            if(usrsearch.getPseudo().equals(upseudo)){
+                thisuser=usrsearch;
+                System.out.println("C'est rentré");
+                break;
+            }
+            System.out.println("Recherche  de"+upseudo+":"+usrsearch.getPseudo());
         }
+        if(thisuser==null){
+            System.out.println("Erreur: utilisateur non trouvé");
+        }
+        return thisuser;
     }
 
 
     //Create conversation
     //!différent de la lancer, on ne la lance que si on write ou reçoit un message
-    private void createConversation(String dest){
-        messagePanel.removeAll();
-        System.out.println("Destinataire: "  + dest);
-        correspondant=controlCHAT.getUserByPseudo(dest);
-        System.out.println("Liste: " + controlCHAT.getListeConnectes().toString());
-        System.out.println("Recup Destinataire réussie: " + correspondant);
-        //System.out.println(mapConvos.toString()+"\n\n\n\n\n");
-        //mapConvos.get(correspondant).load(this);//récupération des messages
-        //System.out.println("Récup Historique réussie");
-        mapConvos.get(correspondant).launchTCP();;//TODO mettre dans writemessage
-        System.out.println("Création TCP");
+    private void createConversation(String pseudodest){
+        //!!nom trompeur, la conversation vide est créée et mise dans la hashmap dès qu'un nnouvel user apparait
+        
+        mapConvos.get(correspondant).load(this);//récupération des messages(pour l'instant ne fait rien, déconnecté)
+        System.out.println("Récup Historique "+correspondant.getPseudo()+" réussie");
+        mapConvos.get(correspondant).launchTCP();
+        System.out.println("Création TCP "+correspondant.getPseudo());
         
         SwingUtilities.updateComponentTreeUI(this);
     }
 
+    private void displayConversation(String unpseudo){
+        messagePanel.removeAll();
+        System.out.println("Destinataire: "  + unpseudo);
+        correspondant=getUserByPseudo(unpseudo);
+        Conversation ConvoActive=mapConvos.get(correspondant);
 
+        if(!ConvoActive.gethasTCP()){
+            createConversation(unpseudo);
+        }
+        for(Message smstodisplay:ConvoActive.getMessageList()){
+            displayMessage(smstodisplay);
+        }
 
+    }
 
 
     //Send a message to another user
@@ -371,78 +396,71 @@ public class messagingGUI extends JFrame{
             JOptionPane.showMessageDialog(null, "Merci de choisir un destinataire.");
         }else{  
             if (!t.isBlank()){
-                numberMessage++;
-                //numberLine = numberMessage % MAX_MESS;
-                //c.fill = GridBagConstraints.HORIZONTAL;
-                //some identical code at receiveMessage, create a createMessage function?
-                JPanel MEnvhorodatage = new JPanel();
-                MEnvhorodatage.setLayout(new BorderLayout());
-                JPanel MEnv = new JPanel();
                 Message message1 = new Message(t, correspondant.getId(),true);
-                //String mdate = message1.getHorodata().toString();
-
-                LocalDateTime mdate = message1.getHorodata();
-                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
-                String formattedDate = mdate.format(myFormatObj);
-                JLabel messageLab = new JLabel(formattedDate);
-
-                MEnv.setBackground(Color.decode("#7F7FBF"));
-                MEnvhorodatage.setMinimumSize(new Dimension(750, 100));
-                MEnvhorodatage.setPreferredSize(new Dimension(750, 100));
-                MEnv.add(message1);
-                MEnvhorodatage.add(MEnv, BorderLayout.CENTER);
-                MEnvhorodatage.add(messageLab, BorderLayout.SOUTH);
-                JPanel MBlanc = new JPanel();
-                MBlanc.setMinimumSize(new Dimension(750, 100));
-                MBlanc.setPreferredSize(new Dimension(750, 100));
-                c.gridx = 0;
-                c.gridy = numberMessage;
-                messagePanel.add(MEnvhorodatage,c);
-                c.gridx = 1;
-                c.gridy = numberMessage;
-                messagePanel.add(MBlanc,c);
+                displayMessage(message1);
                 textSenderZone.setText("");
-                messageList.add(message1);//TODO conversation?
-                SwingUtilities.updateComponentTreeUI(this);
-            } 
+            }
         } 
     }
 
     //Receive messages from another user
     public void receiveMessage(String t){
-        numberMessage++;
-        numberLine = numberMessage % MAX_MESS;
-        c.fill = GridBagConstraints.VERTICAL;
-        JPanel MRecHoradate = new JPanel();
-        MRecHoradate.setLayout(new BorderLayout());
-        JPanel MRec = new JPanel();  
-
-        //Creation of the message
         Message message2 = new Message(t, correspondant.getId(), false);
-        LocalDateTime mdate = message2.getHorodata();
+        displayMessage(message2);
+    }
+
+    //plus pratique, notamment pourchanger de conversation affichée
+    private void displayMessage(Message sms){
+        numberMessage++;
+        boolean sentbyMe=sms.getIsSender();
+        String colorSMS;
+        if(sentbyMe){
+            //numberLine = numberMessage % MAX_MESS;
+            //c.fill = GridBagConstraints.HORIZONTAL;
+            colorSMS="#7F7FBF";
+        }else{
+            numberLine = numberMessage % MAX_MESS;
+            c.fill = GridBagConstraints.VERTICAL;
+            colorSMS="#7FBF7F";
+        }
+
+        JPanel Messhorodatage = new JPanel();
+        Messhorodatage.setLayout(new BorderLayout());
+        JPanel Mess = new JPanel();
+        LocalDateTime mdate = sms.getHorodata();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = mdate.format(myFormatObj);
         JLabel messageLab = new JLabel(formattedDate);
-        JLabel MRecLab = new JLabel(formattedDate);
 
-        MRec.setBackground(Color.decode("#7FBF7F"));
-        MRecHoradate.setMinimumSize(new Dimension(750, 100));
-        MRecHoradate.setPreferredSize(new Dimension(750, 100));
-        MRec.add(message2);
-        MRecHoradate.add(MRec, BorderLayout.CENTER);
-        MRecHoradate.add(MRecLab, BorderLayout.SOUTH);
+        Mess.setBackground(Color.decode(colorSMS));
+        Messhorodatage.setMinimumSize(new Dimension(750, 100));
+        Messhorodatage.setPreferredSize(new Dimension(750, 100));
+        Mess.add(sms);
+        Messhorodatage.add(Mess, BorderLayout.CENTER);
+        Messhorodatage.add(messageLab, BorderLayout.SOUTH);
         JPanel MBlanc = new JPanel();
         MBlanc.setMinimumSize(new Dimension(750, 100));
         MBlanc.setPreferredSize(new Dimension(750, 100));
+        
         c.gridx = 0;
         c.gridy = numberMessage;
-        messagePanel.add(MBlanc,c);
+        if(sentbyMe){
+            messagePanel.add(Messhorodatage,c);
+        }else{
+            messagePanel.add(MBlanc,c);
+        }
         c.gridx = 1;
         c.gridy = numberMessage;
-        messagePanel.add(MRecHoradate,c);
-        messageList.add(message2);
+        if(sentbyMe){
+            messagePanel.add(MBlanc,c);
+        }else{
+            messagePanel.add(Messhorodatage,c);
+        }
+
+        messageList.add(sms);
         SwingUtilities.updateComponentTreeUI(this);
     }
+
 
     //Display connected users
     public void displayConnectedUsers(String newuser){
@@ -483,7 +501,7 @@ public class messagingGUI extends JFrame{
     }
 
     //Remove connected user
-    public void removeConnectedUsers(String pseudo){
+    public void removeConnectedUsers(usertype usertorm){
 
         while(connectedUsermutex){try {
             Thread.sleep(20);
@@ -493,13 +511,18 @@ public class messagingGUI extends JFrame{
         }}
         connectedUsermutex = true;
 
-        String[] ps = pseudo.split(" ");
-        System.out.println(ps[1]);
+        System.out.println(usertorm.getPseudo()+"se déconnecte");
         for(JButton i : connectedUsersList){
-            if (i.getText().equals(ps[1])){
+            if (i.getText().equals(usertorm.getPseudo())){
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
-                controlCHAT.rmUser(controlCHAT.getUserByPseudo(i.getText()));
+                //controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
+                mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
+                //attention aussi, il faut gérer les changements de pseudos...
+                if(correspondant.getId().equals(usertorm.getId())){
+                    correspondant=new usertype("", "", null);
+                    JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
+                }
                 SwingUtilities.updateComponentTreeUI(this);
                 break;
             }
@@ -519,7 +542,10 @@ public class messagingGUI extends JFrame{
 
         connectedUsermutex = true;
         for(JButton b: connectedUsersList){
-            if (b.getText().equals(oldPseudo)){//TODO gere listeconnectes
+            if (b.getText().equals(oldPseudo)){//TODO TODO TODO gérer mapConvosla màj dans mapconvos!
+                if(oldPseudo.equals(correspondant.getPseudo())){
+                    correspondant.setPseudo(newPseudo);
+                }
                 b.setText(newPseudo);
                 SwingUtilities.updateComponentTreeUI(b);
             }
@@ -535,7 +561,7 @@ public class messagingGUI extends JFrame{
         SwingUtilities.updateComponentTreeUI(chpseudo);
     }
 
-    //en rab du cahier des charges
+    //en rab du cahier des charges...? Est-ce qu'on a le broadcast pour demander s'il est pris ailleurs?
     public Boolean pseudotaken(String pseudal){
 
         while(connectedUsermutex){try {

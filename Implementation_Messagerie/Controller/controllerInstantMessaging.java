@@ -29,35 +29,6 @@ public controllerBDD getComtoBDD() {
     return comtoBDD;
 }
 
-//est-ce qu'il faudrait fusionner ça avec mapConvos?
-private static ArrayList<usertype> ListeConnectes= new ArrayList<usertype>();
-
-public ArrayList<usertype> getListeConnectes() {
-    return ListeConnectes;
-}
-
-public void rmUser(usertype user) {
-     ListeConnectes.remove(user);
-}
-
-public void addUser(usertype user) {
-    ListeConnectes.add(user);
-}
-
-//TODO TODO TODO
-public usertype getUserByPseudo(String pseudal){
-    usertype usr=null;
-    for(usertype usrsearch:ListeConnectes){
-        if(usrsearch.getPseudo().equals(pseudal)){
-            usr=usrsearch;
-            System.out.println("C'est rentré");
-            break;
-        }
-        System.out.println("Recherche  de"+pseudal+":"+usrsearch.getPseudo());
-    }
-    return usr;
-}
-
 
 public void setmyPseudo(String pseudal) {
     Me.setPseudo(pseudal);
@@ -68,7 +39,6 @@ public String getMyPseudo() {
 
 
 
-//le pseudo est dans messagingGUI, rassembler?
  public controllerInstantMessaging(){ 
 
     Me=new usertype("","", "127.0.0.1");

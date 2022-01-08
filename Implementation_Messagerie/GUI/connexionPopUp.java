@@ -66,9 +66,11 @@ public class connexionPopUp extends JFrame{
                 if(!controlCHAT.getComtoBDD().idtaken(connectid)){
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
                 }else if(connectid.contains(" ")||connectpseudo.contains(" ")){
-                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits!");
-                    
+                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits!");                    
+                }else if(connectpseudo.length()>24){
+                    JOptionPane.showMessageDialog(null, "La taille du pseudo est limitée à 24 caractères ("+connectpseudo.length()+" ici).");
                 }else{
+
                     if(connectmdp.equals(controlCHAT.getComtoBDD().getMDP(connectid))){
                         controlCHAT.setmyID(connectid);
                         controlCHAT.setmyPseudo(connectpseudo);
@@ -77,6 +79,7 @@ public class connexionPopUp extends JFrame{
                     }else{
                         JOptionPane.showMessageDialog(null, "Mot de passe incorrect.");
                     }
+                    
                 } 
             }
         }

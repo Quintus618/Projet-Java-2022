@@ -75,15 +75,6 @@ public class UDPcontroller {
                         mais ne marche pas ici à cause du message changepseudo qui en a un autre
                          */
 
-                        //je laisse au cas où ça servait à quelque chose mais là je ne vois pas
-                        /*
-                        String[] messagesplit = message.split(":");
-                        String[] messages = new String[messagesplit.length];
-                        int index = 0;
-                        for (String m : messagesplit){
-                            messages[index] = m;
-                            index++;
-                        }*/
 
                         System.out.println(message);
                         //String pseudoRecu="";
@@ -107,7 +98,7 @@ public class UDPcontroller {
                             }
                             break;
                             case "USERDISCONNECTED"://or if a timer is exceeded?
-                            mGUI.removeConnectedUsers(messages[1]);
+                            mGUI.removeConnectedUsers(new usertype(messages[1]));
                             /*
                             timer.cancel();
                             timer.purge();
@@ -115,7 +106,7 @@ public class UDPcontroller {
                             break;
                             case "CHANGEPSEUDO":
                             if(nbfoisdemande==0){
-                                changePseudoPopUp cPseudo = new changePseudoPopUp(mGUI, 100, 500);
+                                new changePseudoPopUp(mGUI, 100, 500);
                                 nbfoisdemande++;
                             }
                             break;
@@ -245,7 +236,7 @@ public class UDPcontroller {
         
             }
         }
-        
+        socket.close();
     }
     
     //broadcastUDP to notify connexion

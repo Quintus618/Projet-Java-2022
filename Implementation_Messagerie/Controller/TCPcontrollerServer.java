@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.*;
-import java.io.ObjectInputStream.GetField;
 import java.net.*;
 
 import GUI.messagingGUI;
@@ -61,4 +60,12 @@ public class TCPcontrollerServer {
         return socServer;
     }
  
+    public void killserver(){
+        try {
+            socServer.close();
+            System.out.println("Serveur TCP fermé avec succès.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
