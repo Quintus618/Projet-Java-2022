@@ -2,14 +2,17 @@ package Controller;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 import GUI.messagingGUI;
+import Instant_Messaging.Message;
 import Instant_Messaging.usertype;
 
 public class TCPcontrollerServer {
 
     //Creation of the server socket
     private ServerSocket socServer;
+    private ArrayList<Socket> socClientList = new ArrayList<Socket>();
 
     public TCPcontrollerServer(usertype myself){//pas plutôt inetAdress?
         //dans messagingGUI c'est le pseudo qui est passé! ça doit être l'erreur
@@ -42,19 +45,29 @@ public class TCPcontrollerServer {
             socClient = this.socServer.accept();
             String clientIPAddress = socClient.getInetAddress().getHostAddress();
 
-            System.out.println("Connexion acceptée" + clientIPAddress);
+            System.out.println("Connexion acceptée " + clientIPAddress);
 
             BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
             while((message=dataRec.readLine()) != null){
-                System.out.println("MESSSSSSSSAAAAAAAAAAAAAAAAAAGGGGGGEEEEEEEEEE"+message);
-                mGUI.receiveMessage(message);
+                
+                if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
+                    mGUI.receiveMessage(message, clientIPAddress);
+                }else{
+                    mGUI.stockMessage(message, clientIPAddress);
+                }
+
+
             }
+       
+            PrintWriter out = new PrintWriter(socClient.getOutputStream(), true);
+            out.println(message);
+            System.out.println("Voici le message envoyé" + message);
+            out.flush();
         }
-        catch (Exception e){
-            System.out.println("Refus TCP");
+        catch(Exception e){
+            System.out.println("Echec de l'envoi ou réception côté Serveur");
         }
     }
-
 
     public ServerSocket getSocServer() {
         return socServer;

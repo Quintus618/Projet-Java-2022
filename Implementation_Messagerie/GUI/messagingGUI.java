@@ -346,10 +346,9 @@ public class messagingGUI extends JFrame{
         for(usertype usrsearch:mapConvos.keySet()){
             if(usrsearch.getPseudo().equals(upseudo)){
                 thisuser=usrsearch;
-                System.out.println("C'est rentré");
                 break;
             }
-            System.out.println("Recherche  de"+upseudo+":"+usrsearch.getPseudo());
+            System.out.println("Recherche  de "+upseudo+":"+usrsearch.getPseudo());
         }
         if(thisuser==null){
             System.out.println("Erreur: utilisateur non trouvé");
@@ -357,6 +356,27 @@ public class messagingGUI extends JFrame{
         return thisuser;
     }
 
+    private usertype getUserByIP(String IPasked){
+        usertype thisuser=null;
+        for(usertype usrsearch:mapConvos.keySet()){
+            if(usrsearch.getIPaddr().equals(IPasked)){
+                thisuser=usrsearch;
+                break;
+            }
+            System.out.println("Recherche  de "+IPasked+":"+usrsearch.getPseudo());
+        }
+        if(thisuser==null){
+            System.out.println("Erreur: utilisateur non trouvé");
+        }
+        return thisuser;
+    }
+
+    public Message stockMessage(String smsstring, String validIP){
+        usertype thisUsr=getUserByIP(validIP);
+        Message sms = new Message(smsstring, thisUsr.getId(), false);
+        mapConvos.get(thisUsr).addMessage(sms);
+        return sms;
+    }
 
     //Create conversation
     //!différent de la lancer, on ne la lance que si on write ou reçoit un message
@@ -386,6 +406,9 @@ public class messagingGUI extends JFrame{
 
     }
 
+    public usertype getCorrespondant() {
+        return correspondant;
+}
 
     //Send a message to another user
     private void writeMessage(String t){
@@ -398,14 +421,15 @@ public class messagingGUI extends JFrame{
             if (!t.isBlank()){
                 Message message1 = new Message(t, correspondant.getId(),true);
                 displayMessage(message1);
+                mapConvos.get(correspondant).addMessage(message1);
                 textSenderZone.setText("");
             }
         } 
     }
 
     //Receive messages from another user
-    public void receiveMessage(String t){
-        Message message2 = new Message(t, correspondant.getId(), false);
+    public void receiveMessage(String t, String clientIPAddress){
+        Message message2=stockMessage(t, clientIPAddress);
         displayMessage(message2);
     }
 
