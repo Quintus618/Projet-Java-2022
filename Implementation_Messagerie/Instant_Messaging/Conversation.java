@@ -77,6 +77,10 @@ public class Conversation extends JLabel{
     public usertype getCorrespondant() {
         return correspondant;
     }
+    
+    public void setCorrespondant(usertype neousr){
+        this.correspondant=neousr;
+    }
 
     public TCPcontrollerClient getTCP() {
         return TCP;
