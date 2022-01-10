@@ -19,19 +19,22 @@ public class welcomGUI extends JFrame{
         
         //Creation of GUI
         super("Insatact");
+        if(height>279 && width>349){
+            setMinimumSize(new Dimension(280,350));
+        }
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         inscriptionButton = new JButton("Inscription");
-        inscriptionButton.setPreferredSize(new Dimension(100, 100));
+        //inscriptionButton.setPreferredSize(new Dimension(100, 100));
         inscriptionButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){ new inscriptionPopUp(controlCHAT,150,600);}});
 
         connexionButton = new JButton("Connexion");
-        connexionButton.setPreferredSize(new Dimension(100, 100));
-        connexionButton.setBounds(100,100,100, 40);//voir comment fonctionnent toutes ces dimensions
+        //connexionButton.setSize(new Dimension(50, 50));
+        //connexionButton.setBounds(100,100,100, 40);//voir comment fonctionnent toutes ces dimensions
         connexionButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                 new connexionPopUp(controlCHAT, 150, 500);
@@ -48,6 +51,8 @@ public class welcomGUI extends JFrame{
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+        buttonsPanel.setPreferredSize(new Dimension(100,100));
+        buttonsPanel.setMinimumSize(new Dimension(100,100));
         buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(connexionButton);
         buttonsPanel.add(Box.createHorizontalGlue());

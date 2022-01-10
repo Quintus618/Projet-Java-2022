@@ -122,6 +122,7 @@ public class UDPcontroller {
                             }
                             else {
                                 mGUI.updateConnectedList(messages[1], messages[2]);
+                                mGUI.updatePseudo(messages[2], messages[1], false);;
                             }
                             break;
                             default: System.out.println("Alert: unexpected message");

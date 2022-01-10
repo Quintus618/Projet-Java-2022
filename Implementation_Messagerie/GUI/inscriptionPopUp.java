@@ -20,6 +20,7 @@ public class inscriptionPopUp extends JFrame {
         //Creation of GUI
         super("Inscription");
         setSize(width, height);
+        setResizable(false);
         this.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//permet de ne pas tuer welcomGUI quand fermée

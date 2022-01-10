@@ -412,10 +412,29 @@ public class messagingGUI extends JFrame{
         }
 
     }
+    
+    public void updatePseudo(String oldpseudo, String neopseudo, boolean fromtimer){
+        //TODO !!! comment marche le passage du client TCP??
+        usertype oldusr=getUserByPseudo(oldpseudo);
+        usertype upuser=oldusr;
+        upuser.setPseudo(neopseudo);
+        Conversation upconv=mapConvos.get(oldusr);
+        upconv.setCorrespondant(upuser);
+        if (fromtimer){//utilisée que si on utilise un timer de déco
+            for(Message parkoursms:mapConvos.get(getUserByPseudo(neopseudo)).getMessageList()){
+                upconv.addMessage(parkoursms);
+            }
+        }
+        mapConvos.remove(oldusr);
+        mapConvos.put(upuser, upconv);
+        if (upuser.getId().equals(correspondant.getId())){
+            displayConversation(neopseudo);
+        }
+    }
 
     public usertype getCorrespondant() {
         return correspondant;
-}
+    }
 
     //Send a message to another user
     private void writeMessage(String t){

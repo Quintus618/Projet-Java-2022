@@ -14,15 +14,50 @@ public class connexionPopUp extends JFrame{
     private JTextField comdpText;
     private JTextField pseudoText;
 
+    private void notwannaconnect(){
+        new controllerInstantMessaging();
+        dispose();
+    }
+
     //Constructor
     public connexionPopUp(controllerInstantMessaging controlCHAT, int height, int width){
 
         //Creation of GUI
         super("Connexion");
         setSize(width, height);
+        setResizable(false);
         this.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //ceci permet d'utiliser notwannaconnect() à la fermeture
+        addWindowListener(new WindowListener(){  
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+
+            public void windowClosing(WindowEvent e) {
+                notwannaconnect();//important
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {                
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {                
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {                
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {                
+            }
+            });
 
         //Creation panel
         connexionPanel = new JPanel();
