@@ -270,8 +270,8 @@ public class messagingGUI extends JFrame{
                 @Override
                 public void run(){
 
-                    while(!Thread.currentThread().isInterrupted()){
-                        System.out.println("Testttttt");
+                    while(true){
+                        System.out.println("ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
                         tcpServer.dataReception(m);
                     }            
                 }
@@ -348,7 +348,7 @@ public class messagingGUI extends JFrame{
                 thisuser=usrsearch;
                 break;
             }
-            System.out.println("Recherche  de "+upseudo+":"+usrsearch.getPseudo());
+            //System.out.println("Recherche  de "+upseudo+":"+usrsearch.getPseudo());
         }
         if(thisuser==null){
             System.out.println("Erreur: utilisateur non trouvé");
@@ -363,7 +363,7 @@ public class messagingGUI extends JFrame{
                 thisuser=usrsearch;
                 break;
             }
-            System.out.println("Recherche  de "+IPasked+":"+usrsearch.getPseudo());
+            //System.out.println("Recherche  de "+IPasked+":"+usrsearch.getPseudo());
         }
         if(thisuser==null){
             System.out.println("Erreur: utilisateur non trouvé");

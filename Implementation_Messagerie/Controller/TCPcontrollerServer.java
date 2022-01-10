@@ -58,10 +58,10 @@ public class TCPcontrollerServer {
                     System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
 
                     if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
-                        System.out.println("Est-ce que ca passe ici");
+                        System.out.println("Est-ce que ca passe ici: " + message);
                         mGUI.receiveMessage(message, clientIPAddress);
                     }else{
-                        System.out.println("Est-ce que erreur ici");
+                        System.out.println("Est-ce que erreur ici: " + message);
                         mGUI.stockMessage(message, clientIPAddress);
                         System.out.println("Est-ce que ca passe là");
                     }
