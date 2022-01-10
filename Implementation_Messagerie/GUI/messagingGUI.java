@@ -368,7 +368,7 @@ public class messagingGUI extends JFrame{
         mapConvos.get(correspondant).launchTCP();
         System.out.println("Création TCP "+correspondant.getPseudo());
         
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(messagePanel);
     }
 
     private void displayConversation(String unpseudo){
@@ -458,7 +458,7 @@ public class messagingGUI extends JFrame{
         }
 
         messageList.add(sms);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(connectedPanel);
     }
 
 
@@ -495,13 +495,14 @@ public class messagingGUI extends JFrame{
             this.newUser(new usertype(newuser));
         }
 
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(connectedPanel);
 
         connectedUsermutex = false;
     }
 
     //Remove connected user
     public void removeConnectedUsers(usertype usertorm){
+        //TODO fermer TCP
 
         while(connectedUsermutex){try {
             Thread.sleep(20);
@@ -523,7 +524,7 @@ public class messagingGUI extends JFrame{
                     correspondant=new usertype("", "", null);
                     JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
                 }
-                SwingUtilities.updateComponentTreeUI(this);
+                SwingUtilities.updateComponentTreeUI(connectedPanel);
                 break;
             }
         }
