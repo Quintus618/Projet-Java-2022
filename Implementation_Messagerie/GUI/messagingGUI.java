@@ -5,12 +5,7 @@ import javax.swing.*;
 import Instant_Messaging.*;
 import Controller.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.awt.*;
-import java.lang.*;
-import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
@@ -38,7 +33,6 @@ public class messagingGUI extends JFrame{
 
     //Panels of the instant messaging
     private JPanel chatPanel;
-    private JPanel infoProfilPanel;
     private JPanel connectedPanel;
     private JPanel messagePanel;
 
@@ -336,10 +330,9 @@ public class messagingGUI extends JFrame{
     
     private void endbackupBDD(){
         for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
-            //controlCHAT.getComtoBDD().archiverConv(convtobackup);
+            controlCHAT.getComtoBDD().archiverConv(convtobackup);
             convtobackup.killTCP();
         }
-        //TODO décommenter pour activer l'archivage
     }
 
 
@@ -393,6 +386,7 @@ public class messagingGUI extends JFrame{
         System.out.println("Récup Historique "+correspondant.getPseudo()+" réussie");
         mapConvos.get(correspondant).launchTCP();
         System.out.println("Création TCP "+correspondant.getPseudo());
+        displayConversation(pseudodest);
         
         SwingUtilities.updateComponentTreeUI(messagePanel);
     }
@@ -581,7 +575,7 @@ public class messagingGUI extends JFrame{
                 }
 
                 //mapConvos.get(usertorm).killTCP();
-                //controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
+                controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
                 mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
                 SwingUtilities.updateComponentTreeUI(connectedPanel);
                 break;
