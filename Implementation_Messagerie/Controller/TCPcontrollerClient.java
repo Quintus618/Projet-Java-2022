@@ -19,7 +19,7 @@ public class TCPcontrollerClient {
             out.println(message);
             System.out.println("Voici le message envoyé" + message);
             out.flush();
-            //out.close();
+            out.close();
         }
         catch(Exception e){
             System.out.println("Echec de l'envoi d'un message");
