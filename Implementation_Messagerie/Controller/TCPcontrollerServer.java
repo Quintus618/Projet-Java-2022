@@ -13,7 +13,8 @@ public class TCPcontrollerServer {
 
     //Creation of the server socket
     private ServerSocket socServer;
-    private ArrayList<Socket> socClientList = new ArrayList<Socket>();
+    private ArrayList<Thread> threadList = new ArrayList<Thread>();
+    private ArrayList<Socket> socketList = new ArrayList<Socket>();
 
     public TCPcontrollerServer(usertype myself){//pas plutôt inetAdress?
         //dans messagingGUI c'est le pseudo qui est passé! ça doit être l'erreur
@@ -43,6 +44,7 @@ public class TCPcontrollerServer {
         try {
             System.out.println("En attente de connexions");
             socClient = this.socServer.accept();
+            socketList.add(socClient);
             String clientIPAddress = socClient.getInetAddress().getHostAddress();
 
             System.out.println("Connexion acceptée " + clientIPAddress);
@@ -50,12 +52,14 @@ public class TCPcontrollerServer {
             Thread recepdata = new Thread(new Runnable(){
 
                 String message = null;
+                BufferedReader dataRec;
 
                 @Override
                 public void run() {
                     try{
-                        BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
-                        while((message=dataRec.readLine()) != null){
+                        dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
+                        
+                        while(!Thread.currentThread().isInterrupted() && (message=dataRec.readLine()) != null){
                             
                             //System.out.println(mGUI.getCorrespondant());
                             //System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
@@ -83,7 +87,9 @@ public class TCPcontrollerServer {
                     //out.println(message);
                     //System.out.println("Voici le message envoyé" + message);
                     //out.flush();
-                }});
+                }
+            });
+                threadList.add(recepdata);
                 recepdata.start();
         }
         catch(Exception e){
@@ -98,6 +104,22 @@ public class TCPcontrollerServer {
  
     public void killserver(){
         try {
+            for(Socket soc : socketList)soc.close();
+            System.out.println("Fermeture de tous les sockets");
+            for(Thread t : threadList){
+
+                System.out.println("Premier thread à virer : " + t);
+                //bufferList.get(0).close();
+                System.out.println("Premier buffer fermé : " );
+                System.out.println("Premier buffer supprimé : ");
+
+                while(t.isAlive()){
+                    //bufferList.get(0).close();
+                    t.interrupt();
+                    System.out.println("Thread " + t);
+                }
+            }
+
             socServer.close();
             System.out.println("Serveur TCP fermé avec succès.");
         } catch (IOException e) {

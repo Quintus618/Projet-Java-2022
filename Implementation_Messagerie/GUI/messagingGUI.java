@@ -270,7 +270,7 @@ public class messagingGUI extends JFrame{
                 @Override
                 public void run(){
 
-                    while(true){
+                    while(!Thread.currentThread().isInterrupted()){
                         System.out.println("ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
                         tcpServer.dataReception(m);
                     }            
@@ -309,20 +309,26 @@ public class messagingGUI extends JFrame{
     private void disconnect(){//TODO finir
         try {
             udpController.interrupt();
-            udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString()) ;
+            udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString());
+            System.out.println("Fait UDP");
         } catch (SocketException e1) {
             e1.printStackTrace();
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         }
         tcpServer.killserver();
-        while(updateConnected.isAlive()){
-            updateConnected.interrupt();
-        }
+        System.out.println("Fait TCP");
+
         while(listen.isAlive()){
             System.out.println("A l'aide");
             listen.interrupt();
         }
+        System.out.println("Serveur TCP");
+        
+        while(updateConnected.isAlive()){
+            updateConnected.interrupt();
+        }
+        System.out.println("Fait Liste COnnectés");
         endbackupBDD(); 
         dispose();
     }
