@@ -333,7 +333,7 @@ public class messagingGUI extends JFrame{
             //controlCHAT.getComtoBDD().archiverConv(convtobackup);
             convtobackup.killTCP();
         }
-        //décommenter pour activer l'archivage
+        //TODO décommenter pour activer l'archivage
     }
 
 
@@ -502,7 +502,6 @@ public class messagingGUI extends JFrame{
 
     //Remove connected user
     public void removeConnectedUsers(usertype usertorm){
-        //TODO fermer TCP
 
         while(connectedUsermutex){try {
             Thread.sleep(20);
@@ -517,13 +516,16 @@ public class messagingGUI extends JFrame{
             if (i.getText().equals(usertorm.getPseudo())){
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
-                //controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
-                mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
                 //attention aussi, il faut gérer les changements de pseudos...
                 if(correspondant.getId().equals(usertorm.getId())){
                     correspondant=new usertype("", "", null);
                     JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
                 }
+
+                //Kill TCP client
+                mapConvos.get(usertorm).killTCP();
+                //controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
+                mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
                 SwingUtilities.updateComponentTreeUI(connectedPanel);
                 break;
             }
