@@ -551,8 +551,7 @@ public class messagingGUI extends JFrame{
                     JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
                 }
 
-                //Kill TCP client
-                mapConvos.get(usertorm).killTCP();
+                //mapConvos.get(usertorm).killTCP();
                 //controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
                 mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
                 SwingUtilities.updateComponentTreeUI(connectedPanel);
