@@ -512,7 +512,8 @@ public class messagingGUI extends JFrame{
             if(jb.getText().equals(pseudo)){
                 trouve=true;
             }
-            if(!mapConvos.get(getUserByPseudo(pseudo)).isStarted()){
+            usertype usrdisplayed=getUserByPseudo(pseudo);
+            if(mapConvos.get(usrdisplayed).isStarted() && !correspondant.getId().equals(usrdisplayed.getId())){
                 jb.setBackground(Color.decode("#7D93DE"));
             }
         }
