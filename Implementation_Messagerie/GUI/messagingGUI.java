@@ -513,7 +513,11 @@ public class messagingGUI extends JFrame{
                 trouve=true;
                 usertype usrdisplayed=getUserByPseudo(pseudo);
                 if(mapConvos.get(usrdisplayed).isStarted() && !correspondant.getId().equals(usrdisplayed.getId())){
-                    jb.setBackground(Color.decode("#7D93DE"));
+                    if(!mapConvos.get(usrdisplayed).hasunreadsms() ){
+                        jb.setBackground(Color.decode("#0040ff"));//message non lu en bleu
+                    }else{
+                        jb.setBackground(Color.decode("#7D93DE"));//conversation active en lavande
+                    }
                 }
             }
         }

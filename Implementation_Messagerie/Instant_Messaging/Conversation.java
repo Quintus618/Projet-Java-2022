@@ -18,6 +18,7 @@ public class Conversation extends JLabel{
     private ArrayList<Message> MessageList;
     private TCPcontrollerClient TCP=null;
     private boolean hasTCP=false;
+    private boolean hasunread= false;
 
     public JPanel messagePanel;
     public JScrollPane scrollPane;
@@ -28,11 +29,21 @@ public class Conversation extends JLabel{
         MessageList = new ArrayList<Message>();
         this.numberMessage = MessageList.size();
         this.hasTCP=false;
+        this.hasunread=false;
     }
 
     public boolean isStarted(){
         return numberMessage!=0;
     }
+
+    public boolean hasunreadsms() {
+        return hasunread;
+    }
+
+    public void setHasunread(boolean hasunread) {
+        this.hasunread = hasunread;
+    }
+
 
     public void launchTCP(){
         try {
