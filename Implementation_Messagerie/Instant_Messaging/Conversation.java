@@ -30,6 +30,9 @@ public class Conversation extends JLabel{
         this.hasTCP=false;
     }
 
+    public boolean isStarted(){
+        return numberMessage!=0;
+    }
 
     public void launchTCP(){
         try {

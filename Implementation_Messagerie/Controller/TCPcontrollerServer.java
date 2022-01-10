@@ -50,22 +50,34 @@ public class TCPcontrollerServer {
             BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
             while((message=dataRec.readLine()) != null){
                 
-                if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
-                    mGUI.receiveMessage(message, clientIPAddress);
-                }else{
-                    mGUI.stockMessage(message, clientIPAddress);
-                }
+                //System.out.println(mGUI.getCorrespondant());
+                //System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
+                if(!mGUI.getCorrespondant().equals(null)){
 
+                    System.out.println(mGUI.getCorrespondant());
+                    System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
+
+                    if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
+                        System.out.println("Est-ce que ca passe ici");
+                        mGUI.receiveMessage(message, clientIPAddress);
+                    }else{
+                        System.out.println("Est-ce que erreur ici");
+                        mGUI.stockMessage(message, clientIPAddress);
+                        System.out.println("Est-ce que ca passe là");
+                    }
+                }
+                else System.out.println("Nom de zeus Marty !");
 
             }
        
-            PrintWriter out = new PrintWriter(socClient.getOutputStream(), true);
-            out.println(message);
-            System.out.println("Voici le message envoyé" + message);
-            out.flush();
+            //PrintWriter out = new PrintWriter(socClient.getOutputStream(), true);
+            //out.println(message);
+            //System.out.println("Voici le message envoyé" + message);
+            //out.flush();
         }
         catch(Exception e){
             System.out.println("Echec de l'envoi ou réception côté Serveur");
+            e.printStackTrace();
         }
     }
 

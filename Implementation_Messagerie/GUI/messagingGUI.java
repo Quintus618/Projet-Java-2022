@@ -108,7 +108,7 @@ public class messagingGUI extends JFrame{
         this.controlCHAT=controlCHAT;
         //impératif d'avoir ça avant le new Conversation, sinon erreur car comtoBDD null
         controlCHAT.setmyPseudo(pseudo);
-        correspondant=new usertype("", "", null);//permet d'avoir un user "vide" à qui ne PAS envoyer de message
+        correspondant=new usertype("", "", "");//permet d'avoir un user "vide" à qui ne PAS envoyer de message
         mapConvos.put(correspondant, new Conversation(correspondant));
 
         //Creation of graphical components 
@@ -393,6 +393,7 @@ public class messagingGUI extends JFrame{
 
     private void displayConversation(String unpseudo){
         messagePanel.removeAll();
+        SwingUtilities.updateComponentTreeUI(messagePanel);
         System.out.println("Destinataire: "  + unpseudo);
         correspondant=getUserByPseudo(unpseudo);
         Conversation ConvoActive=mapConvos.get(correspondant);
@@ -511,6 +512,9 @@ public class messagingGUI extends JFrame{
             if(jb.getText().equals(pseudo)){
                 trouve=true;
             }
+            if(!mapConvos.get(getUserByPseudo(pseudo)).isStarted()){
+                jb.setBackground(Color.decode("#7D93DE"));
+            }
         }
 
         if(!trouve){
@@ -535,7 +539,7 @@ public class messagingGUI extends JFrame{
         }}
         connectedUsermutex = true;
 
-        System.out.println(usertorm.getPseudo()+"se déconnecte");
+        System.out.println(usertorm.getPseudo()+" se déconnecte");
         for(JButton i : connectedUsersList){
             if (i.getText().equals(usertorm.getPseudo())){
                 connectedPanel.remove(i);
