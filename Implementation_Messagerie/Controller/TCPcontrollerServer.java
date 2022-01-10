@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.*;
 import java.net.*;
+import java.lang.*;
 import java.util.ArrayList;
 
 import GUI.messagingGUI;
@@ -36,8 +37,7 @@ public class TCPcontrollerServer {
 
     //Listen to receive data from the client
     public void dataReception(messagingGUI mGUI){
-
-        String message = null;
+        
         Socket socClient;
 
         try {
@@ -47,33 +47,44 @@ public class TCPcontrollerServer {
 
             System.out.println("Connexion acceptée " + clientIPAddress);
 
-            BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
-            while((message=dataRec.readLine()) != null){
-                
-                //System.out.println(mGUI.getCorrespondant());
-                //System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
-                if(!mGUI.getCorrespondant().equals(null)){
+            Thread recepdata = new Thread(new Runnable(){
 
-                    System.out.println(mGUI.getCorrespondant());
-                    System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
+                String message = null;
 
-                    if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
-                        System.out.println("Est-ce que ca passe ici: " + message);
-                        mGUI.receiveMessage(message, clientIPAddress);
-                    }else{
-                        System.out.println("Est-ce que erreur ici: " + message);
-                        mGUI.stockMessage(message, clientIPAddress);
-                        System.out.println("Est-ce que ca passe là");
-                    }
-                }
-                else System.out.println("Nom de zeus Marty !");
-
-            }
-       
-            //PrintWriter out = new PrintWriter(socClient.getOutputStream(), true);
-            //out.println(message);
-            //System.out.println("Voici le message envoyé" + message);
-            //out.flush();
+                @Override
+                public void run() {
+                    try{
+                        BufferedReader dataRec = new BufferedReader(new InputStreamReader(socClient.getInputStream()));
+                        while((message=dataRec.readLine()) != null){
+                            
+                            //System.out.println(mGUI.getCorrespondant());
+                            //System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
+                            if(!mGUI.getCorrespondant().equals(null)){
+            
+                                System.out.println(mGUI.getCorrespondant());
+                                System.out.println(mGUI.getCorrespondant().getIPaddr()+" versus "+clientIPAddress);
+            
+                                if(mGUI.getCorrespondant().getIPaddr().equals(clientIPAddress)){
+                                    System.out.println("Est-ce que ca passe ici: " + message);
+                                    mGUI.receiveMessage(message, clientIPAddress);
+                                }else{
+                                    System.out.println("Est-ce que erreur ici: " + message);
+                                    mGUI.stockMessage(message, clientIPAddress);
+                                    System.out.println("Est-ce que ca passe là");
+                                }
+                            }
+                            else System.out.println("Nom de zeus Marty !");
+            
+                        }
+                    }catch(Exception e){System.out.println("Echec de la réception");}
+                    
+               
+                    //PrintWriter out = new PrintWriter(socClient.getOutputStream(), true);
+                    //out.println(message);
+                    //System.out.println("Voici le message envoyé" + message);
+                    //out.flush();
+                }});
+                recepdata.start();
         }
         catch(Exception e){
             System.out.println("Echec de l'envoi ou réception côté Serveur");
