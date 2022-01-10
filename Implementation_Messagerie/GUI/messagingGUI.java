@@ -511,10 +511,10 @@ public class messagingGUI extends JFrame{
         for(JButton jb:connectedUsersList){
             if(jb.getText().equals(pseudo)){
                 trouve=true;
-            }
-            usertype usrdisplayed=getUserByPseudo(pseudo);
-            if(mapConvos.get(usrdisplayed).isStarted() && !correspondant.getId().equals(usrdisplayed.getId())){
-                jb.setBackground(Color.decode("#7D93DE"));
+                usertype usrdisplayed=getUserByPseudo(pseudo);
+                if(mapConvos.get(usrdisplayed).isStarted() && !correspondant.getId().equals(usrdisplayed.getId())){
+                    jb.setBackground(Color.decode("#7D93DE"));
+                }
             }
         }
 
