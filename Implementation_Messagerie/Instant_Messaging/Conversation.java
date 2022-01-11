@@ -69,7 +69,6 @@ public class Conversation extends JLabel{
     public void load(messagingGUI mGUI){
         MessageList=mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant);
         this.numberMessage = MessageList.size();
-        //TODO afficher messages, ici ou dans mGUI?
     }
 
 

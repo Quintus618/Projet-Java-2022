@@ -248,7 +248,8 @@ public class messagingGUI extends JFrame{
                             Thread.sleep(2000);//TODO attention, ce thread empeche la fermeture
 
                         } catch (InterruptedException e1) {
-                            e1.printStackTrace();
+                            //e1.printStackTrace();
+                            System.out.println("Thread interrompu.");
                         }
                     }
                 }
@@ -314,7 +315,6 @@ public class messagingGUI extends JFrame{
         System.out.println("Fait TCP");
 
         while(listen.isAlive()){
-            System.out.println("A l'aide");
             listen.interrupt();
         }
         System.out.println("Serveur TCP");
@@ -331,6 +331,8 @@ public class messagingGUI extends JFrame{
     private void endbackupBDD(){
         for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
             controlCHAT.getComtoBDD().archiverConv(convtobackup);
+            //le correspondant aussi archive quand on se déconnecte, mais la bdd ne prend que si on est l'expéditeur
+            //donc TODO éviter la redondance dans tout ça
             convtobackup.killTCP();
         }
     }
@@ -386,7 +388,6 @@ public class messagingGUI extends JFrame{
         System.out.println("Récup Historique "+correspondant.getPseudo()+" réussie");
         mapConvos.get(correspondant).launchTCP();
         System.out.println("Création TCP "+correspondant.getPseudo());
-        displayConversation(pseudodest);
         
         SwingUtilities.updateComponentTreeUI(messagePanel);
     }
@@ -456,7 +457,8 @@ public class messagingGUI extends JFrame{
     //plus pratique, notamment pourchanger de conversation affichée
     private void displayMessage(Message sms){
         numberMessage++;
-        boolean sentbyMe=sms.getIsSender();
+        boolean sentbyMe=sms.getSender().equals(controllerInstantMessaging.getmyID());
+        //TODO fix le issender au désarchivage, voire supression
         String colorSMS;
         if(sentbyMe){
             //numberLine = numberMessage % MAX_MESS;
