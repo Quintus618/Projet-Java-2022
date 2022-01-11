@@ -22,11 +22,11 @@ import Instant_Messaging.usertype;
 
 public class UDPcontroller {
 
-    private int nbfoisdemande = 0;
-
     private Thread receiveBroadcast;
     private Thread connexionPeriodBroadcast;
     private DatagramSocket soc;
+    private Boolean changePse = false;
+    private String pseudochang = "";
 
     public UDPcontroller(messagingGUI mGUI){
         receiveBroadcast = new Thread(new Runnable(){
@@ -88,8 +88,6 @@ public class UDPcontroller {
                             }
                             else {
                                 mGUI.displayConnectedUsers(messages[1]);
-
-                                nbfoisdemande = 0;
                                 /*
                                 timer.cancel();
                                 timer.purge();
@@ -106,10 +104,15 @@ public class UDPcontroller {
                             */
                             break;
                             case "CHANGEPSEUDO":
-                            if(nbfoisdemande==0){
-                                new changePseudoPopUp(mGUI, 100, 500);
-                                nbfoisdemande++;
-                            }
+                            
+                                if (!changePse){
+                                    pseudochang = mGUI.getControlCHAT().getMyPseudo();
+                                    new changePseudoPopUp(mGUI, 100, 500);
+                                    changePse=true;
+                                }
+                                if(!mGUI.getControlCHAT().getMyPseudo().equals(pseudochang)){
+                                    changePse=false;
+                                }
                             break;
                             case "MODIFIEDPSEUDO":
 
