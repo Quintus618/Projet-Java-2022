@@ -37,7 +37,7 @@ public class Message extends JLabel{
         this.textMessage = textMessage;
         this.idfrom=idsender;
         this.idto=iddest;
-        this.isSender = idfrom==controllerInstantMessaging.getmyID();
+        this.isSender = idfrom.equals(controllerInstantMessaging.getmyID());
         this.horodata = temps;
     }
 

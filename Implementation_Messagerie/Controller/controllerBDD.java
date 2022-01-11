@@ -92,13 +92,13 @@ private void fermer(){
 }
 
 
-private void demander(String[] demandes){
+private void demander(ArrayList<String> demandes){
 
     try {
         Statement statem = lien.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
-        for (int i=0;i<demandes.length;i++){
-            statem.executeUpdate(demandes[i]);
+        for (String i:demandes){
+            statem.executeUpdate(i);
         }
         statem.close();
     } catch (SQLException e) {
@@ -119,18 +119,21 @@ private void readBDD(String demande){
     }
 }
 
+//TODO ne plus utiliser ça pour l'archivage
 private void askBDDmono(String requete){
     ouvrir();
-    demander(new String[] {requete});
+    ArrayList<String> ask=new ArrayList<String>();
+    ask.add(requete);
+    demander(ask);
     fermer();
 }
 
 //utilisée pour la partie de l'initialisation commentée, peut toujours servir
-/*private void askBDDmulti(String[] requetes){
+private void askBDDmulti(ArrayList<String> requetes){
     ouvrir();
     demander(requetes);
     fermer();
-}*/
+}
 
 
 //GESTION DE LA TABLE USERS
@@ -211,11 +214,13 @@ public void archiverMessage(Message sms){
 
 
 public void archiverConv(Conversation conv){
+    ArrayList<String> archivage=new ArrayList<String>();
     for (Message sms:conv.getMessageList()){
         if(sms.getIsSender()){//permet de ne pas archiver tous les messages en double
-            archiverMessage(sms);
+            archivage.add("INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');");
         }
     }
+    askBDDmulti(archivage);
 }
 
 //TODO: pareil mais avec un objet Conversation?
@@ -224,7 +229,7 @@ public ArrayList <Message> recupererConv(usertype corr){
     String idone=controllerInstantMessaging.getmyID();
     String idtwo=corr.getId();
 
-    String getConv = "SELECT * FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');";
+    String getConv = "SELECT * FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"') ORDER BY chrono ASC;";
     readBDD(getConv);
 
     ArrayList<Message> conv=new ArrayList<Message>();

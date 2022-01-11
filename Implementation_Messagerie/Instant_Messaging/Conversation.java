@@ -67,7 +67,7 @@ public class Conversation extends JLabel{
     }
     
     public void load(messagingGUI mGUI){
-        MessageList=mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant);
+        MessageList.addAll(mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant));
         this.numberMessage = MessageList.size();
     }
 

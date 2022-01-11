@@ -570,14 +570,15 @@ public class messagingGUI extends JFrame{
             if (i.getText().equals(usertorm.getPseudo())){
                 connectedPanel.remove(i);
                 connectedUsersList.remove(i);
+
+                controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));
+
                 //attention aussi, il faut gérer les changements de pseudos...
                 if(correspondant.getId().equals(usertorm.getId())){
                     correspondant=new usertype("", "", null);
                     JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
                 }
 
-                //mapConvos.get(usertorm).killTCP();
-                controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));//TODO décommenter pour l'archivage
                 mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
                 SwingUtilities.updateComponentTreeUI(connectedPanel);
                 break;
