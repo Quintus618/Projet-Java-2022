@@ -81,7 +81,8 @@ public class UDPcontroller {
 
                         switch(messages[0]){
                             case"USERCONNECTED":
-                            if (messages[1].equals(mGUI.getControlCHAT().getMyPseudo())){
+                            String[] messsplit = messages[1].split(" ");
+                            if (messsplit[1].equals(mGUI.getControlCHAT().getMyPseudo())){
                                 udpbroadcastChangePseudo(packet,messages[1]);
                                 //pseudoRecu=messages[1];
                             }
