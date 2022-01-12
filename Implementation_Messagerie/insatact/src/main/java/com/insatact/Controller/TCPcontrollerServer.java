@@ -1,13 +1,13 @@
-package Controller;
+package com.insatact.Controller;
 
 import java.io.*;
 import java.net.*;
 import java.lang.*;
 import java.util.ArrayList;
 
-import GUI.messagingGUI;
-import Instant_Messaging.Message;
-import Instant_Messaging.usertype;
+import com.insatact.GUI.messagingGUI;
+import com.insatact.Instant_Messaging.Message;
+import com.insatact.Instant_Messaging.usertype;
 
 public class TCPcontrollerServer {
 

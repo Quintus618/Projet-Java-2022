@@ -1,4 +1,4 @@
-package Controller;
+package com.insatact.Controller;
 
 import java.io.*;
 import java.net.*;

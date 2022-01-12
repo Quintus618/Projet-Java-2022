@@ -1,9 +1,9 @@
-package GUI;
+package com.insatact.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import Controller.*;
+import com.insatact.Controller.*;
 
 public class welcomGUI extends JFrame{
 
@@ -41,7 +41,7 @@ public class welcomGUI extends JFrame{
                 dispose();
             }});
 
-        logo = new JLabel(tools.resizeIcon(new ImageIcon("./GUI/Pictures/chat.png"),180, 180));
+        logo = new JLabel(tools.resizeIcon(new ImageIcon("./insatact/src/main/java/com/insatact/GUI/Pictures/chat.png"),180, 180));
 
         texte= new JLabel("Bienvenue!");
         texte.setForeground(Color.BLUE);

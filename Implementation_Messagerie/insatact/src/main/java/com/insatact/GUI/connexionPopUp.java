@@ -1,8 +1,8 @@
-package GUI;
+package com.insatact.GUI;
 
 import javax.swing.*;
 
-import Controller.*;
+import com.insatact.Controller.*;
 
 import java.awt.*;
 import java.awt.event.*;

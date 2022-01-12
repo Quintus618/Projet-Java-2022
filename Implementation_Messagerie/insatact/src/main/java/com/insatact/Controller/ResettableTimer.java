@@ -1,4 +1,4 @@
-package Controller;
+package com.insatact.Controller;
 /*
 STACKOVERFLOW
 (meilleure piste, pas trouvé mieux pour plusieurs timers réinitialisables)

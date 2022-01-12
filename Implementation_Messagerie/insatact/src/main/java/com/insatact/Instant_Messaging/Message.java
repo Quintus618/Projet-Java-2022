@@ -1,9 +1,9 @@
-package Instant_Messaging;
+package com.insatact.Instant_Messaging;
 import java.time.LocalDateTime;
 
 import javax.swing.JLabel;
 
-import Controller.controllerInstantMessaging;
+import com.insatact.Controller.controllerInstantMessaging;
 
 public class Message extends JLabel{
 

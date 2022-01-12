@@ -1,4 +1,4 @@
-package Controller;
+package com.insatact.Controller;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import java.util.Timer;
 
 import javax.swing.*;
 
-import GUI.*;
-import Instant_Messaging.usertype;
+import com.insatact.GUI.*;
+import com.insatact.Instant_Messaging.usertype;
 
 
 public class UDPcontroller {

@@ -1,4 +1,4 @@
-package GUI;
+package com.insatact.GUI;
 import java.awt.*;
 import javax.swing.*;
 

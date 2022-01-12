@@ -1,4 +1,4 @@
-package Instant_Messaging;
+package com.insatact.Instant_Messaging;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import Controller.TCPcontrollerClient;
-import GUI.messagingGUI;
+import com.insatact.Controller.TCPcontrollerClient;
+import com.insatact.GUI.messagingGUI;
 
 public class Conversation extends JLabel{
 

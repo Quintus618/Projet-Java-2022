@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-package GUI;
+package com.insatact.GUI;
 
 import javax.swing.*;
 import javax.swing.SpringLayout;

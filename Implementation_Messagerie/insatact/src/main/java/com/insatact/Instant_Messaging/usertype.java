@@ -1,11 +1,11 @@
-package Instant_Messaging;
+package com.insatact.Instant_Messaging;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 //import java.util.Timer;
 
-import Controller.controllerInstantMessaging;
+import com.insatact.Controller.controllerInstantMessaging;
 
 public class usertype implements Comparable<usertype>{
 

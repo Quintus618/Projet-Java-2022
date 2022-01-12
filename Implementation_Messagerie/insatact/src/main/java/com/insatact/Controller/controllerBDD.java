@@ -1,12 +1,12 @@
-package Controller;
+package com.insatact.Controller;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.sql.rowset.*;
 import javax.swing.JOptionPane;
 
-import Instant_Messaging.Conversation;
-import Instant_Messaging.Message;
-import Instant_Messaging.usertype;
+import com.insatact.Instant_Messaging.Conversation;
+import com.insatact.Instant_Messaging.Message;
+import com.insatact.Instant_Messaging.usertype;
 
 public class controllerBDD{
 
@@ -206,7 +206,7 @@ private String escapeWildcards(String s) {
 
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
-    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');";
+    String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"')ON DUPLICATE KEY UPDATE chrono=chrono;";
     //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
 }//!!! Il faudra trouver un moyen (stocker un booleen par conversation, faire un on duplicate key...)
@@ -216,9 +216,7 @@ public void archiverMessage(Message sms){
 public void archiverConv(Conversation conv){
     ArrayList<String> archivage=new ArrayList<String>();
     for (Message sms:conv.getMessageList()){
-        if(sms.getIsSender()){//permet de ne pas archiver tous les messages en double
-            archivage.add("INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"');");
-        }
+            archivage.add("INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"') ON DUPLICATE KEY UPDATE chrono=chrono;");
     }
     askBDDmulti(archivage);
 }

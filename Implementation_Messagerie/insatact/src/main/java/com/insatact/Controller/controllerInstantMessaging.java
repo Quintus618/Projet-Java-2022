@@ -1,7 +1,7 @@
-package Controller;
+package com.insatact.Controller;
 
-import GUI.*;
-import Instant_Messaging.usertype;
+import com.insatact.GUI.*;
+import com.insatact.Instant_Messaging.usertype;
 
 import java.net.*;
 import java.util.*;
