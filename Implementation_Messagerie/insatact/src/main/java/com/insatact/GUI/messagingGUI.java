@@ -138,18 +138,18 @@ public class messagingGUI extends JFrame{
         deconnexionButton = new JButton("deconnexion");
 
         //Add Pictures, Audio
-        ImageIcon iconMedia = new ImageIcon("./insatact/src/main/java/com/insatact/GUI/Pictures/media.png");
+        ImageIcon iconMedia = new ImageIcon("./src/main/java/com/insatact/GUI/Pictures/media.png");
         mediaButton = new JButton(iconMedia);
         paramButton(mediaButton, 40, 40, iconMedia);
 
         //Add files
-        ImageIcon iconFile = new ImageIcon("./insatact/src/main/java/com/insatact/GUI/Pictures/file.png");
+        ImageIcon iconFile = new ImageIcon("./src/main/java/com/insatact/GUI/Pictures/file.png");
         fileButton = new JButton(iconFile);
         fileButton.setIcon(resizeIcon(iconFile, 40, 40));
         paramButton(fileButton, 40, 40, iconFile);
 
         //Send Messages
-        ImageIcon iconMessage = new ImageIcon("./insatact/src/main/java/com/insatact/GUI/Pictures/message.png");
+        ImageIcon iconMessage = new ImageIcon("./src/main/java/com/insatact/GUI/Pictures/message.png");
         sendMessageButton = new JButton(iconMessage);
         paramButton(sendMessageButton, 40, 40, iconMessage);
 
