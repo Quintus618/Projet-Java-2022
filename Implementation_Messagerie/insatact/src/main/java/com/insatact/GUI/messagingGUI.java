@@ -193,14 +193,28 @@ public class messagingGUI extends JFrame{
         add(connectedPanel, BorderLayout.EAST);
 
         //Messages zone
+        JPanel contentPane = new JPanel(new BorderLayout());
         messagePanel = new JPanel();
         gl = new GridBagLayout();
         messagePanel.setLayout(gl);
-        scrollPane = new JScrollPane(messagePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(20,10));
+        messagePanel.setAutoscrolls(true);
         add(messagePanel, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.WEST);
+
+        scrollPane = new JScrollPane(messagePanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        //scrollPane.setPreferredSize(new Dimension(20,10));
+        scrollPane.setBounds(50, 30, 1600, 900);
+        scrollPane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        contentPane.setPreferredSize(new Dimension(1600, 1000));
+        
+        //add(scrollPane, BorderLayout.WEST);
+        
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+        contentPane.setBackground(Color.decode("#2FFFFF"));
+        add(contentPane, BorderLayout.CENTER);
+        
+        //add(contentPane, BorderLayout.CENTER);
+        //add(messagePanel, BorderLayout.CENTER);
 
         //Initialisation des listes
         messageList = new ArrayList<JLabel>();
@@ -281,7 +295,9 @@ public class messagingGUI extends JFrame{
                 public void actionPerformed(ActionEvent MOUSE_CLICKED){ 
                     String mess = textSenderZone.getText();
                     writeMessage(mess);
-                    mapConvos.get(correspondant).getTCP().sendMessage(mess);
+                    if(!mess.isBlank()){
+                        mapConvos.get(correspondant).getTCP().sendMessage(mess);
+                    }
                 }});
             deconnexionButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
@@ -463,7 +479,7 @@ public class messagingGUI extends JFrame{
         boolean sentbyMe=sms.getSender().equals(controllerInstantMessaging.getmyID());
         //TODO fix le issender au désarchivage, voire supression
         String colorSMS;
-        if(sentbyMe){
+        if(!sentbyMe){
             //numberLine = numberMessage % MAX_MESS;
             //c.fill = GridBagConstraints.HORIZONTAL;
             colorSMS="#7F7FBF";
@@ -493,14 +509,14 @@ public class messagingGUI extends JFrame{
         
         c.gridx = 0;
         c.gridy = numberMessage;
-        if(sentbyMe){
+        if(!sentbyMe){
             messagePanel.add(Messhorodatage,c);
         }else{
             messagePanel.add(MBlanc,c);
         }
         c.gridx = 1;
         c.gridy = numberMessage;
-        if(sentbyMe){
+        if(!sentbyMe){
             messagePanel.add(MBlanc,c);
         }else{
             messagePanel.add(Messhorodatage,c);

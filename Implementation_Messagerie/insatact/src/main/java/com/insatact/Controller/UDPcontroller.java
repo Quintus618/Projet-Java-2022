@@ -1,9 +1,6 @@
 package com.insatact.Controller;
 
-import java.awt.event.*;
 import java.io.IOException;
-import java.awt.*;
-import java.lang.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -13,8 +10,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.Timer;
-
-import javax.swing.*;
 
 import com.insatact.GUI.*;
 import com.insatact.Instant_Messaging.usertype;

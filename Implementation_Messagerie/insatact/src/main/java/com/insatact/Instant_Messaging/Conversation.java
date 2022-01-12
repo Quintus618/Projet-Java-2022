@@ -10,7 +10,7 @@ import javax.swing.*;
 import com.insatact.Controller.TCPcontrollerClient;
 import com.insatact.GUI.messagingGUI;
 
-public class Conversation extends JLabel{
+public class Conversation {
 
     private usertype correspondant;
     private int numberMessage;
