@@ -8,8 +8,13 @@ import java.util.*;
 
 public class controllerInstantMessaging{
 
+private static int maxmessToArchive=50;
     
 private static usertype Me=null;
+
+public static int getMaxmessToArchive() {
+    return maxmessToArchive;
+}
 
 public usertype getMyIdentity() {
     return Me;

@@ -1,6 +1,7 @@
 package com.insatact.GUI;
 //Importation Libraries
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 import com.insatact.Instant_Messaging.*;
 import com.insatact.Controller.*;
@@ -37,12 +38,12 @@ public class messagingGUI extends JFrame{
     private JPanel messagePanel;
 
     private JScrollPane scrollPane;
+    int verticalScrollBarMaximumValue ;
 
-    private GridBagConstraints c = new GridBagConstraints();
+    private GridBagConstraints gbc = new GridBagConstraints();
 
     private JTextArea textSenderZone;
 
-    private int numberLine = 0;
     private int numberMessage = 0;
 
     private GridBagLayout gl;
@@ -132,6 +133,15 @@ public class messagingGUI extends JFrame{
         b.setFocusPainted(false);
     }
 
+    private void updatescroll(){
+        int max=scrollPane.getVerticalScrollBar().getMaximum();
+        if(max-verticalScrollBarMaximumValue<=0){
+            //int neoposition =max+scrollPane.getVerticalScrollBar().getValue()-verticalScrollBarMaximumValue;//pour setvalue(neoposition)
+            scrollPane.getVerticalScrollBar().setValue(max);
+        }
+        verticalScrollBarMaximumValue=max;
+    }
+
     private void buildComponentInterface(JFrame f){
         
         //Add buttons
@@ -202,7 +212,9 @@ public class messagingGUI extends JFrame{
 
         scrollPane = new JScrollPane(messagePanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //scrollPane.setPreferredSize(new Dimension(20,10));
+
+        verticalScrollBarMaximumValue = scrollPane.getVerticalScrollBar().getMaximum();
+
         scrollPane.setBounds(50, 30, 1600, 900);
         scrollPane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         contentPane.setPreferredSize(new Dimension(1600, 1000));
@@ -317,7 +329,7 @@ public class messagingGUI extends JFrame{
     }
 
 
-    private void disconnect(){//TODO finir
+    public void disconnect(){//TODO finir
         try {
             udpController.interrupt();
             udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString());
@@ -425,7 +437,6 @@ public class messagingGUI extends JFrame{
     }
     
     public void updatePseudo(String oldpseudo, String neopseudo, boolean fromtimer){
-        //TODO !!! comment marche le passage du client TCP??
         usertype oldusr=getUserByPseudo(oldpseudo);
         usertype upuser=oldusr;
         System.out.println(oldusr);
@@ -477,16 +488,13 @@ public class messagingGUI extends JFrame{
     private void displayMessage(Message sms){
         numberMessage++;
         boolean sentbyMe=sms.getSender().equals(controllerInstantMessaging.getmyID());
-        //TODO fix le issender au désarchivage, voire supression
         String colorSMS;
         if(!sentbyMe){
-            //numberLine = numberMessage % MAX_MESS;
-            //c.fill = GridBagConstraints.HORIZONTAL;
-            colorSMS="#7F7FBF";
+            //gbc.fill = GridBagConstraints.HORIZONTAL;
+            colorSMS="#4B6CDB";
         }else{
-            numberLine = numberMessage % MAX_MESS;
-            c.fill = GridBagConstraints.VERTICAL;
-            colorSMS="#7FBF7F";
+            gbc.fill = GridBagConstraints.VERTICAL;
+            colorSMS="#61DC5A";
         }
 
         JPanel Messhorodatage = new JPanel();
@@ -495,35 +503,50 @@ public class messagingGUI extends JFrame{
         LocalDateTime mdate = sms.getHorodata();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = mdate.format(myFormatObj);
-        JLabel messageLab = new JLabel(formattedDate);
+        JLabel dateLab;
+        JLabel smsLabel;
+        String textalabelliser="<html><p>"+sms.getTextMessage().replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>")+"</p></html>";
+
+        if(!sentbyMe){
+            dateLab = new JLabel(formattedDate,SwingConstants.RIGHT);
+            smsLabel=new JLabel(textalabelliser,SwingConstants.LEFT);
+            gbc.anchor=GridBagConstraints.WEST;
+        }else{
+            dateLab = new JLabel(formattedDate,SwingConstants.LEFT);
+            smsLabel=new JLabel(textalabelliser,SwingConstants.RIGHT);
+            gbc.anchor=GridBagConstraints.EAST;
+        }
 
         Mess.setBackground(Color.decode(colorSMS));
-        Messhorodatage.setMinimumSize(new Dimension(750, 100));
+        Messhorodatage.setMinimumSize(new Dimension(500, 40));
         Messhorodatage.setPreferredSize(new Dimension(750, 100));
-        Mess.add(sms);
+        Mess.add(smsLabel);
         Messhorodatage.add(Mess, BorderLayout.CENTER);
-        Messhorodatage.add(messageLab, BorderLayout.SOUTH);
+        Messhorodatage.add(dateLab, BorderLayout.SOUTH);
+
+        //l'affichage est sur une grille; chaque Message (Messhorodatage) est d'un côté et MBlanc (le vide) de l'autre
         JPanel MBlanc = new JPanel();
         MBlanc.setMinimumSize(new Dimension(750, 100));
         MBlanc.setPreferredSize(new Dimension(750, 100));
         
-        c.gridx = 0;
-        c.gridy = numberMessage;
+        gbc.gridx = 0;
+        gbc.gridy = numberMessage;
         if(!sentbyMe){
-            messagePanel.add(Messhorodatage,c);
+            messagePanel.add(Messhorodatage,gbc);
         }else{
-            messagePanel.add(MBlanc,c);
+            messagePanel.add(MBlanc,gbc);
         }
-        c.gridx = 1;
-        c.gridy = numberMessage;
+        gbc.gridx = 1;
+        gbc.gridy = numberMessage;
         if(!sentbyMe){
-            messagePanel.add(MBlanc,c);
+            messagePanel.add(MBlanc,gbc);
         }else{
-            messagePanel.add(Messhorodatage,c);
+            messagePanel.add(Messhorodatage,gbc);
         }
 
-        messageList.add(sms);
+        messageList.add(smsLabel);
         SwingUtilities.updateComponentTreeUI(connectedPanel);
+        updatescroll();
     }
 
 
