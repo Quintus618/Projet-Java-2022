@@ -1,11 +1,9 @@
 package com.insatact.Instant_Messaging;
 import java.time.LocalDateTime;
 
-import javax.swing.JLabel;
-
 import com.insatact.Controller.controllerInstantMessaging;
 
-public class Message extends JLabel{
+public class Message {
 
     private String idfrom=null;
     private String idto=null;
@@ -16,7 +14,6 @@ public class Message extends JLabel{
 
     //cet initialisateur sera à supprimer dès lors que l'on aura réglé le stockage de l'id
     public Message(String textMessage, String idcorresp, boolean amSender){
-        super(textMessage);
         this.textMessage = textMessage;
         this.isSender = amSender;
         if(isSender){
@@ -33,7 +30,6 @@ public class Message extends JLabel{
  
     //utilisée pour le désarchivage
     public Message(String textMessage, String idsender, String iddest, LocalDateTime temps){
-        super(textMessage);
         this.textMessage = textMessage;
         this.idfrom=idsender;
         this.idto=iddest;

@@ -8,17 +8,18 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.insatact.Controller.TCPcontrollerClient;
+import com.insatact.Controller.controllerInstantMessaging;
 import com.insatact.GUI.messagingGUI;
 
 public class Conversation {
 
     private usertype correspondant;
-    private int numberMessage;
-    private static int maxToArchive=64;//TODO voir combien demande le cahier des charges
     private ArrayList<Message> MessageList;
     private TCPcontrollerClient TCP=null;
     private boolean hasTCP=false;
     private boolean hasunread= false;
+
+    private int fromArchives=0;
 
     public JPanel messagePanel;
     public JScrollPane scrollPane;
@@ -27,13 +28,12 @@ public class Conversation {
     public Conversation(usertype correspondant){
         this.correspondant = correspondant;
         MessageList = new ArrayList<Message>();
-        this.numberMessage = MessageList.size();
         this.hasTCP=false;
         this.hasunread=false;
     }
 
     public boolean isStarted(){
-        return numberMessage!=0;
+        return MessageList.size()!=0;
     }
 
     public boolean hasunreadsms() {
@@ -67,13 +67,22 @@ public class Conversation {
     }
     
     public void load(messagingGUI mGUI){
-        MessageList.addAll(mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant));
-        this.numberMessage = MessageList.size();
+        if(!this.isStarted()){
+            MessageList.addAll(mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant));
+            this.fromArchives=MessageList.size();
+            System.out.print(Integer.toString(fromArchives)+" messages d'archives avec "+correspondant.getId()+" récupérés");
+        }else{
+            System.out.print("Inattendu: conversation avec "+correspondant.getId()+" déjà load");
+        }
     }
 
 
     public usertype getCorrespondant() {
         return correspondant;
+    }
+
+    public int cmbFromArchives() {
+        return fromArchives;
     }
     
     public void setCorrespondant(usertype neousr){
@@ -91,20 +100,25 @@ public class Conversation {
     //retourne le nombre de messages effacés
     public int addMessage(Message sms){
         int nbdeleted=0;
-        while(numberMessage>=maxToArchive){
+        while(MessageList.size()>=controllerInstantMessaging.getMaxmessToArchive()){
             //la méthode remove est censée décaler l'index des éléments restants
             MessageList.remove(0);
-            numberMessage--;
             nbdeleted++;
+            if(fromArchives>0){
+                fromArchives--;
+            }
         }
         MessageList.add(sms);
-        numberMessage++;
         return nbdeleted;
     }
 
 
     public ArrayList<Message> getMessageList() {
         return MessageList;
+    }
+
+    public int nbMess(){
+        return this.MessageList.size();
     }
 
     public String toString(){

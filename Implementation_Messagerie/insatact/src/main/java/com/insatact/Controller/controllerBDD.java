@@ -8,6 +8,7 @@ import com.insatact.Instant_Messaging.Conversation;
 import com.insatact.Instant_Messaging.Message;
 import com.insatact.Instant_Messaging.usertype;
 
+
 public class controllerBDD{
 
     private String loginBDD = "tp_servlet_003";
@@ -119,7 +120,6 @@ private void readBDD(String demande){
     }
 }
 
-//TODO ne plus utiliser ça pour l'archivage
 private void askBDDmono(String requete){
     ouvrir();
     ArrayList<String> ask=new ArrayList<String>();
@@ -136,10 +136,40 @@ private void askBDDmulti(ArrayList<String> requetes){
 }
 
 
+private int combiendeja(String idone, String idtwo){
+    int dejala=0;
+    readBDD("SELECT COUNT(*) AS STOCKED_SMS FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');");
+    if (rowset!=null){
+        try {
+            rowset.next();
+            dejala=rowset.getInt("STOCKED_SMS");
+            System.out.println("BDD: "+Integer.toString(dejala)+" messages déjà stockés avec "+idtwo);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return dejala;
+}
+
+private void suppMessages(String idcorresp, int todel){
+    usertype corresp=new usertype(idcorresp, "banana", "placeholder");
+    ArrayList<Message> convli=recupererConv(corresp);
+    deleteconv(controllerInstantMessaging.getmyID(),idcorresp);
+    Conversation convo=new Conversation(corresp);
+    for(Message sms:convli){//automatiquement les messages les plus vieux seront supprimés
+        convo.addMessage(sms);
+    }
+    archiverConv(convo);
+}
+
+private void deleteconv(String idone, String idtwo){
+    askBDDmono("DELETE FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');");
+}
+
+
 //GESTION DE LA TABLE USERS
 //----------------------------------------------------------------------------------------------------------------
 
-//testée et fonctionnelle
 public boolean addUser(String id, String mdp){
     boolean ok=!idtaken(id);
     if (ok){
@@ -180,8 +210,6 @@ public String getMDP(String id){
     return mdp;
 }
 
-
-//testée et fonctionnelle
 public boolean idtaken(String idtest){
     boolean taken=true;
     String demande="SELECT id FROM Users WHERE id='"+idtest+"';";
@@ -204,6 +232,7 @@ private String escapeWildcards(String s) {
 }
 
 
+
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
     String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"')ON DUPLICATE KEY UPDATE chrono=chrono;";
@@ -215,13 +244,23 @@ public void archiverMessage(Message sms){
 
 public void archiverConv(Conversation conv){
     ArrayList<String> archivage=new ArrayList<String>();
+    String idcorr=conv.getCorrespondant().getId();
+    int nbnouvos=conv.nbMess()-conv.cmbFromArchives();
+    int nbtotal=nbnouvos+combiendeja(controllerInstantMessaging.getmyID(), idcorr);
+    int asupprimer=nbtotal-controllerInstantMessaging.getMaxmessToArchive();
+    if(asupprimer>0){
+        suppMessages(idcorr,asupprimer);//(TODO) pas très joliment fait
+        System.out.println("BDD: "+Integer.toString(asupprimer)+" messages supprimés avec "+idcorr);
+    }else{
+        System.out.println("BDD: rien à supprimer pour archiver la conversation avec "+idcorr+" ("+conv.nbMess()+" messages)");
+    }
     for (Message sms:conv.getMessageList()){
             archivage.add("INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"') ON DUPLICATE KEY UPDATE chrono=chrono;");
     }
     askBDDmulti(archivage);
 }
 
-//TODO: pareil mais avec un objet Conversation?
+
 public ArrayList <Message> recupererConv(usertype corr){
     
     String idone=controllerInstantMessaging.getmyID();

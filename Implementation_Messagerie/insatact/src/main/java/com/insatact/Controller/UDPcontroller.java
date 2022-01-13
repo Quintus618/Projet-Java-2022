@@ -11,6 +11,9 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.Timer;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import com.insatact.GUI.*;
 import com.insatact.Instant_Messaging.usertype;
 
@@ -81,7 +84,10 @@ public class UDPcontroller {
                                 udpbroadcastChangePseudo(packet,messages[1]);
                                 //pseudoRecu=messages[1];
                             }
-                            else {
+                            else if(messsplit[0].equals(controllerInstantMessaging.getmyID())){
+                                JOptionPane.showMessageDialog(null, "Erreur: une seule connexion par ID toléré - déconnection");//TODO mieux que ça?
+                                mGUI.disconnect();
+                            }else{
                                 mGUI.displayConnectedUsers(messages[1]);
                                 /*
                                 timer.cancel();
