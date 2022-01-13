@@ -251,7 +251,7 @@ public class UDPcontroller {
         socket.setBroadcast(true);
             
         // Broadcast the message over all the network interfaces
-        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             
         while (interfaces.hasMoreElements()) {
             

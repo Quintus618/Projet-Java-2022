@@ -78,11 +78,4 @@ public class changePseudoPopUp extends JFrame{
         return pseudoText;
     }
 
-    public static void main(String[] Args){
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //changePseudoPopUp cPP = new changePseudoPopUp(100, 500);
-            }
-        });
-    }
 }

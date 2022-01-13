@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import javax.sql.rowset.*;
 import javax.swing.JOptionPane;
 
-import com.insatact.Instant_Messaging.Conversation;
-import com.insatact.Instant_Messaging.Message;
-import com.insatact.Instant_Messaging.usertype;
+import com.insatact.Instant_Messaging.*;
 
 
 public class controllerBDD{
@@ -20,7 +18,7 @@ public class controllerBDD{
     //y accéder via terminal: mysql -h srv-bdens.insa-toulouse.fr -P 3306 -D tp_servlet_003 -u tp_servlet_003 -pulah5Bee
     //puis 'show tables;' (toutes les commandes mysql doivent finir par ;)(pas d'espace entre le -p et le mdp)
     
-    //il est un peu bête d'avoir les ids et mdps de la BDD directement dans le code...
+    //avoir id et mdp admin de la database en clair dans le code: ............heh.
 
     //pour avoir des sets après la fermeture du statement
     RowSetFactory factory;
@@ -236,13 +234,13 @@ private String escapeWildcards(String s) {
 
 
 
+/*
 public void archiverMessage(Message sms){
     //format d'archives: id1,id2,message,horodatage (penser à set autrement les tailles à la création de la table)
     String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"')ON DUPLICATE KEY UPDATE chrono=chrono;";
     //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
-}//!!! Il faudra trouver un moyen (stocker un booleen par conversation, faire un on duplicate key...)
-//pour ne pas avoir les messages stockés en double!
+}*/
 
 
 public void archiverConv(Conversation conv){
@@ -302,26 +300,6 @@ public ArrayList <Message> recupererConv(usertype corr){
         //reset pour le dev !!!WARNING, DANGEREUX!!!
         //new controllerBDD().delTablesInitiales();
        /* new controllerBDD();*/
-
-
-            /*String potato="Potato";
-            test.addUser(potato, "NotASword");
-            System.out.println(test.getMDP(potato));*/
-            
-            //tests divers
-            /*test.addUser("Jean","Valjean");
-            System.out.println(test.getMDP("Jean")+"\n");
-            test.addUser("Jean","Mireille");
-            System.out.println(test.getMDP("Jean")+"\n");
-            test.updateMDP("Jean","Mireille");
-            System.out.println(test.getMDP("Jean")+"\n");
-            test.updateMDP("Bernard","Mireille");*/
-
-            /*controllerBDD test=new controllerBDD();
-            Message sms=new Message("Salut, comment ça va?", "Tintin", true);
-            test.archiverMessage(sms);
-            //id null car null par défaut
-            System.out.println(test.recupererConv(new usertype("Tintin", null, null)).get(0).toString());*/
         
         
         }
