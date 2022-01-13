@@ -14,6 +14,7 @@ public class controllerBDD{
     private String loginBDD = "tp_servlet_003";
     private String pwdBDD = "ulah5Bee";
     //incidemment le login est aussi le nom de la BDD
+    
     private String addresse = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/"+loginBDD;//?useSSL=false ?
     private  Connection lien;
     //y accéder via terminal: mysql -h srv-bdens.insa-toulouse.fr -P 3306 -D tp_servlet_003 -u tp_servlet_003 -pulah5Bee
@@ -75,7 +76,6 @@ private void ouvrir(){
 //VScode: Java projects en bas à gauche, clic droit sur Implementation_messagerie, configure class path
 try {
     Class.forName("com.mysql.cj.jdbc.Driver");
-
     lien = DriverManager.getConnection(addresse,loginBDD,pwdBDD);
     }catch(Exception e) {
         System.out.println(e.getMessage());
