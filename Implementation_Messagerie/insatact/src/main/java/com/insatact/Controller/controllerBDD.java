@@ -135,7 +135,7 @@ private void askBDDmulti(ArrayList<String> requetes){
     fermer();
 }
 
-
+/*
 private int combiendeja(String idone, String idtwo){
     int dejala=0;
     readBDD("SELECT COUNT(*) AS STOCKED_SMS FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');");
@@ -150,19 +150,22 @@ private int combiendeja(String idone, String idtwo){
     }
     return dejala;
 }
+*/
 
-private void suppMessages(String idcorresp, int todel){
-    usertype corresp=new usertype(idcorresp, "banana", "placeholder");
-    ArrayList<Message> convli=recupererConv(corresp);
-    deleteconv(controllerInstantMessaging.getmyID(),idcorresp);
+/*private Conversation suppMessages(Conversation convtoarchive, int todel){
+    usertype corresp=convtoarchive.getCorrespondant();
+    ArrayList<Message> olconv=recupererConv(corresp);
+    deleteconv(controllerInstantMessaging.getmyID(),corresp.getId());
     Conversation convo=new Conversation(corresp);
-    for(Message sms:convli){//automatiquement les messages les plus vieux seront supprimés
+    for(Message sms:oldconv){//automatiquement les messages les plus vieux seront supprimés
         convo.addMessage(sms);
     }
-    archiverConv(convo);
-}
+    return convtoarchive;
+}*/
 
-private void deleteconv(String idone, String idtwo){
+private void deleteconv(usertype corresp){
+    String idone=controllerInstantMessaging.getmyID();
+    String idtwo=corresp.getId();
     askBDDmono("DELETE FROM Archives WHERE (fromID='"+idone+"' AND toID='"+idtwo+"') OR (fromID='"+idtwo+"' AND toID='"+idone+"');");
 }
 
@@ -244,16 +247,17 @@ public void archiverMessage(Message sms){
 
 public void archiverConv(Conversation conv){
     ArrayList<String> archivage=new ArrayList<String>();
-    String idcorr=conv.getCorrespondant().getId();
+    /*String idcorr=conv.getCorrespondant().getId();
     int nbnouvos=conv.nbMess()-conv.cmbFromArchives();
     int nbtotal=nbnouvos+combiendeja(controllerInstantMessaging.getmyID(), idcorr);
     int asupprimer=nbtotal-controllerInstantMessaging.getMaxmessToArchive();
     if(asupprimer>0){
-        suppMessages(idcorr,asupprimer);//(TODO) pas très joliment fait
+        conv=suppMessages(idcorr,asupprimer);
         System.out.println("BDD: "+Integer.toString(asupprimer)+" messages supprimés avec "+idcorr);
     }else{
-        System.out.println("BDD: rien à supprimer pour archiver la conversation avec "+idcorr+" ("+conv.nbMess()+" messages)");
-    }
+        System.out.println("BDD: rien à supprimer pour archiver la conversation avec "+idcorr+" ("+nbtotal+" messages au total)");
+    }*/
+    deleteconv(conv.getCorrespondant());
     for (Message sms:conv.getMessageList()){
             archivage.add("INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"') ON DUPLICATE KEY UPDATE chrono=chrono;");
     }

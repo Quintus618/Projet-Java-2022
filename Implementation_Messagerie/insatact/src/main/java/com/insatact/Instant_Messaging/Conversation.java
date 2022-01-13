@@ -62,17 +62,20 @@ public class Conversation {
             TCP.end();
             System.out.println("Client TCP de la conversation avec "+correspondant.getPseudo()+" fermé avec succès.");
         }else{
-
-            }
+            System.out.println("Fermeture: pas de client TCP avec "+correspondant.getPseudo()+".");
+        }
     }
     
     public void load(messagingGUI mGUI){
-        if(!this.isStarted()){
+        if(this.fromArchives==0){
+            ArrayList<Message> smsenabscence=this.MessageList;
+            MessageList=new ArrayList<Message>();
             MessageList.addAll(mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant));
+            MessageList.addAll(smsenabscence);
             this.fromArchives=MessageList.size();
             System.out.print(Integer.toString(fromArchives)+" messages d'archives avec "+correspondant.getId()+" récupérés");
         }else{
-            System.out.print("Inattendu: conversation avec "+correspondant.getId()+" déjà load");
+            System.out.println("Inattendu: conversation avec "+correspondant.getId()+" déjà load");
         }
     }
 

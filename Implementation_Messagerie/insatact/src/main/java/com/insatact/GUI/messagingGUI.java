@@ -1,7 +1,6 @@
 package com.insatact.GUI;
 //Importation Libraries
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 
 import com.insatact.Instant_Messaging.*;
 import com.insatact.Controller.*;
@@ -36,9 +35,9 @@ public class messagingGUI extends JFrame{
     private JPanel chatPanel;
     private JPanel connectedPanel;
     private JPanel messagePanel;
+    private JPanel contentPane;
 
     private JScrollPane scrollPane;
-    int verticalScrollBarMaximumValue ;
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -135,11 +134,13 @@ public class messagingGUI extends JFrame{
 
     private void updatescroll(){
         int max=scrollPane.getVerticalScrollBar().getMaximum();
-        if(max-verticalScrollBarMaximumValue<=0){
-            //int neoposition =max+scrollPane.getVerticalScrollBar().getValue()-verticalScrollBarMaximumValue;//pour setvalue(neoposition)
+        int now=scrollPane.getVerticalScrollBar().getValue();
+        System.out.println("Scrollbar: "+now+" vs "+max);
+        if(now<=10 || max-now<=700){
             scrollPane.getVerticalScrollBar().setValue(max);
+            System.out.println("Scrollbar set à max");
+            SwingUtilities.updateComponentTreeUI(contentPane);
         }
-        verticalScrollBarMaximumValue=max;
     }
 
     private void buildComponentInterface(JFrame f){
@@ -203,7 +204,7 @@ public class messagingGUI extends JFrame{
         add(connectedPanel, BorderLayout.EAST);
 
         //Messages zone
-        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane = new JPanel(new BorderLayout());
         messagePanel = new JPanel();
         gl = new GridBagLayout();
         messagePanel.setLayout(gl);
@@ -212,8 +213,6 @@ public class messagingGUI extends JFrame{
 
         scrollPane = new JScrollPane(messagePanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        verticalScrollBarMaximumValue = scrollPane.getVerticalScrollBar().getMaximum();
 
         scrollPane.setBounds(50, 30, 1600, 900);
         scrollPane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -359,8 +358,6 @@ public class messagingGUI extends JFrame{
     private void endbackupBDD(){
         for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
             controlCHAT.getComtoBDD().archiverConv(convtobackup);
-            //le correspondant aussi archive quand on se déconnecte, mais la bdd ne prend que si on est l'expéditeur
-            //donc TODO éviter la redondance dans tout ça
             convtobackup.killTCP();
         }
     }
@@ -404,6 +401,7 @@ public class messagingGUI extends JFrame{
         usertype thisUsr=getUserByIP(validIP);
         Message sms = new Message(smsstring, thisUsr.getId(), false);
         mapConvos.get(thisUsr).addMessage(sms);
+        mapConvos.get(thisUsr).setHasunread(true);
         return sms;
     }
 
@@ -412,28 +410,26 @@ public class messagingGUI extends JFrame{
     private void createConversation(String pseudodest){
         //!!nom trompeur, la conversation vide est créée et mise dans la hashmap dès qu'un nnouvel user apparait
         
-        mapConvos.get(correspondant).load(this);//récupération des messages(pour l'instant ne fait rien, déconnecté)
+        mapConvos.get(correspondant).load(this);//récupération des messages
         System.out.println("Récup Historique "+correspondant.getPseudo()+" réussie");
         mapConvos.get(correspondant).launchTCP();
         System.out.println("Création TCP "+correspondant.getPseudo());
         
-        SwingUtilities.updateComponentTreeUI(messagePanel);
     }
 
     private void displayConversation(String unpseudo){
         messagePanel.removeAll();
-        SwingUtilities.updateComponentTreeUI(messagePanel);
         System.out.println("Destinataire: "  + unpseudo);
         correspondant=getUserByPseudo(unpseudo);
-        Conversation ConvoActive=mapConvos.get(correspondant);
-
-        if(!ConvoActive.gethasTCP()){
-            createConversation(unpseudo);
+        if(!mapConvos.get(correspondant).gethasTCP()){
+            createConversation(unpseudo);//récup les archives et lance TCP
         }
-        for(Message smstodisplay:ConvoActive.getMessageList()){
-            displayMessage(smstodisplay);
+        mapConvos.get(correspondant).setHasunread(false);
+        for(Message smstodisplay:mapConvos.get(correspondant).getMessageList()){
+            displayMessage(smstodisplay,true);
         }
-
+        SwingUtilities.updateComponentTreeUI(messagePanel);
+        updatescroll();
     }
     
     public void updatePseudo(String oldpseudo, String neopseudo, boolean fromtimer){
@@ -471,21 +467,22 @@ public class messagingGUI extends JFrame{
         }else{  
             if (!t.isBlank()){
                 Message message1 = new Message(t, correspondant.getId(),true);
-                displayMessage(message1);
+                displayMessage(message1,false);
                 mapConvos.get(correspondant).addMessage(message1);
                 textSenderZone.setText("");
             }
+
         } 
     }
 
     //Receive messages from another user
     public void receiveMessage(String t, String clientIPAddress){
         Message message2=stockMessage(t, clientIPAddress);
-        displayMessage(message2);
+        displayMessage(message2,false);
     }
 
     //plus pratique, notamment pourchanger de conversation affichée
-    private void displayMessage(Message sms){
+    private void displayMessage(Message sms, Boolean updt){
         numberMessage++;
         boolean sentbyMe=sms.getSender().equals(controllerInstantMessaging.getmyID());
         String colorSMS;
@@ -545,8 +542,11 @@ public class messagingGUI extends JFrame{
         }
 
         messageList.add(smsLabel);
-        SwingUtilities.updateComponentTreeUI(connectedPanel);
-        updatescroll();
+
+        if(updt){
+            SwingUtilities.updateComponentTreeUI(messagePanel);
+            updatescroll();
+        }
     }
 
 
@@ -576,7 +576,7 @@ public class messagingGUI extends JFrame{
                 trouve=true;
                 usertype usrdisplayed=getUserByPseudo(pseudo);
                 if(mapConvos.get(usrdisplayed).isStarted() && !correspondant.getId().equals(usrdisplayed.getId())){
-                    if(!mapConvos.get(usrdisplayed).hasunreadsms() ){
+                    if(mapConvos.get(usrdisplayed).hasunreadsms() ){
                         jb.setBackground(Color.decode("#0040ff"));//message non lu en bleu
                     }else{
                         jb.setBackground(Color.decode("#7D93DE"));//conversation active en lavande
@@ -593,41 +593,44 @@ public class messagingGUI extends JFrame{
 
         SwingUtilities.updateComponentTreeUI(connectedPanel);
 
+        System.out.println("Status scrollbar: "+scrollPane.getVerticalScrollBar().getValue()+" vs "+scrollPane.getVerticalScrollBar().getMaximum());//TODO rm
+
         connectedUsermutex = false;
     }
 
     //Remove connected user
     public void removeConnectedUsers(usertype usertorm){
+        if(getUserByPseudo(usertorm.getPseudo())!=null){
+            while(connectedUsermutex){try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }}
+            connectedUsermutex = true;
 
-        while(connectedUsermutex){try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }}
-        connectedUsermutex = true;
+            System.out.println(usertorm.getPseudo()+" se déconnecte");
+            for(JButton i : connectedUsersList){
+                if (i.getText().equals(usertorm.getPseudo())){
+                    connectedPanel.remove(i);
+                    connectedUsersList.remove(i);
 
-        System.out.println(usertorm.getPseudo()+" se déconnecte");
-        for(JButton i : connectedUsersList){
-            if (i.getText().equals(usertorm.getPseudo())){
-                connectedPanel.remove(i);
-                connectedUsersList.remove(i);
+                    controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));
 
-                controlCHAT.getComtoBDD().archiverConv(mapConvos.get(correspondant));
+                    //attention aussi, il faut gérer les changements de pseudos...
+                    if(correspondant.getId().equals(usertorm.getId())){
+                        correspondant=new usertype("", "", null);
+                        JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
+                    }
 
-                //attention aussi, il faut gérer les changements de pseudos...
-                if(correspondant.getId().equals(usertorm.getId())){
-                    correspondant=new usertype("", "", null);
-                    JOptionPane.showMessageDialog(null, usertorm.getPseudo()+" vient de se déconnecter.");
+                    mapConvos.remove(usertorm);
+                    SwingUtilities.updateComponentTreeUI(connectedPanel);
+                    break;
                 }
-
-                mapConvos.remove(usertorm);//TODO et si on reçoit un deconncted avant de le voir connected?
-                SwingUtilities.updateComponentTreeUI(connectedPanel);
-                break;
             }
+            
+            connectedUsermutex = false;
         }
-        
-        connectedUsermutex = false;
     }
 
     public void updateConnectedList(String newPseudo, String oldPseudo){

@@ -48,7 +48,7 @@ public String getMyPseudo() {
 
     Me=new usertype("","", "127.0.0.1");
 
-    Enumeration interfaces;
+    Enumeration<NetworkInterface> interfaces;
     try {
     interfaces = NetworkInterface.getNetworkInterfaces();
     while (interfaces.hasMoreElements()) {
