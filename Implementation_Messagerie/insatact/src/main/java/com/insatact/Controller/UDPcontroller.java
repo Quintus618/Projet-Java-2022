@@ -12,6 +12,10 @@ import java.util.*;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
+<<<<<<< HEAD
+=======
+//import javax.swing.JPanel;
+>>>>>>> Quelques modifications
 
 import com.insatact.GUI.*;
 import com.insatact.Instant_Messaging.usertype;
@@ -84,7 +88,7 @@ public class UDPcontroller {
                                 //pseudoRecu=messages[1];
                             }
                             else if(messsplit[0].equals(controllerInstantMessaging.getmyID())){
-                                JOptionPane.showMessageDialog(null, "Erreur: une seule connexion par ID toléré - déconnection");//TODO mieux que ça?
+                                JOptionPane.showMessageDialog(null, "Erreur: une seule connexion par ID tolérée - déconnexion");
                                 mGUI.disconnect();
                             }else{
                                 mGUI.displayConnectedUsers(messages[1]);

@@ -36,8 +36,10 @@ public class messagingGUI extends JFrame{
     private JPanel connectedPanel;
     private JPanel messagePanel;
     private JPanel contentPane;
+    private JPanel connectedGlobal;
 
     private JScrollPane scrollPane;
+    private JScrollPane scrollPane2;
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -194,6 +196,7 @@ public class messagingGUI extends JFrame{
         chatPanel.add(Box.createHorizontalGlue());
         add(chatPanel, BorderLayout.SOUTH);
 
+        connectedGlobal = new JPanel(new BorderLayout());
         connectedPanel = new JPanel();
         connectedPanel.setLayout(new BoxLayout(connectedPanel, BoxLayout.Y_AXIS));
         connectedPanel.setBackground(Color.decode("#2F2F2F"));
@@ -201,7 +204,11 @@ public class messagingGUI extends JFrame{
         lconnecte.setForeground(Color.WHITE);
         lconnecte.setFont(new Font("Serif", Font.PLAIN, 20));
         connectedPanel.add(lconnecte);
-        add(connectedPanel, BorderLayout.EAST);
+        scrollPane2 = new JScrollPane(connectedPanel);
+        scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        connectedGlobal.add(connectedPanel, BorderLayout.CENTER);
+        connectedGlobal.add(scrollPane2, BorderLayout.EAST);
+        add(connectedGlobal, BorderLayout.EAST);
 
         //Messages zone
         contentPane = new JPanel(new BorderLayout());
