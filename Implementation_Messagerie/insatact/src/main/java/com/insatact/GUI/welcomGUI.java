@@ -41,8 +41,7 @@ public class welcomGUI extends JFrame{
                 dispose();
             }});
 
-        Image img = new ImageIcon("./src/main/java/com/insatact/GUI/Pictures/chat.png").getImage();
-        logo = new JLabel(new ImageIcon(img.getScaledInstance(180, 180,  java.awt.Image.SCALE_SMOOTH)));
+        logo = new JLabel(tools.resizeIcon(new ImageIcon("./src/main/java/com/insatact/GUI/Pictures/chat.png"),180, 180));
 
         texte= new JLabel("Bienvenue!");
         texte.setForeground(Color.BLUE);

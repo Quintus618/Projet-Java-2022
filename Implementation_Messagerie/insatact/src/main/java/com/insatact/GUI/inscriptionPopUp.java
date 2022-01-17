@@ -85,4 +85,12 @@ public class inscriptionPopUp extends JFrame {
     }
 
 
+    //à supprimer?
+    public static void main(String[] Args){
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                //inscriptionPopUp iPP = new inscriptionPopUp(comtoBDD, 150, 700);
+            }
+        });
+    }
 }

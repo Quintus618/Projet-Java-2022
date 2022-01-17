@@ -13,6 +13,7 @@ public class usertype implements Comparable<usertype>{
     private String pseudo=null;
     private String IPaddr=null;
     private int port;
+    //InetAddresscontient le hostname et le hostaddress, c'est trop
 
     //private Timer chrono=null;
 

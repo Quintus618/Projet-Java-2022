@@ -132,7 +132,7 @@ public class messagingGUI extends JFrame{
         b.setFocusPainted(false);
     }
 
-    private void updatescroll(){//TODO pourquoi ça ne marche pas?
+    private void updatescroll(){
         int max=scrollPane.getVerticalScrollBar().getMaximum();
         int now=scrollPane.getVerticalScrollBar().getValue();
         System.out.println("Scrollbar: "+now+" vs "+max);
@@ -494,17 +494,15 @@ public class messagingGUI extends JFrame{
             colorSMS="#61DC5A";
         }
 
-        JPanel Messhorodatage = new JPanel(new BorderLayout());
+        JPanel Messhorodatage = new JPanel();
+        Messhorodatage.setLayout(new BorderLayout());
         JPanel Mess = new JPanel();
         LocalDateTime mdate = sms.getHorodata();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = mdate.format(myFormatObj);
         JLabel dateLab;
         JLabel smsLabel;
-        
-        //String styleString="<head><style type='text/css'>" +"body {width: 700px;}" +".cloudLink {text-decoration: none; color: #0174DF; " +"font-family: helvetica, arial, sans-serif;}"+"</style></head>";
-        String textalabelliser="<html>"+sms.getTextMessage().replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>")+"</html>";
-
+        String textalabelliser="<html><p>"+sms.getTextMessage().replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>")+"</p></html>";
 
         if(!sentbyMe){
             dateLab = new JLabel(formattedDate,SwingConstants.RIGHT);
