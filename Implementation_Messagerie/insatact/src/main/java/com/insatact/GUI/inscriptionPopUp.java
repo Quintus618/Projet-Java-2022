@@ -58,8 +58,8 @@ public class inscriptionPopUp extends JFrame {
                 if(wantedid.length()>0 && wantedmdp.length()>3){
                     if(wantedid.length()>30 && wantedmdp.length()>30){
                         JOptionPane.showMessageDialog(null, "Identifiant et mot de passe sont limités à 30 caractères!");
-                    }else if(wantedid.contains(" ")||wantedmdp.contains(" ")){
-                        JOptionPane.showMessageDialog(null, "Les espaces sont interdits.");
+                    }else if(wantedid.contains(" ")||wantedmdp.contains(" ")||wantedid.contains(":")||wantedmdp.contains(":")){
+                        JOptionPane.showMessageDialog(null, "Les espaces et : sont interdits.");
                     }else if(controlCHAT.getComtoBDD().addUser(wantedid,wantedmdp)){
                         JOptionPane.showMessageDialog(null, "Succès de l'inscription; bienvenue "+wantedid+"!");
                         dispose();
@@ -84,13 +84,4 @@ public class inscriptionPopUp extends JFrame {
         return mdpText;
     }
 
-
-    //à supprimer?
-    public static void main(String[] Args){
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //inscriptionPopUp iPP = new inscriptionPopUp(comtoBDD, 150, 700);
-            }
-        });
-    }
 }

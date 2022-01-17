@@ -702,35 +702,7 @@ public class messagingGUI extends JFrame{
     }
 
     public static void main(String[] Args) throws InterruptedException{
-        //ne marchent probablement plus maintenant
-        /*messagingGUI mGUI = new messagingGUI(3000,2000, "Thomas");
-        mGUI.displayConnectedUsers("Tintin");
-        mGUI.displayConnectedUsers("Milou");
-        mGUI.displayConnectedUsers("Hadock");
-        mGUI.displayConnectedUsers("Tournesol");
-        UDPcontroller udp = new UDPcontroller(mGUI);
-        Thread.sleep(5000);
-        try {
-            udp.udpbroadcastco("Tintin");
-        } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Thread.sleep(5000);
-        try {
-            udp.udpbroadcastdeco("Tintin");
-        } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(mGUI.connectedUsersList.size());
-        */
+
     }
 
 }

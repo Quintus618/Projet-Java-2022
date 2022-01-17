@@ -98,10 +98,10 @@ public class connexionPopUp extends JFrame{
                 String connectmdp=comdpText.getText();
                 String connectpseudo=pseudoText.getText();
 
-                if(!controlCHAT.getComtoBDD().idtaken(connectid)){
+                if(connectid.contains(":")||!controlCHAT.getComtoBDD().idtaken(connectid)){
                     JOptionPane.showMessageDialog(null, "Cet ID ne correspond à aucun utilisateur.");
-                }else if(connectid.contains(" ")||connectpseudo.contains(" ")){
-                    JOptionPane.showMessageDialog(null, "Les espaces sont interdits!");                    
+                }else if(connectid.contains(" ")||connectpseudo.contains(" ")||connectpseudo.contains(":")){
+                    JOptionPane.showMessageDialog(null, "Les espaces et : sont interdits!");                    
                 }else if(connectpseudo.length()>24||connectpseudo.length()<1){
                     JOptionPane.showMessageDialog(null, "La taille du pseudo doit être entre 1 et 24 caractères ("+connectpseudo.length()+" ici).");
                 }else{
@@ -138,12 +138,4 @@ public class connexionPopUp extends JFrame{
         return comdpText;
     }
 
-//à supprimer?
-    public static void main(String[] Args){
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //connexionPopUp cPP = new connexionPopUp(200, 500);
-            }
-        });
-    }
 }

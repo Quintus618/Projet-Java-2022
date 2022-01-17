@@ -44,8 +44,8 @@ public class changePseudoPopUp extends JFrame{
         connexion.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent MOUSE_CLICKED){
                 String wantedps=pseudoText.getText();
-                if (wantedps.equals("")||wantedps.contains(" ")){
-                    JOptionPane.showMessageDialog(null, "Le pseudo ne peut pas être vide, ni contenir d'espaces!");
+                if (wantedps.equals("")||wantedps.contains(" ")||wantedps.contains(":")){
+                    JOptionPane.showMessageDialog(null, "Le pseudo ne peut pas être vide, ni contenir d'espaces ou de : !");
                 }else if(mGUI.pseudotaken(wantedps)){
                     JOptionPane.showMessageDialog(null, "Ce pseudo est déjà pris par un autre utilisateur!");
                 }else if(wantedps.length()>24){
