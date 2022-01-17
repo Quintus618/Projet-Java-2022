@@ -73,7 +73,7 @@ public class Conversation {
             MessageList.addAll(mGUI.getControlCHAT().getComtoBDD().recupererConv(correspondant));
             MessageList.addAll(smsenabscence);
             this.fromArchives=MessageList.size();
-            System.out.print(Integer.toString(fromArchives)+" messages d'archives avec "+correspondant.getId()+" récupérés");
+            System.out.println(Integer.toString(fromArchives)+" messages d'archives avec "+correspondant.getId()+" récupérés");
         }else{
             System.out.println("Inattendu: conversation avec "+correspondant.getId()+" déjà load");
         }

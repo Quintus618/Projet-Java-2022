@@ -227,7 +227,7 @@ public boolean idtaken(String idtest){
 
 
 private String escapeString(String s) {
-    return s.replaceAll("\\\\", "\\\\\\\\").replaceAll("\b","\\b").replaceAll("\n","\\n").replaceAll("\r", "\\r").replaceAll("\t", "\\t").replaceAll("\\x1A", "\\Z").replaceAll("\\x00", "\\0").replaceAll("'", "\\'").replaceAll("\"", "\\\"");
+    return s.replaceAll("\\\\", "\\\\\\\\").replaceAll("\b","\\b").replaceAll("\n","\\n").replaceAll("\r", "\\r").replaceAll("\t", "\\t").replaceAll("\\x1A", "\\Z").replaceAll("\\x00", "\\0").replaceAll("'", "\\\\'").replaceAll("\"", "\\\\\"");
 }
 
 private String escapeWildcards(String s) {
@@ -241,8 +241,7 @@ public void archiverMessage(Message sms){
     String archivage = "INSERT INTO Archives VALUES ('"+sms.getSender()+"','"+sms.getDest()+"','"+escapeWildcards(sms.getTextMessage())+"','"+Timestamp.valueOf(sms.getHorodata()).toString()+"')ON DUPLICATE KEY UPDATE chrono=chrono;";
     //NOTE: méfiance sur le toString du timestamp
     askBDDmono(archivage);
-}//!!! Il faudra trouver un moyen (stocker un booleen par conversation, faire un on duplicate key...)
-//pour ne pas avoir les messages stockés en double!
+}
 
 
 public void archiverConv(Conversation conv){
