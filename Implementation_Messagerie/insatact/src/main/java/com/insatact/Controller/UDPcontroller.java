@@ -12,10 +12,6 @@ import java.util.*;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
-<<<<<<< HEAD
-=======
-//import javax.swing.JPanel;
->>>>>>> Quelques modifications
 
 import com.insatact.GUI.*;
 import com.insatact.Instant_Messaging.usertype;
