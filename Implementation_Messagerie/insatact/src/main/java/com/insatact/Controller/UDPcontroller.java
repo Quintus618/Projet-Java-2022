@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import com.insatact.GUI.*;
 import com.insatact.Instant_Messaging.usertype;
@@ -148,7 +147,7 @@ public class UDPcontroller {
                     while(!Thread.currentThread().isInterrupted()){
                         try {
                             udpbroadcastco(mGUI.getControlCHAT().getMyIdentity().toString());
-                            Thread.sleep(3000);
+                            Thread.sleep(300);
                         } catch (SocketException e) {
                             e.printStackTrace();
                         } catch (UnknownHostException e) {
