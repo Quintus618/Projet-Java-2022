@@ -45,7 +45,7 @@ public class UDPcontroller {
                             System.out.println("Listening UDP socket closed");
                             Thread.currentThread().interrupt();
                         }
-                        //TODO ce thread empeche la fermeture
+
                         String machine = InetAddress.getLocalHost().getHostName();
                         String s = packet.getAddress().getHostName();
                     
@@ -203,7 +203,7 @@ public class UDPcontroller {
     
             }
         }
-    
+        socket.close();
     }
     
     //broadcastUDP to notify deconnexion
@@ -232,7 +232,7 @@ public class UDPcontroller {
                 try {
                     //Send a message to show that we are connected
                     //NE PAS RAJOUTER D'ESPACES
-                    String coPseudo = "USERDISCONNECTED:" + ps;//TODO ?
+                    String coPseudo = "USERDISCONNECTED:" + ps;
                     byte[] sendconnexion = coPseudo.getBytes();
                     DatagramPacket sendpaqconnexion = new DatagramPacket(sendconnexion, sendconnexion.length, broadcast,7000);
                     socket.send(sendpaqconnexion);
@@ -250,7 +250,7 @@ public class UDPcontroller {
         socket.setBroadcast(true);
             
         // Broadcast the message over all the network interfaces
-        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             
         while (interfaces.hasMoreElements()) {
             
@@ -278,7 +278,7 @@ public class UDPcontroller {
             
             }
         }
-            
+        socket.close(); 
     }
 
         //broadcastUDP to notify a pseudo modification
@@ -316,6 +316,8 @@ public class UDPcontroller {
                 
                 }
             }
+
+            socket.close();
                 
         }
 

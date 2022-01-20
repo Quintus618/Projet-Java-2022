@@ -277,7 +277,7 @@ public class messagingGUI extends JFrame{
                          }
                         try {
 
-                            Thread.sleep(2000);//TODO attention, ce thread empeche la fermeture
+                            Thread.sleep(2000);
 
                         } catch (InterruptedException e1) {
                             //e1.printStackTrace();
@@ -335,7 +335,7 @@ public class messagingGUI extends JFrame{
     }
 
 
-    public void disconnect(){//TODO finir
+    public void disconnect(){
         try {
             udpController.interrupt();
             udpController.udpbroadcastdeco(controlCHAT.getMyIdentity().toString());
@@ -363,7 +363,7 @@ public class messagingGUI extends JFrame{
 
     
     private void endbackupBDD(){
-        for(Conversation convtobackup:mapConvos.values()){//TODO attention user null
+        for(Conversation convtobackup:mapConvos.values()){
             controlCHAT.getComtoBDD().archiverConv(convtobackup);
             convtobackup.killTCP();
         }
@@ -564,7 +564,6 @@ public class messagingGUI extends JFrame{
         while(connectedUsermutex){try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }}
 
@@ -600,7 +599,7 @@ public class messagingGUI extends JFrame{
 
         SwingUtilities.updateComponentTreeUI(connectedPanel);
 
-        System.out.println("Status scrollbar: "+scrollPane.getVerticalScrollBar().getValue()+" vs "+scrollPane.getVerticalScrollBar().getMaximum());//TODO rm
+        System.out.println("Status scrollbar: "+scrollPane.getVerticalScrollBar().getValue()+" vs "+scrollPane.getVerticalScrollBar().getMaximum());
 
         connectedUsermutex = false;
     }
@@ -611,7 +610,6 @@ public class messagingGUI extends JFrame{
             while(connectedUsermutex){try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }}
             connectedUsermutex = true;
@@ -645,13 +643,12 @@ public class messagingGUI extends JFrame{
         while(connectedUsermutex){try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }}
 
         connectedUsermutex = true;
         for(JButton b: connectedUsersList){
-            if (b.getText().equals(oldPseudo)){//TODO TODO TODO gérer mapConvosla màj dans mapconvos!
+            if (b.getText().equals(oldPseudo)){
                 if(oldPseudo.equals(correspondant.getPseudo())){
                     correspondant.setPseudo(newPseudo);
                 }
@@ -676,7 +673,6 @@ public class messagingGUI extends JFrame{
         while(connectedUsermutex){try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }}
 

@@ -57,10 +57,8 @@ public class changePseudoPopUp extends JFrame{
                     try {
                         mGUI.udpController.udpbroadcastPseudoChanged(mGUI.getControlCHAT().getMyPseudo(), oldPseudo);
                     } catch (SocketException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     } catch (UnknownHostException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     System.out.println("test2");

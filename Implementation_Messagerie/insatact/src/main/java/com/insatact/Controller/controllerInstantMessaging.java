@@ -61,7 +61,6 @@ public String getMyPseudo() {
             }
         }
     } catch (SocketException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
     }
 

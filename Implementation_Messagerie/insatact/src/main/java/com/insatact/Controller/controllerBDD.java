@@ -32,7 +32,6 @@ public class controllerBDD{
     //intialisations, à modifier
     //à la fin elle n'auront pas lieu d'être, les tables devront être crées une bonne fois pour toutes
     String createUsers = "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(32) NOT NULL, password VARCHAR(32) NOT NULL, PRIMARY KEY (id));";
-    //TODO set les bonnes tailles
     String createArchives = "CREATE TABLE IF NOT EXISTS Archives (fromID VARCHAR(32) NOT NULL, toID VARCHAR(32) NOT NULL, message VARCHAR(4096), chrono TIMESTAMP, PRIMARY KEY (fromID,toID,chrono));";
     //comment va vraiment marcher le temps? Il faudrait un timestamp plutôt qu'un TIME...
     //ATTENTION, TOUT CHANGEMENT DE CES DEUX LIGNES PEUT ENTRAINER UN CHANGEMENT DE TOUTES LES REQUETES SQL HARDCODEES
